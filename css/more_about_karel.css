@@ -1,34 +1,8 @@
-.site-navigation {
-    height: 50px;
-}
-
-.site-navigation .nav {
-    position: fixed;
-    width: 100%;
-    background: #0000cc;
-}
-
-.site-navigation ul {
-    text-align: right;
-    height: 50px;
-    line-height: 50px;
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 0;
-}
-
-.site-navigation ul li {
-    float: left;
-    margin: 0 10px;
-}
-
-.site-navigation ul li a:hover {
-    color: #1abc9c;
-}
-
-.site-navigation ul li a {
-    color: #fff;
-    font-size: 130%;
+@font-face {
+    /*font-family: 'Amaranth';*/
+    /*src: url(../fonts/Getvoipgrotesque.ttf);*/
+    font-family: 'PT Sans', sans-serif;
+    font-family: 'PT Mono', ;
 }
 
 header {
@@ -42,29 +16,6 @@ header .background {
     position: absolute;
     /*background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Python_add5_syntax.svg/1280px-Python_add5_syntax.svg.png) center center;*/
     opacity: 0.02;
-}
-
-header .play {
-    width: 240px;
-    margin: 60px auto 0;
-    line-height: 200px;
-}
-
-header .play .robot {
-    width: 190px;
-    height: 192px;
-    background: url(https://cdn2.iconfinder.com/data/icons/walle/256/media_player.png);
-    background-size: 100%;
-    float: left;
-    margin-left: -160px;
-}
-
-header .play .play-button {
-    vertical-align: middle;
-    display: inline-block;
-    width: 150px;
-    cursor: pointer;
-    text-align: center;
 }
 
 .title {
@@ -89,14 +40,13 @@ header .play .play-button {
 
 .about-project-and-goals .wrap {
     background: url(../img/earth.png) no-repeat center left;
-    background-size: 150px;
     padding-left: 10%;
     background-size: 15%;
     box-sizing: border-box;
 }
 
 .what-is-karel .wrap {
-    padding-right: 190px;
+    padding-right: 0px;
     box-sizing: border-box;
 }
 .loops{
@@ -104,9 +54,8 @@ header .play .play-button {
 }
 #loops{
     background: url('../img/walli_2.png') no-repeat center right;
-    background-size: 150px;
     background-position: 75%;
-    background-size: 20%;
+    background-size: 15%;
     /*margin-right: 22%;*/
     box-sizing: border-box;
 }
@@ -115,9 +64,8 @@ header .play .play-button {
 }
 #commands{
     background: url('../img/val3.png') no-repeat center right;
-    background-size: 150px;
     background-position: 75%;
-    background-size: 20%;
+    background-size: 15%;
     /*margin-right: 22%;*/
     box-sizing: border-box;
     /*background-color: gainsboro;*/
@@ -140,13 +88,6 @@ header .play .play-button {
     padding-left: 190px;
     box-sizing: border-box;
 }
-
-/*.landing-block {*/
-/*}*/
-
-/*.landing-block h6 {*/
-    /*line-height: 30px;*/
-/*}*/
 
 footer {
     height: 50px;
@@ -176,18 +117,14 @@ h6{
     line-height: 1.4em;
     padding-top: 1em;
     text-align: left;
-    width 60%
-}
-@font-face {
-    font-family: 'Amaranth';
-    src: url(../fonts/Getvoipgrotesque.ttf);
+    width: 60%
 }
 .commands{
     padding: 0.5em;
     line-height: 1.5em;
-    font-size: 90%;
+    font-size: 100%;
     margin-left: 1em;
-    /*font-family: Amaranth;*/
+    font-family: "PT Mono";
 }
 .tab1{
     margin-left: 2em;
@@ -208,7 +145,7 @@ body{
     padding: 0 0 0 0;
     width: 100%;
     text-align: center;
-    font-family: cursive;
+    font-family: "PT Sans";
 }
 
 .nav {
@@ -240,12 +177,6 @@ body{
     opacity: 0.5;
     border-radius: 0.3em;
 }
-/*.nav-item:first-child a {*/
-    /*border-radius:5px 0 0 5px;*/
-/*}*/
-/*.nav-item:last-child a {*/
-    /*border-radius:0 5px 5px 0;*/
-/*}*/
 .nav-item a:hover {
     background:#2C3E50;
     opacity: 0.75;
