@@ -182,6 +182,7 @@ body{
 }
 .nav-item a {
     display:block;
+    background: rgba(47, 65, 84, 0.95);
     padding: 0.3em 0.5em;
     color:white;
     border-radius: 0.3em;
