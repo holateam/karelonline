@@ -183,15 +183,26 @@ h6{
     line-height: 1.5em;
     padding-top: 1em;
 }
+@font-face {
+    font-family: 'Amaranth';
+    src: url(../fonts/Getvoipgrotesque.ttf);
+}
 .commands{
     padding: 0.5em;
     line-height: 1.5em;
     font-size: 90%;
     margin-left: 1em;
+    font-family: Amaranth;
 }
 .tab1{
     margin-left: 2em;
 }
 .tab2{
     margin-left: 2em;
+}
+.highlight {
+    color: darkmagenta;
+}
+.lowlight {
+    color: #0000cc;
 }
