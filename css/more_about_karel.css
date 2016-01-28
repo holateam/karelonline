@@ -6,7 +6,7 @@
 }
 
 header {
-    height: 5em;
+    height: 3em;
 }
 
 header .background {
@@ -19,12 +19,21 @@ header .background {
 }
 
 .title {
-    padding: 5em 5em;
+    padding: 5em 0em;
+    width: 100%;
+    height: 20em;
+    background-color: #1abc9c;
+    color: white;
+    display: table;
 }
 
 .title .huge {
     text-align: center;
-    font-size: 42px;
+    font-size: 400%;
+    font-weight: 900;
+    margin-top: 0.5em;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .wrap {
@@ -128,12 +137,13 @@ h6{
 }
 .tab1{
     margin-left: 2em;
+    width: 100%;
 }
 .tab2{
     margin-left: 2em;
 }
 .highlight {
-    color: darkmagenta;
+    color: #D500E8;
     line-height: 1.5em;
 }
 .lowlight {
@@ -151,12 +161,12 @@ body{
 .nav {
     position: fixed;
     margin-left: -50%;
-    height: 4em;
+    height: 3em;
     margin-right:auto;
     width: 100%;
     display: inline-block;
-    font-size:130%;
     font-weight:900;
+    background: rgba(47, 65, 84, 0.95);
 }
 .nav-list {
     display: inline-block;
@@ -172,12 +182,11 @@ body{
 .nav-item a {
     display:block;
     padding: 0.3em 0.5em;
-    color:#FFF;
-    background:grey;
-    opacity: 0.5;
+    color:white;
     border-radius: 0.3em;
 }
 .nav-item a:hover {
-    background:#2C3E50;
-    opacity: 0.75;
+    /*background:#2C3E50;*/
+    /*opacity: 0.75;*/
+    color: #1abc9c;
 }
