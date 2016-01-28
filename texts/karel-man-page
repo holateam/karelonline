@@ -1,0 +1,15 @@
+#Learn coding with Karel
+
+Here we go! Programming of Karel is quite easy challenge even for a kid!
+Karel can walk throught his own special worlds, turn around, look asides and enjoy the scenery.
+Also Karel adore to play with beepers. Put them to the ground, and pick up back to his bag. 
+What are those beepers? No one knows, even Karel himself, but who cares? They are so shiny!
+
+Let us start from simple moving. Karel lives in a strange isometric world, shrinked to an equal cells. He can move only to a cell in front of him. To move left, or right, he has to turn first. Try to use those commands and walk you karel.
+
+But be aware! Karel will break if he stumble the wall or fall from the world edge, so be careful!
+That means, you have to forse carel to look around before moving. 
+
+
+
+Friendy robot Karelis smart and cute. But it's only a robot! You have to programm it cearfully to make it super-smatr!
