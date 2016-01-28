@@ -21,29 +21,6 @@
     background: #CED1CF;
 }
 
-.play-block .panel {
-    position: relative;
-    width: 100%;
-    background: #ececec;
-    z-index: 100;
-}
-
-.play-block .panel *, #controls button {
-    padding: 0.5em 2em;
-    margin: 0.5em 0 0.5em 1em;
-    border: 0;
-    height: 2em;
-    background: #5dade2;
-    color: #fff;
-    font-size: 16px;
-}
-
-.play-block #controls {
-    width: 30%;
-    height: 100%;
-    float: left;
-}
-
 #code-editor {
     height: 100%;
     background: #ececec;
@@ -56,6 +33,30 @@ body canvas{
 /* ------------------------------------------ */
 /* --------------CONTOLLS BLOCK-------------- */
 /* ------------------------------------------ */
+
+.panel {
+    position: relative;
+    width: 100%;
+    background: #ececec;
+    z-index: 100;
+}
+
+.play-block .panel *, #controls button, #controls input[type=text] {
+    margin: 0.5em 0 0.5em 1em;
+    /*font-size: 16px;*/
+}
+
+#controls {
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+
+#controls input[type=text] {
+    height: auto !important;
+    size: 3;
+}
+
 
 .karel-code-editor {
     height: 100%;

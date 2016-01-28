@@ -2,7 +2,7 @@ $(function () {
 
     var $renderer = $("#renderer");
     var $codeEditor = $("#code-editor");
-    var $mapSelectionList = $("#mapselect");
+    var $mapSelectionList = $("#map-selection-list");
 
     var renderer = '3D';
     var map =  {
@@ -99,22 +99,22 @@ $(function () {
 
     $('#inc-w').click(function(){
         karelMapEditor.incrMapWidth(); 
-        $('#map-w').value($('#map-w').value()+1);
+        $('#map-w').val(parseInt($('#map-w').val())+1);
     });
 
     $('#inc-h').click(function(){
         karelMapEditor.incrMapHeight(); 
-        $('#map-h').value($('#map-h').value()+1);
+        $('#map-h').val(parseInt($('#map-h').val())+1);
     });
 
     $('#dec-w').click(function(){
         karelMapEditor.decrMapWidth(); 
-        $('#map-w').value($('#map-w').value()-1);
+        $('#map-w').val($('#map-w').val()-1);
     });
 
     $('#dec-h').click(function(){
         karelMapEditor.decrMapHeight(); 
-        $('#map-h').value($('#map-h').value()-1);
+        $('#map-h').val($('#map-h').val()-1);
     });
 
     $('#sel-orig-map').click(function(){
@@ -129,4 +129,13 @@ $(function () {
         karelMapEditor.saveMap();
     });
 
+});
+
+// ---------------------------------------------
+// Flat UI controls initialisation
+// ---------------------------------------------
+
+$(document).ready(function(){
+    // alert('!!');
+    // $("select").select2({dropdownCssClass: 'dropdown-inverse'});
 });
