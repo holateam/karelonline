@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="vendor/codemirror/codemirror.css">
     <link rel="stylesheet" href="vendor/codemirror/3024-day.css">
     <link rel="stylesheet" href="css/play.css">
-    <link rel="stylesheet" href="css/karel-code-editor.css">
 
     <script src="vendor/jquery-2.2.0.min.js"></script>
     <script src="vendor/three.min.js"></script>
@@ -40,9 +39,8 @@
             <select id="map-selection-list">
                 <option disabled>-- Select map --</option>
             </select>
-            <button id="2d-switch">Use 2D renderer</button>
+            <button id="renderer-switch">Use 2D renderer</button>
             <button id="editor-btn">MapEditor</button>
-
         </div>
 
         <div id="renderer">
@@ -54,8 +52,28 @@
         
         </div>
         <div id="map-editor-controls">
-            <button id="pause-btn">Pause</button>
+            <div class="row">
+                <p>Map width</p>
+                <button class="square" id="dec-w">-</button>
+                <input id="map-w" type="text" value="6">
+                <button class="square" id="inc-w">+</button>
+            </div>
+            <div class="row">
+                <p>Map height</p>
+                <button class="square" id="dec-h">-</button>
+                <input id="map-h" type="text" value="4">
+                <button class="square" id="inc-h">+</button>
+            </div>
+            <div class="row">
+                <p>Edited map mode</p>
+                <button id="sel-orig-map">Original<br>map</button>
+                <button id="sel-final-map">Final<br>map</button>
+            </div>
+            <div class="row">
+                <button id="save-map">Save map</button>
+            </div>
         </div>
+
     </div>
 </div>
 <footer></footer>

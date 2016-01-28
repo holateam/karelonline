@@ -4,6 +4,7 @@ $(function () {
     var $codeEditor = $("#code-editor");
     var $mapSelectionList = $("#mapselect");
 
+    var renderer = '3D';
     var map =  {
         name: 'some map name',
         original: {
@@ -46,6 +47,7 @@ $(function () {
 
     var karelCodeEditor = new KarelCodeEditor($codeEditor);
     var karelMapSelector = new MapSelector($mapSelectionList);
+    var karelMapEditor = null;
 
     karelCodeEditor.onCodeSubmit(onCodeSubmit);
     karelMapSelector.onChange(preparePlayer);
@@ -75,13 +77,56 @@ $(function () {
         karelPlayer.resume(); 
     });
 
-    $('#2d-switch').click(function(){
-        preparePlayer(map, true);
+    $('#renderer-switch').click(function(){
+        console.log(renderer);
+        if (renderer == '2D') {
+            $('#renderer-switch').text('Use 2D renderer');
+            preparePlayer(map);
+            renderer = '3D';
+        } else {
+            $('#renderer-switch').text('Use 3D renderer');
+            preparePlayer(map, true);
+            renderer = '2D';
+        }
     });
 
     $('#editor-btn').click(function(){
         $('.panel').hide();
         $codeEditor.hide();
-        var karelMapEditor = new KarelMapEditor($renderer);
+        $('#map-editor-controls').show();
+        karelMapEditor = new KarelMapEditor($renderer);
     });
+
+    $('#inc-w').click(function(){
+        karelMapEditor.incrMapWidth(); 
+        $('#map-w').value($('#map-w').value()+1);
+    });
+
+    $('#inc-h').click(function(){
+        karelMapEditor.incrMapHeight(); 
+        $('#map-h').value($('#map-h').value()+1);
+    });
+
+    $('#dec-w').click(function(){
+        karelMapEditor.decrMapWidth(); 
+        $('#map-w').value($('#map-w').value()-1);
+    });
+
+    $('#dec-h').click(function(){
+        karelMapEditor.decrMapHeight(); 
+        $('#map-h').value($('#map-h').value()-1);
+    });
+
+    $('#sel-orig-map').click(function(){
+        karelMapEditor.startMap(); 
+    });
+
+    $('#sel-final-map').click(function(){
+        karelMapEditor.finalMap(); 
+    });
+
+    $('#save-map').click(function(){
+        karelMapEditor.saveMap();
+    });
+
 });
