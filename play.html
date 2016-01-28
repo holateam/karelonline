@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karel Online Player</title>
+
+    <link rel="stylesheet" href="vendor/reset.css">
+    <link rel="stylesheet" href="vendor/codemirror/codemirror.css">
+    <link rel="stylesheet" href="vendor/codemirror/3024-day.css">
+    <link rel="stylesheet" href="css/play.css">
+    <link rel="stylesheet" href="css/karel-code-editor.css">
+
+    <script src="vendor/jquery-2.2.0.min.js"></script>
+    <script src="vendor/three.min.js"></script>
+    <script src="vendor/codemirror/codemirror.js"></script>
+    <script src="vendor/codemirror/javascript.js"></script>
+
+    <script src="js/storage.js"></script>
+    <script src="js/sequence-events.js"></script>
+    <script src="js/karel-code-compiler.js"></script>
+    <script src="js/karel-code-editor.js"></script>
+    <script src="js/karel-map-editor.js"></script>
+    <script src="js/karel-3d-lib.js"></script>
+    <script src="js/karel-3d-player.js"></script>
+    <script src="js/karel-2d-player.js"></script>
+    <script src="js/map-selector.js"></script>
+    <script src="js/play.js"></script>
+
+</head>
+<body>
+<header>
+    
+</header>
+<div class="play-block">
+    <div class="left">
+
+        <div class="panel">
+            <button id="pause-btn">Pause</button>
+            <button id="resume-btn">Resume</button>
+            <select id="map-selection-list">
+                <option disabled>-- Select map --</option>
+            </select>
+            <button id="2d-switch">Use 2D renderer</button>
+            <button id="editor-btn">MapEditor</button>
+
+        </div>
+
+        <div id="renderer">
+        </div>
+
+    </div>
+    <div id="controls">
+        <div id="code-editor">
+        
+        </div>
+        <div id="map-editor-controls">
+            <button id="pause-btn">Pause</button>
+        </div>
+    </div>
+</div>
+<footer></footer>
+</body>
+</html>

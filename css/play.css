@@ -1,0 +1,50 @@
+.play-block {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.play-block .left {
+    float: left;
+    width: 70%;
+    height: 100%;
+}
+
+.play-block #renderer {
+    height: 100%;
+    background: #CED1CF;
+}
+
+.play-block .panel {
+    position: relative;
+    width: 100%;
+    background: #ececec;
+    z-index: 100;
+}
+
+.play-block .panel * {
+    padding: 0.5em 2em;
+    margin: 0.5em 0 0.5em 1em;
+    border: 0;
+    height: 2em;
+    background: #5dade2;
+    color: #fff;
+    font-size: 16px;
+}
+
+.play-block #controls {
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+
+#code-editor {
+    height: 100%;
+    background: #ececec;
+}
+
+body canvas{
+    position: absolute;
+}

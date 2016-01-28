@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Editor module</title>
+    <link rel="stylesheet" href="vendor/reset.css">
+    <link rel="stylesheet" href="vendor/codemirror/codemirror.css">
+    <link rel="stylesheet" href="vendor/codemirror/3024-day.css">
+    <link rel="stylesheet" href="css/karel-code-editor.css">
+    <script src="vendor/jquery-2.2.0.min.js"></script>
+    <script src="vendor/codemirror/codemirror.js"></script>
+    <script src="vendor/codemirror/javascript.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/karel-code-editor.js"></script>
+
+    <style type="text/css">
+        html, body, .code-editor-example {
+            height: 100%;;
+        }
+    </style>
+</head>
+<body>
+
+<div class="code-editor-example"></div>
+
+<script>
+
+    $(function () {
+
+        function showCode() {
+            alert(codeEditor.getCode());
+            console.log(codeEditor.getCode());
+        }
+
+        var elem = $(".code-editor-example");
+
+        var codeEditor = new KarelCodeEditor(elem);
+
+        codeEditor.onCodeSubmit(showCode);
+
+    });
+
+</script>
+
+</body>
+</html>

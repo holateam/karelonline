@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>[shpp] three.js webgl - karel - field</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                margin: 0px;
+                overflow: hidden;
+            }
+            #container {
+                width: 600px;
+                height: 600px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+        <div id="controls">
+            <input type="button" onclick="player.play(scenario, al)" value="start">
+            <input type="button" onclick="player.pause()" value="pause">
+            <input type="button" onclick="player.resume()" value="resume">
+            <input type="button" onclick="player.stop()" value="stop">
+            <input type="button" onclick="player.replay()" value="replay">
+        </div>
+        <script src="vendor/jquery-2.2.0.min.js"></script>
+        <script src="vendor/three.min.js"></script>
+        <script src="js/karel-3d-lib.js"></script>
+        <script src="js/sequence-events.js"></script>
+        <script src="js/karel-3d-player.js"></script>
+
+        <script>
+
+        var map = {
+            map:[
+                ['x', '', '', '', '', '', ''],
+                ['x', '', '', '', 'x', '', ''],
+                ['', '', 'x', '', 'x', '', ''],
+                ['', 'x', '', 'x', '', '', 5],
+                ['', 'x', '', '', 'x', 'x', ''],
+                ['',  '',   '', '', 'x', 'x', ''],
+                ['x', '', 'x', '', '', '', '']
+            ],
+            karel: {
+                position: [0, 4],
+                direction: 1,
+                beepers: 1000
+            }
+        }
+
+        var element = $('#container');
+
+        var player = new Karel3dPlayer(element, map);
+
+        var scenario = [
+            {command:'move'},
+            {command:'move'},
+            {command:'pickup'},
+            {command:'rotate', data: {angle:-1}},
+            {command:'rotate', data: {angle:-1}},
+            {command:'rotate', data: {angle:-1}},
+            {command:'move'},
+            {command:'put'},
+            {command:'put'}
+        ];
+
+        var al = function() {
+            alert('done');
+        }
+        </script>
+
+    </body>
+</html>

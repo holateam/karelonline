@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karel</title>
+    <link rel="stylesheet" href="kar2.css">
+
+    <style>
+        body{
+            margin: 0 0 0 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            font-family: cursive;
+        }
+        .headMenu{
+            position: fixed;
+            margin-left: -50%;
+            background-color: black;
+            height: 4em;
+            margin-right:auto;
+            width: 100%;
+            display: inline-block;
+        }
+        .headMenu .logo{
+            background-size: 4em;
+            height: inherit;
+            width: 4em;
+            background-image: url(img/val1.png) ;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .headMenu ul{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .headMenu ul li{
+            padding: 0.5em;
+            margin-left: 1em;
+            list-style-type: none;
+            display: inline;
+            border-style: solid;
+            border-color: lightskyblue;
+            border-radius: 0.1em;
+            border-width: thin;
+        }
+        .headMenu ul li:hover{
+            background-color: darkturquoise;
+        }
+        .headMenu ul li a{
+            font-size: 120%;
+            text-decoration: none;
+            color: gainsboro;
+            border-color: lightgray;
+        }
+        .headMenu ul li a:hover{
+            color: white;
+        }
+        .pushingRobot{
+            margin-top: 5em;
+            background-image: url("http://vignette3.wikia.nocookie.net/pixar/images/d/de/Wall%E2%80%A2e_clipped_rev_1.png");
+            background-repeat: no-repeat;
+            height: 15em;
+            width: 15em;
+            background-size: 15em;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .mainGoal{
+            margin-top: 5em;
+            margin-left: 2em;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .mainGoal p{
+            font-family: cursive;
+            font-size: 300%;
+            font-weight: bold;
+            color: white;
+            margin-left: 1em;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
+        }
+        .even{
+            background-color: #33caf2;
+            width:100%;
+            text-align: center;
+        }
+        .odd{
+            background-color: lightblue;
+            width:100%;
+            text-align: center;
+        }
+        .infoBlock{
+            width: 60%;
+            text-align: left;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        h2{
+            margin: 0;
+            padding: 1em;
+            font-size: 250%;
+        }
+        h3{
+            margin: 0;
+            padding: 1em;
+            font-size: 200%;
+        }
+        h4{
+            font-size: 150%;
+            margin: 0;
+            line-height: 150%;
+            padding-bottom: 1em;
+        }
+        .karelOnWall{
+            height: 10em;
+            width: 10em;
+            background: url("img/walli_2.png") no-repeat;
+            background-size: 50%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .askSign{
+            background: url("http://img1.liveinternet.ru/images/attach/c/1//60/182/60182774_6a3914a94a40.png") no-repeat;
+            height: 10em;
+            width: 10em;
+            background-size: 50%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .copyRight{
+            font-size: 140%;
+            padding: 0.5em;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .aboutUs{
+            font-size: 140%;
+            padding: 0.5em;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .gray{
+            background-color: dimgray;
+        }
+        @media screen and (min-width: 0px) {
+            body{
+                font-size: 8px;
+            }
+        }
+        @media screen and (min-width: 480px) {
+            body{
+                font-size: 10px;
+            }
+        }
+        @media screen and (min-width: 650px) {
+            body{
+                font-size: 12px;
+            }
+        }
+        @media screen and (min-width: 900px) {
+            body{
+                font-size: 14px;
+            }
+        }
+        @media screen and (min-width: 1400px) {
+            body{
+                font-size: 18px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+<div class="headMenu">
+    <!--<div class="logo"></div>-->
+    <ul>
+        <li><a href=".headMenu">Home</a></li>
+        <li><a href="#aboutProject">About project</a></li>
+        <li><a href="#whatIsKarel">What is Karel</a></li>
+        <li><a href="#whyTry">Why should try it</a></li>
+        <li><a href="#moreKarel">More about Karel</a></li>
+        <li><a href="#aboutUs">About us</a></li>
+    </ul>
+</div>
+<br>
+<div class="odd">
+    <div class="pushingRobot"></div>
+    <div class="mainGoal">
+        <p>Play with Karel and learn programming</p>
+    </div>
+</div>
+<div id="aboutProject" class="even">
+    <div class="infoBlock">
+        <h2>Learn. Grow up. Help others.</h2>
+        <h4>Our main goals is to help people to grow up and make this world better<br>
+        Karel will help you to learn the basic principles of programming<br>
+        Train your abstract mind in simple and joyful way</h4>
+    </div>
+    <div class="karelOnWall"></div>
+</div>
+<div id="whatIsKarel" class="odd">
+    <div class="askSign"></div>
+    <div class="infoBlock">
+        <h2>What is Karel Robot?</h2>
+        <h4>Karel robot it is very obedient robot.<br>
+            He knows not a lot of commands, but using them you can make honest results. Playing with them you will be able to better understand the robot psychology<br>
+            Karel is free! Karel is simple!
+        </h4>
+    </div>
+</div>
+<div id="whyTry" class="even">
+    <div class="infoBlock">
+        <h2>Why should I try?</h2>
+        <h4>Becouse our Karel is the best karel in the world!
+        But if you're looking only for a tool to learn programming you shouldn't. It's up to you. But keep in your mind - the best programming teachers have created this site to help you.
+        </h4>
+    </div>
+    <div class="askSign"></div>
+</div>
+<div id="moreKarel" class="odd">
+
+</div>
+<div id="aboutUs" class="odd gray">
+    <div class="copyRight">
+        © SH++ 2016
+    </div>
+    <div class="aboutUs">
+        This project created as a part of SH++ school developers training program "Get in Hola in 4 months"
+    </div>
+</div>
+</body>
+</html>

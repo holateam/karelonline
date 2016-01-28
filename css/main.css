@@ -1,0 +1,172 @@
+.site-navigation {
+    height: 50px;
+}
+
+.site-navigation .nav {
+    position: fixed;
+    width: 100%;
+    background: rgba(47, 65, 84, 0.95);
+}
+
+.site-navigation ul {
+    text-align: right;
+    height: 50px;
+    line-height: 50px;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.site-navigation ul li {
+    float: left;
+    margin: 0 10px;
+}
+
+.site-navigation ul li a:hover {
+    color: #1abc9c;
+}
+
+.site-navigation ul li a {
+    color: #fff;
+}
+
+header {
+    height: 600px;
+}
+
+header .background {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Python_add5_syntax.svg/1280px-Python_add5_syntax.svg.png) center center;
+    opacity: 0.02;
+}
+
+header .play {
+    width: 240px;
+    margin: 60px auto 0;
+    line-height: 200px;
+}
+
+header .play .robot {
+    width: 190px;
+    height: 192px;
+    background: url(https://cdn2.iconfinder.com/data/icons/walle/256/media_player.png);
+    background-size: 100%;
+    float: left;
+    margin-left: -160px;
+}
+
+header .play .play-button {
+    vertical-align: middle;
+    display: inline-block;
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+
+header .title {
+    margin-top: 60px;
+}
+
+header .title .huge {
+    text-align: center;
+    font-size: 42px;
+}
+
+.wrap {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.about-project-and-goals {
+    background: #00b7f1;
+    color: #fff;
+    padding: 80px 0;
+}
+
+.about-project-and-goals .wrap {
+    background: url(../img/earth.png) no-repeat center left;
+    background-size: 150px;
+    padding-left: 190px;
+    box-sizing: border-box;
+}
+
+.about-project-and-goals {
+}
+
+.what-is-karel .wrap {
+    background: url(https://cdn2.iconfinder.com/data/icons/walle/256/media_player.png) no-repeat center right;
+    background-size: 150px;
+    padding-right: 190px;
+    box-sizing: border-box;
+}
+
+.what-is-karel {
+    overflow: hidden;
+    background: #1abc9c;
+    color: #fff;
+    padding: 80px 0;
+}
+
+.why-should-i-try {
+    padding: 80px 0;
+}
+
+.why-should-i-try .wrap {
+    background: url(../img/computer.png) no-repeat center left;
+    background-size: 150px;
+    padding-left: 190px;
+    box-sizing: border-box;
+}
+
+.landing-block {
+}
+
+.landing-block h6 {
+    line-height: 30px;
+}
+
+footer {
+    height: 50px;
+    line-height: 50px;
+    background: rgb(47, 65, 84);
+    color: #fff;
+}
+
+footer .left {
+    float: left
+}
+
+footer .right {
+    float: right
+}
+
+footer a {
+    color: #fff;
+    text-decoration: underline
+}
+
+footer a:hover {
+    text-decoration: underline
+}
+
+.karel-code-editor {
+    min-width: 100px;
+    min-height: 100px;
+    font-size: 12px;
+}
+
+.karel-code-editor code:focus {
+    outline: none;
+}
+
+.karel-code-editor code {
+    width: 100%;
+    height: 100%;
+    background: none;
+    color: #000;
+    padding: 0;
+    font-size: 12px;
+}

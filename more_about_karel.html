@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>More about Karel</title>
+
+    <link rel="stylesheet" href="vendor/reset.css">
+    <link rel="stylesheet" href="vendor/flat-ui/css/flat-ui.min.css">
+    <link rel="stylesheet" href="css/more_about_karel.css">
+</head>
+<body>
+
+<header>
+    <div class="background"></div>
+    <div class="site-navigation">
+        <div class="nav">
+            <div class="wrap">
+                <ul>
+                    <li>
+                        <a href="#commands">Karel commands</a>
+                    </li>
+                    <li>
+                        <a href="#ask_karel">World around Karel</a>
+                    </li>
+                    <li>
+                        <a href="#loops">Conditions and loops</a>
+                    </li>
+                    <li>
+                        <a href="#examples">Programm exampless</a>
+                    </li>
+                    <li>
+                        <a href="#about">About us</a>
+                    </li>
+                    <li>
+                        <a href="index.html">Back to main page</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="title">
+            <div class="huge">Simple play with Karel and learn programming</div>
+        </div>
+    </div>
+</header>
+
+<div class="about-project-and-goals landing-block">
+    <div class="wrap">
+        <h6>
+            Karel is very simple for programming.<br>
+            He can move, turn and pick up or put down beepers.<br>
+            You can ask: what are the beepers?<br>
+            And we answer: don't know! <br>
+            May be something, that can make sound "beep". <br>
+            May by not:)<br>
+        </h6>
+    </div>
+</div>
+
+<div class="loops" id="commands">
+    <div class="wrap">
+        <h6>
+            He know only few short commands:<br>
+            <div class="commands">
+                move();<br>
+                turnLeft();<br>
+                putBeeper();<br>
+                pickBeeper();<br>
+            </div>
+            But if you want more commands - you can create own!
+            <div class="commands">
+                function turnAround(){<br>
+                <div class="tab1">
+                    turnLeft();<br>
+                    turnLeft();<br>
+                </div>
+                }<br>
+            </div>
+            and you can use new coomand turnAround() is your code!<br>
+            Using that you can solve many tasks.
+        </h6>
+    </div>
+</div>
+
+<div class="what-is-karel landing-block" id="ask_karel">
+    <div class="wrap">
+        <h6>You can ask Karel about the world around him.<br>
+            He understand query like this:
+            <div class="ask_about_world commands tab1">
+                About the walls:<br>
+                <div class="tab1">
+                frontIsClear() or frontIsBlocked()<br>
+                leftIsClear() or leftIsBlocked()<br>
+                rightIsClear() or rightIsBlocked()<br>
+                <br></div>
+                About the beepers:<br>
+                <div class="tab1">
+                beepersPresent() or noBeepersPresent()<br>
+                beepersInBag() or noBeepersInBag()<br>
+                <br></div>
+                And about it direction:<br>
+                <div class="tab1">
+                facingNorth() or notFacingNorth()<br>
+                facingEast() or notFacingEast()<br>
+                facingSouth() or notFacingSouth()<br>
+                facingWest() or notFacingWest()<br>
+                </div>
+            </div>
+        </h6>
+    </div>
+</div>
+
+<div class="loops" id="loops">
+    <div class="wrap">
+        <h6>But Karel programming impossible without conditions and loops!
+        <div class="commands">
+            if (condition) {<br>
+            <div class="tab1">
+                statements executed if condition is true<br>
+            </div>
+            }<br>
+            <br>
+            if (condition) {<br>
+            <div class="tab1">
+                statements executed if condition is true<br>
+            </div>
+            } else {<br>
+            <div class="tab1">
+                statements executed if condition is false<br>
+            </div>
+            }<br>
+        </div>
+            Example of using such code:
+            <div class="commands">
+            if(frontIsBlocked()){
+                <div class="tab1">
+                move();</div>
+            } else {
+                <div class="tab1">
+                turnAround();</div>
+            }
+            </div>
+        And iterative statements:
+        <div class="commands">
+            for (int i = 0; i < count; i++) {<br>
+            <div class="tab1">
+                statements to be repeated<br>
+            </div>
+            }<br>
+            <br>
+            while (condition) {<br>
+            <div class="tab1">
+                statements to be repeated<br>
+            </div>
+            }<br>
+        </div>
+        </h6>
+    </div>
+</div>
+
+<div class="what-is-karel landing-block" id="examples">
+    <div class="wrap">
+        <h6>Program's for Karel very short and look's like this:
+        <div class="commands">
+            while(frontIsClear()){<br>
+            <div class="tab1">
+            move();<br>
+            putBeeper();<br></div>
+            }<br>
+        </div>
+            or<br>
+        <div class="commands">
+            for(var i=0; i<10; i++){<br>
+            <div class="tab1">
+                move();<br>
+                if(beepersPresent()){<br>
+                <div class="tab2">
+                    pickBeeper();</div>
+                }
+            </div>
+            }<br>
+        </div>
+        Using this, you'll be able to program any robot very soon:)<br>
+        <br>
+            After you solve school tasks you can create own on map-editor page.<br>
+        <br>
+            That's all! Try it and fall in love to Karel with us!
+        <br>
+        </h6>
+    </div>
+</div>
+
+<footer id="about">
+    <div class="wrap">
+        <div class="left">
+            &copy; SH++ 2016
+        </div>
+        <div class="right">
+            This project created as a part of SH++ <a href="http://programming.kr.ua" target="_blank"> school developers training program "Get in Hola in 4 months"
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
+</body>
+</html>
