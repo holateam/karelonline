@@ -9,9 +9,13 @@
     <link rel="stylesheet" href="css/more_about_karel.css">
     <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/bg.css">
 
 </head>
 <body>
+
+<div class="overlay"></div>
+<div class="overlay2"></div>
 
 <header>
     <div class="background"></div>
@@ -163,20 +167,20 @@
     <div class="wrap">
         <h6>Program's for Karel very short and look's like this:<br><br>
         <div class="commands">
-            <span class="lowlight">while</span> ( <span class="highlight">frontIsClear()</span> ) {<br>
+            <span class="lowlight">while</span> ( <span class="highlight2">frontIsClear()</span> ) {<br>
             <div class="tab1">
-            <span class="highlight">move()</span>;<br>
-                <span class="highlight">putBeeper()</span>;<br></div>
+            <span class="highlight2">move()</span>;<br>
+                <span class="highlight2">putBeeper()</span>;<br></div>
             }<br>
         </div>
             <br>or<br>
         <div class="commands">
             <span class="lowlight">for</span> (var i=0; i < 10; i++ ) {<br>
             <div class="tab1">
-                <span class="highlight">move()</span>;<br>
-                <span class="lowlight">if</span> ( <span class="highlight">beepersPresent()</span> ) {<br>
+                <span class="highlight2">move()</span>;<br>
+                <span class="lowlight">if</span> ( <span class="highlight2">beepersPresent()</span> ) {<br>
                 <div class="tab2">
-                    <span class="highlight">pickBeeper()</span>;</div>
+                    <span class="highlight2">pickBeeper()</span>;</div>
                 }
             </div>
             }<br>
@@ -197,7 +201,7 @@
             &copy; SH++ 2016
         </div>
         <div class="right">
-            This project created as a part of SH++ <a href="http://programming.kr.ua" target="_blank"> school developers training program "Get in Hola in 4 months"
+            This project created as a part of SH++ <a href="http://programming.kr.ua" target="_blank"> school developers training program "Get in Hola in 4 months"</a>
         </div>
     </div>
 </footer>

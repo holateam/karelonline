@@ -22,7 +22,7 @@ header .background {
     padding: 5em 0em;
     width: 100%;
     height: 20em;
-    background-color: #1abc9c;
+    /*background-color: #1abc9c;*/
     color: white;
     display: table;
 }
@@ -59,7 +59,8 @@ header .background {
     box-sizing: border-box;
 }
 .loops{
-    margin-bottom: 3em;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 #loops{
     background: url('../img/walli_2.png') no-repeat center right;
@@ -189,4 +190,47 @@ body{
     /*background:#2C3E50;*/
     /*opacity: 0.75;*/
     color: #1abc9c;
+}
+.loops>.wrap>h6{
+    background-color: white;
+    opacity: 0.75;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    border-radius: 1em;
+}
+.what-is-karel>.wrap>h6{
+    background-color: #3B706F;
+    opacity: 0.75;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    border-radius: 1em;
+    color: white;
+}
+.ask_about_world>.commands>.highlight {
+    color: yellow;
+}
+.highlight2 {
+    color: yellow;
+}
+@media screen and (min-width: 0px) {
+    .wrap{
+        width: 90%;
+    }
+}
+@media screen and (min-width: 480px) {
+    .wrap{
+        width: 80%;
+    }
+}
+@media screen and (min-width: 650px) {
+    .wrap{
+        width: 70%;
+    }
+}
+@media screen and (min-width: 900px) {
+    .wrap{
+        width: 60%;
+    }
 }
