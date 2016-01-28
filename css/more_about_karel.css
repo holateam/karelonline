@@ -82,7 +82,7 @@ header .background {
 }
 .what-is-karel {
     overflow: hidden;
-    background: #1abc9c;
+    /*background: #1abc9c;*/
     color: #fff;
     padding: 1em 1em;
     padding-left: 15%;
@@ -168,6 +168,7 @@ body{
     display: inline-block;
     font-weight:900;
     background: rgba(47, 65, 84, 0.95);
+    z-index: 10;
 }
 .nav-list {
     display: inline-block;
@@ -195,16 +196,16 @@ body{
 .loops>.wrap>h6{
     background-color: white;
     opacity: 0.75;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 2em;
+    padding-right: 4em;
     padding-bottom: 1em;
     border-radius: 1em;
 }
 .what-is-karel>.wrap>h6{
     background-color: #3B706F;
     opacity: 0.75;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 2em;
+    padding-right: 4em;
     padding-bottom: 1em;
     border-radius: 1em;
     color: white;
