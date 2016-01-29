@@ -112,7 +112,124 @@ Karel2dPlayer.prototype.resume=function(){
         this.onPause=false;
         this.goKarel();
     }
+};
+
+Karel2dPlayer.prototype.drawMap=function () {
+    var map=this.map;
+    for(var x=0; x<map[0].length; x++){
+        for(var y=0; y<map.length; y++){
+            if(map[y][x]=="x")
+                this.addWallCell(x,y);
+            else {
+                this.addEmptyCell(x,y);
+                if(!isNaN(parseInt(map[y][x]))){
+                    this.addBeepersToCell(x,y,parseInt(map[y][x]));
+                }
+            }
+        }
+    }
+};
+Karel2dPlayer.prototype.redrawBeepers=function () {
+    var bm=this.beepersSpritesInCells;
+    for(var x=0; x<bm[0].length; x++){
+        for(var y=0; y<bm.length; y++){
+            for(var i=0;i<bm[y][x].length;i++){
+                var bs=bm[y][x].shift();
+                bs.destroy(true);
+            }
+        }
+    }
+    var map=this.map;
+    for(x=0; x<map[0].length; x++){
+        for(y=0; y<map.length; y++){
+            if(map[y][x]!="x") {
+                if(!isNaN(parseInt(map[y][x]))){
+                    this.addBeepersToCell(x,y,parseInt(map[y][x]));
+                }
+            }
+        }
+    }
+};
+
+Karel2dPlayer.prototype.addEmptyCell=function (x,y){
+    var obj=this;
+    var realX=x*obj.spriteCellSize*obj.scaleFactor,
+        realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var spr=obj.game.add.sprite(realX, realY, 'presets');
+    spr.frame = 33; // road
+    spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
+};
+Karel2dPlayer.prototype.addWallCell=function (x,y){
+    var obj=this;
+    var realX=x*obj.spriteCellSize*obj.scaleFactor,
+        realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var spr=obj.game.add.sprite(realX, realY, 'presets');
+    spr.frame = 9; // wall
+    spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
+};
+Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
+    var obj=this;
+    var arBeepersPerCell=[];
+    function putBeeperWithCenterAt(x, y) {
+        var beeperScaleFactor=obj.scaleFactor*0.75;
+        if(num>1&&num<3)beeperScaleFactor=beeperScaleFactor*0.7;
+        if(num>=3)beeperScaleFactor=beeperScaleFactor*0.5;
+        var bSize=obj.spriteBeeperSize*beeperScaleFactor;
+        var realX=x-bSize/2, realY=y-bSize/2;
+        var spr=obj.game.add.sprite(realX, realY, 'beeper');
+        spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
+        arBeepersPerCell.push(spr);
+    }
+    var realX=x*obj.spriteCellSize*obj.scaleFactor,realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var cellSize=obj.spriteCellSize*obj.scaleFactor;
+    var xCenter=realX+cellSize/2;
+    var yCenter=realY+cellSize/2;
+
+    function putBeepersLine(number, lineY) {
+        if(number==2){
+            putBeeperWithCenterAt(realX+cellSize/4, lineY);
+            putBeeperWithCenterAt(realX+cellSize*3/4, lineY);
+        } else {
+            putBeeperWithCenterAt(realX+cellSize/4, lineY);
+            putBeeperWithCenterAt(xCenter, lineY);
+            putBeeperWithCenterAt(realX+cellSize*3/4, lineY);
+        }
+    }
+
+    if(num==1) {
+        putBeeperWithCenterAt(xCenter, yCenter);
+    } else if(num==2){
+        putBeepersLine(2,yCenter);
+    } else  if(num==3){
+        putBeeperWithCenterAt(realX+cellSize/4, realY+cellSize/4);
+        putBeeperWithCenterAt(xCenter, yCenter);
+        putBeeperWithCenterAt(realX+cellSize*3/4, realY+cellSize*3/4);
+    } else  if(num==4){
+        putBeepersLine(2,realY+cellSize/4);
+        putBeepersLine(2,realY+cellSize*3/4);
+    } else  if(num==5){
+        putBeepersLine(2,realY+cellSize/4);
+        putBeeperWithCenterAt(xCenter, yCenter);
+        putBeepersLine(2,realY+cellSize*3/4);
+    } else  if(num==6){
+        putBeepersLine(3,realY+cellSize/4);
+        putBeepersLine(3,realY+cellSize*3/4);
+    } else  if(num==7){
+        putBeepersLine(3,realY+cellSize/4);
+        putBeeperWithCenterAt(xCenter, yCenter);
+        putBeepersLine(3,realY+cellSize*3/4);
+    } else  if(num==8){
+        putBeepersLine(3,realY+cellSize/4);
+        putBeepersLine(2,yCenter);
+        putBeepersLine(3,realY+cellSize*3/4);
+    } else {
+        putBeepersLine(3,realY+cellSize/4);
+        putBeepersLine(3,yCenter);
+        putBeepersLine(3,realY+cellSize*3/4);
+    }
+    obj.beepersSpritesInCells[y][x]=arBeepersPerCell;
 }
+
 Karel2dPlayer.prototype.phaserInit = function () {
     var obj=this;
     var preload=function() {
@@ -124,67 +241,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.game.load.image('btn_play','img/btn_play.png');
         obj.game.load.image('btn_replay','img/btn_replay.png');
     };
-    function addBeepersToCell(x,y, num){
-        var arBeepersPerCell=[];
-        function putBeeperWithCenterAt(x, y) {
-            var beeperScaleFactor=obj.scaleFactor*0.75;
-            if(num>1&&num<3)beeperScaleFactor=beeperScaleFactor*0.7;
-            if(num>=3)beeperScaleFactor=beeperScaleFactor*0.5;
-            var bSize=obj.spriteBeeperSize*beeperScaleFactor;
-            var realX=x-bSize/2, realY=y-bSize/2;
-            var spr=obj.game.add.sprite(realX, realY, 'beeper');
-            spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
-            arBeepersPerCell.push(spr);
-        }
-        var realX=x*obj.spriteCellSize*obj.scaleFactor,realY=y*obj.spriteCellSize*obj.scaleFactor;
-        var cellSize=obj.spriteCellSize*obj.scaleFactor;
-        var xCenter=realX+cellSize/2;
-        var yCenter=realY+cellSize/2;
-
-        function putBeepersLine(number, lineY) {
-            if(number==2){
-                putBeeperWithCenterAt(realX+cellSize/4, lineY);
-                putBeeperWithCenterAt(realX+cellSize*3/4, lineY);
-            } else {
-                putBeeperWithCenterAt(realX+cellSize/4, lineY);
-                putBeeperWithCenterAt(xCenter, lineY);
-                putBeeperWithCenterAt(realX+cellSize*3/4, lineY);
-            }
-        }
-
-        if(num==1) {
-            putBeeperWithCenterAt(xCenter, yCenter);
-        } else if(num==2){
-            putBeepersLine(2,yCenter);
-        } else  if(num==3){
-            putBeeperWithCenterAt(realX+cellSize/4, realY+cellSize/4);
-            putBeeperWithCenterAt(xCenter, yCenter);
-            putBeeperWithCenterAt(realX+cellSize*3/4, realY+cellSize*3/4);
-        } else  if(num==4){
-            putBeepersLine(2,realY+cellSize/4);
-            putBeepersLine(2,realY+cellSize*3/4);
-        } else  if(num==5){
-            putBeepersLine(2,realY+cellSize/4);
-            putBeeperWithCenterAt(xCenter, yCenter);
-            putBeepersLine(2,realY+cellSize*3/4);
-        } else  if(num==6){
-            putBeepersLine(3,realY+cellSize/4);
-            putBeepersLine(3,realY+cellSize*3/4);
-        } else  if(num==7){
-            putBeepersLine(3,realY+cellSize/4);
-            putBeeperWithCenterAt(xCenter, yCenter);
-            putBeepersLine(3,realY+cellSize*3/4);
-        } else  if(num==8){
-            putBeepersLine(3,realY+cellSize/4);
-            putBeepersLine(2,yCenter);
-            putBeepersLine(3,realY+cellSize*3/4);
-        } else {
-            putBeepersLine(3,realY+cellSize/4);
-            putBeepersLine(3,yCenter);
-            putBeepersLine(3,realY+cellSize*3/4);
-        }
-        obj.beepersSpritesInCells[y][x]=arBeepersPerCell;
-    }
     function onPauseBtn(){
         console.log("pause pressed");
         obj.onPause=true;
@@ -211,20 +267,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.play();
     }
     var create=function () {
-        function addEmptyCell(x,y){
-            var realX=x*obj.spriteCellSize*obj.scaleFactor,
-                realY=y*obj.spriteCellSize*obj.scaleFactor;
-            var spr=obj.game.add.sprite(realX, realY, 'presets');
-            spr.frame = 33; // road
-            spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
-        }
-        function addWallCell(x,y){
-            var realX=x*obj.spriteCellSize*obj.scaleFactor,
-                realY=y*obj.spriteCellSize*obj.scaleFactor;
-            var spr=obj.game.add.sprite(realX, realY, 'presets');
-            spr.frame = 9; // wall
-            spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
-        }
         function drawButtons() {
             var fieldCenterX=obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
             var fieldMaxY=obj.map.length*obj.spriteCellSize*obj.scaleFactor;
@@ -234,20 +276,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
             obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
         }
 
-        var map=obj.map;
-        for(var x=0; x<map[0].length; x++){
-            for(var y=0; y<map.length; y++){
-                if(map[y][x]=="x")
-                    addWallCell(x,y);
-                else {
-                    addEmptyCell(x,y);
-                    if(!isNaN(parseInt(map[y][x]))){
-                        addBeepersToCell(x,y,parseInt(map[y][x]));
-                    }
-                }
-            }
-        }
-
+        obj.drawMap();
         drawButtons();
         obj.karelSprite=obj.createKarelSprite();
         obj.karelSpriteSetup();
@@ -260,7 +289,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         }
         if(obj.beepersSpritesInCells[y][x].length>0)
             obj.beepersSpritesInCells[y][x].splice(0,obj.beepersSpritesInCells[y][x].length);
-        addBeepersToCell(x,y,num);
+        obj.addBeepersToCell(x,y,num);
         obj.game.world.bringToTop(obj.karelSprite);
         var f=function(){
             obj.goKarel();
@@ -468,15 +497,17 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
         incomingCommands=this.incomingCommands;
         onPlayerFinish=this.onPlayerFinish;
     } else { // if external command "play" again
-        if((this.myKarel.x!=this.sourceKarel.x)||(this.myKarel.y!=this.sourceKarel.y)||(this.myKarel.dir!=this.sourceKarel.dir)){
+        if((this.myKarel.x!=this.sourceKarel.x)||(this.myKarel.y!=this.sourceKarel.y)||(this.myKarel.dir!=this.sourceKarel.dir)
+            ||(this.myKarel.beepers!=this.sourceKarel.beepers)) {
             this.myKarel.x=this.sourceKarel.x;
             this.myKarel.y=this.sourceKarel.y;
             this.myKarel.dir=this.sourceKarel.dir;
             this.myKarel.beepers=this.sourceKarel.beepers;
+            this.map=JSON.parse(JSON.stringify(this.sourceMap));
+            this.redrawBeepers();
             this.karelSprite.destroy(true);
             this.karelSprite=this.createKarelSprite();
             this.karelSpriteSetup();
-            this.map=this.sourceMap.slice(0);
         }
         if(this.bounceOnScreen!=undefined){
             this.bounceOnScreen.stop();
