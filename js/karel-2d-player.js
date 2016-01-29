@@ -44,7 +44,7 @@ Karel2dPlayer.prototype.init = function () {
     var s = document.createElement('script');
     s.type='text/javascript';
     s.onload=phLoaded;
-    s.src='vendor/phaser.min.js';
+    s.src='vendor/js/phaser.min.js';
     document.body.appendChild(s);
     var line=[];
     for(var i=0;i<this.map[0].length;i++)
