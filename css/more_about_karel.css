@@ -205,7 +205,7 @@ body{
     background-color: #3B706F;
     opacity: 0.75;
     padding-left: 2em;
-    padding-right: 4em;
+    padding-right: 8em;
     padding-bottom: 1em;
     border-radius: 1em;
     color: white;
@@ -218,21 +218,21 @@ body{
 }
 @media screen and (min-width: 0px) {
     .wrap{
-        width: 90%;
+        width: 100%;
     }
 }
 @media screen and (min-width: 480px) {
     .wrap{
-        width: 80%;
+        width: 90%;
     }
 }
 @media screen and (min-width: 650px) {
     .wrap{
-        width: 70%;
+        width: 80%;
     }
 }
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 968px) {
     .wrap{
-        width: 60%;
+        width: 968px;
     }
 }

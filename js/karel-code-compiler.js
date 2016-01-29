@@ -410,7 +410,8 @@ var KarelCodeCompiler = (function (){
     }
 
     compiler.compile = function (userCode, map, lang) {
-        return myPrivateFunctionToCompileCodeAndReturnCommands(userCode, map, lang);
+        var map_clone = JSON.stringify(map);
+        return myPrivateFunctionToCompileCodeAndReturnCommands(userCode, JSON.parse(map_clone), lang);
     };
     return compiler
 })();

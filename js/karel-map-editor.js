@@ -55,7 +55,7 @@ KarelMapEditor.prototype.addPhaser = function () {
     var s = document.createElement('script');
     s.type='text/javascript';
     s.onload=phLoaded;
-    s.src='vendor/phaser.min.js';
+    s.src='vendor/js/phaser.min.js';
     document.body.appendChild(s);
 };
 KarelMapEditor.prototype.phaserInit = function () {
