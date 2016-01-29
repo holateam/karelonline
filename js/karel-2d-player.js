@@ -16,12 +16,12 @@ var KarelObj=function(){
 
 function Karel2dPlayer(elem, map) {
     this.element = elem.eq(0);
-    this.map = map.map;
+    this.map = JSON.parse(JSON.stringify(map.map));
     this.myKarel=new KarelObj();
 
     this.sourceKarel=new KarelObj();
     this.fillKarelDataFromMap(this.myKarel,map);
-    this.sourceMap = map.map.slice(0);
+    this.sourceMap = JSON.parse(JSON.stringify(map.map)); //map.map.slice(0);
     this.fillKarelDataFromMap(this.sourceKarel,map);
 
     this.beepersSpritesInCells=[];
@@ -78,19 +78,15 @@ Karel2dPlayer.prototype.fillArMovies=function(commands) {
                 myKarel.turnLeft();myKarel.turnLeft();myKarel.turnLeft();
             }
         }
-        else if(cmd=="pickup"){
-            var newBeepersNum=parseInt(currentMap[oldY][oldX])-1;
-            if(newBeepersNum==0)
-                currentMap[oldY][oldX]=" ";
-            else
-                currentMap[oldY][oldX]=""+newBeepersNum;
+        else if(cmd=="pick"){
+            currentMap[oldY][oldX]=parseInt(currentMap[oldY][oldX])-1;
         }
         else if(cmd=="put"){
-            if(currentMap[oldY][oldX]==" ")
+            if(currentMap[oldY][oldX]=="")
                 var curBeepersNum=0;
             else
                 var curBeepersNum=parseInt(currentMap[oldY][oldX]);
-            currentMap[oldY][oldX]=""+(curBeepersNum+1);
+            currentMap[oldY][oldX]=(curBeepersNum+1);
         }
 
         var newX=myKarel.x, newY=myKarel.y, newDir=myKarel.dir,
@@ -352,7 +348,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         } else if(obj.currentCommand=="rotate"){
             obj.currentCommand="";
             obj.rotateKarelSprite();
-        } else if(obj.currentCommand=="pickup"){
+        } else if(obj.currentCommand=="pick"){
             obj.currentCommand="";
             pickUpBeeperSprite(obj.myKarel.x,obj.myKarel.y);
         } else if(obj.currentCommand=="put"){
