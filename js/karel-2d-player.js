@@ -15,26 +15,26 @@ var KarelObj=function(){
 };
 
 function Karel2dPlayer(elem, map) {
-    function fillKarelFromMap(_karel, map) {
-        _karel.x=map.karel.position[0];
-        _karel.y=map.karel.position[1];
-        _karel.dir=map.karel.direction;
-        _karel.beepers=map.karel.beepers;
-    }
     this.element = elem.eq(0);
     this.map = map.map;
     this.myKarel=new KarelObj();
 
     this.sourceKarel=new KarelObj();
-    fillKarelFromMap(this.myKarel,map);
+    this.fillKarelDataFromMap(this.myKarel,map);
     this.sourceMap = map.map.slice(0);
-    fillKarelFromMap(this.sourceKarel,map);
+    this.fillKarelDataFromMap(this.sourceKarel,map);
 
     this.beepersSpritesInCells=[];
     this.init();
     this.karelSpriteMovingTime=1000;
     //this.drawMapAndKarel();
 }
+Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
+    _karel.x=map.karel.position[0];
+    _karel.y=map.karel.position[1];
+    _karel.dir=map.karel.direction;
+    _karel.beepers=map.karel.beepers;
+};
 Karel2dPlayer.prototype.init = function () {
     var obj=this;
     phLoaded=function(){
@@ -204,8 +204,8 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.myKarel.y=obj.sourceKarel.y;
         obj.myKarel.dir=obj.sourceKarel.dir;
         obj.karelSprite.destroy(true);
-        obj.karelSprite=createKarelSprite();
-        karelSpriteSetup();
+        obj.karelSprite=obj.createKarelSprite();
+        obj.karelSpriteSetup();
         obj.map=obj.sourceMap.slice(0);
         if(obj.bounceOnScreen!=undefined){
             obj.bounceOnScreen.stop();
@@ -213,16 +213,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
             obj.bounceOnScreen=undefined;
         }
         obj.play();
-    }
-    function karelSpriteSetup(){
-        obj.karelDancingBounce=karelDancing(1);
-        if(obj.myKarel.dir==0){
-            obj.currentAngleRotation=1;
-            rotateKarelSprite("start");
-        } else if(obj.myKarel.dir==2){
-            obj.currentAngleRotation=-1;
-            rotateKarelSprite("start");
-        }
     }
     var create=function () {
         function addEmptyCell(x,y){
@@ -263,37 +253,9 @@ Karel2dPlayer.prototype.phaserInit = function () {
         }
 
         drawButtons();
-        obj.karelSprite=createKarelSprite();
-        karelSpriteSetup();
+        obj.karelSprite=obj.createKarelSprite();
+        obj.karelSpriteSetup();
     };
-
-    function createKarelSprite(){
-        var x=obj.myKarel.x, y=obj.myKarel.y;
-        var realX=x*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset,
-            realY=y*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset;
-
-        if (obj.myKarel.dir==3)
-            var spr=obj.game.add.sprite(realX, realY, 'karelFlipped');
-        else
-            var spr=obj.game.add.sprite(realX, realY, 'karel');
-        obj.lastKarelDir=obj.myKarel.dir;
-
-        var sc=obj.spriteCellSize*obj.scaleFactor/spr.height;
-        obj.karelScaleFactor=sc;
-        spr.scale.setTo(sc,sc);
-        spr.anchor.setTo(0.5, 0.5);
-        spr.x=spr.x+spr.width/2;
-        spr.y=spr.y+spr.height/2;
-        return spr;
-    }
-
-    function karelDancing(){
-        var bounce=obj.game.add.tween(obj.karelSprite.scale);
-        var karelScaleFactorX=1.1;
-        bounce.to( { x: (obj.karelScaleFactor*karelScaleFactorX), y: (obj.karelScaleFactor*1.1) }, obj.karelSpriteMovingTime/4,
-            Phaser.Easing.Linear.None, true,0,-1,true);
-        return bounce;
-    }
 
     function putBeeperSprite(x,y,num) {
         var arSpritesInCurrentCell=obj.beepersSpritesInCells[y][x];
@@ -328,45 +290,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
         }
     }
 
-    function flipKarelSprite(param) {
-        var bounce=obj.game.add.tween(obj.karelSprite.scale);
-        bounce.to( { y: 0  }, obj.karelSpriteMovingTime/2, Phaser.Easing.Linear.None, false);
-        bounce.onComplete.add(function(){
-            bounce.stop();
-            obj.karelSprite.destroy(true);
-            console.log("karel flip 1/2 stopped");
-
-            obj.karelSprite=createKarelSprite(obj.myKarel.x,obj.myKarel.y);
-            obj.karelSprite.scale.setTo(obj.karelScaleFactor);
-
-            var bounce2=obj.game.add.tween(obj.karelSprite.scale);
-            bounce2.from( { y: 0  }, obj.karelSpriteMovingTime/2, Phaser.Easing.Linear.None, false);
-            bounce2.onComplete.add(function(){
-                bounce2.stop();
-                karelDancing();
-                if(param==undefined)
-                    obj.goKarel();
-            });
-            bounce2.start();
-        });
-        bounce.start();
-    }
-
-    function rotateKarelSprite(param) {
-        var bounce=obj.game.add.tween(obj.karelSprite);
-        bounce.to({angle: obj.karelSprite.angle+90*obj.currentAngleRotation}, obj.karelSpriteMovingTime, Phaser.Easing.Linear.InOut,false);
-        bounce.onComplete.add(function(){
-            bounce.stop();
-            console.log("rotating stopped");
-            if(((obj.karelSprite.angle==0)||(Math.abs(obj.karelSprite.angle)==180))&&((obj.lastKarelDir!=obj.myKarel.dir)))
-                flipKarelSprite(param);
-            else{
-                if(param==undefined)
-                    obj.goKarel();
-            }
-        });
-        bounce.start();
-    }
     function moveKarelSprite() {
         var dx=0, dy=0;
         if(obj.myKarel.dir%2==0)
@@ -428,7 +351,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
             moveKarelSprite()
         } else if(obj.currentCommand=="rotate"){
             obj.currentCommand="";
-            rotateKarelSprite();
+            obj.rotateKarelSprite();
         } else if(obj.currentCommand=="pickup"){
             obj.currentCommand="";
             pickUpBeeperSprite(obj.myKarel.x,obj.myKarel.y);
@@ -461,10 +384,112 @@ Karel2dPlayer.prototype.phaserInit = function () {
 
 };
 
+Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
+    var obj=this;
+    var bounce=obj.game.add.tween(obj.karelSprite);
+    bounce.to({angle: obj.karelSprite.angle+90*obj.currentAngleRotation}, obj.karelSpriteMovingTime, Phaser.Easing.Linear.InOut,false);
+    bounce.onComplete.add(function(){
+        bounce.stop();
+        console.log("rotating stopped");
+        if(((obj.karelSprite.angle==0)||(Math.abs(obj.karelSprite.angle)==180))&&((obj.lastKarelDir!=obj.myKarel.dir)))
+            obj.flipKarelSprite(param);
+        else{
+            if(param==undefined)
+                obj.goKarel();
+        }
+    });
+    bounce.start();
+}
+
+Karel2dPlayer.prototype.flipKarelSprite=function (param) {
+    var obj=this;
+    var bounce=obj.game.add.tween(obj.karelSprite.scale);
+    bounce.to( { y: 0  }, obj.karelSpriteMovingTime/2, Phaser.Easing.Linear.None, false);
+    bounce.onComplete.add(function(){
+        bounce.stop();
+        obj.karelSprite.destroy(true);
+        console.log("karel flip 1/2 stopped");
+
+        obj.karelSprite=obj.createKarelSprite(obj.myKarel.x,obj.myKarel.y);
+        obj.karelSprite.scale.setTo(obj.karelScaleFactor);
+
+        var bounce2=obj.game.add.tween(obj.karelSprite.scale);
+        bounce2.from( { y: 0  }, obj.karelSpriteMovingTime/2, Phaser.Easing.Linear.None, false);
+        bounce2.onComplete.add(function(){
+            bounce2.stop();
+            obj.karelDancing();
+            if(param==undefined)
+                obj.goKarel();
+        });
+        bounce2.start();
+    });
+    bounce.start();
+}
+
+Karel2dPlayer.prototype.karelSpriteSetup=function (){
+    var obj=this;
+    obj.karelDancingBounce=obj.karelDancing(1);
+    if(obj.myKarel.dir==0){
+        obj.currentAngleRotation=1;
+        obj.rotateKarelSprite("start");
+    } else if(obj.myKarel.dir==2){
+        obj.currentAngleRotation=-1;
+        obj.rotateKarelSprite("start");
+    }
+}
+Karel2dPlayer.prototype.createKarelSprite=function (){
+    var obj=this;
+    var x=obj.myKarel.x, y=obj.myKarel.y;
+    var realX=x*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset,
+        realY=y*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset;
+
+    if (obj.myKarel.dir==3)
+        var spr=obj.game.add.sprite(realX, realY, 'karelFlipped');
+    else
+        var spr=obj.game.add.sprite(realX, realY, 'karel');
+    obj.lastKarelDir=obj.myKarel.dir;
+
+    var sc=obj.spriteCellSize*obj.scaleFactor/spr.height;
+    obj.karelScaleFactor=sc;
+    spr.scale.setTo(sc,sc);
+    spr.anchor.setTo(0.5, 0.5);
+    spr.x=spr.x+spr.width/2;
+    spr.y=spr.y+spr.height/2;
+    return spr;
+}
+
+Karel2dPlayer.prototype.karelDancing=function (){
+    var obj=this;
+    var bounce=obj.game.add.tween(obj.karelSprite.scale);
+    var karelScaleFactorX=1.1;
+    bounce.to( { x: (obj.karelScaleFactor*karelScaleFactorX), y: (obj.karelScaleFactor*1.1) }, obj.karelSpriteMovingTime/4,
+        Phaser.Easing.Linear.None, true,0,-1,true);
+    return bounce;
+}
+
 Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
     if(incomingCommands==undefined){ // internal call
         incomingCommands=this.incomingCommands;
         onPlayerFinish=this.onPlayerFinish;
+    } else { // if external command "play" again
+        if((this.myKarel.x!=this.sourceKarel.x)||(this.myKarel.y!=this.sourceKarel.y)||(this.myKarel.dir!=this.sourceKarel.dir)){
+            this.myKarel.x=this.sourceKarel.x;
+            this.myKarel.y=this.sourceKarel.y;
+            this.myKarel.dir=this.sourceKarel.dir;
+            this.myKarel.beepers=this.sourceKarel.beepers;
+            this.karelSprite.destroy(true);
+            this.karelSprite=this.createKarelSprite();
+            this.karelSpriteSetup();
+            this.map=this.sourceMap.slice(0);
+        }
+        if(this.bounceOnScreen!=undefined){
+            this.bounceOnScreen.stop();
+            this.textOnScreen.destroy(true)
+            this.bounceOnScreen=undefined;
+        }
+        if(this.textOnScreen!=undefined){
+            this.textOnScreen.destroy(true);
+        }
     }
     this.onPause=false;
     this.arMoves=this.fillArMovies(incomingCommands);
