@@ -12,9 +12,13 @@ var Storage = (function () {
 
     storage.append = function (key, value) {
         var data = storage.get(key);
-        if (data[0] == undefined)
-            data = [data];
-        data.push(value);
+        if(!data) {
+            data=[value]
+        } else {
+            if (data[0] == undefined)
+                data = [data];
+            data.push(value);
+        }
         storage.set(key, data);
     }
 
