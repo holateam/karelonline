@@ -32,7 +32,7 @@
                 loader.load('./meshes/karel_skin.json', function(geometry) {
                     var skin = geometry;
                     loader.load('./meshes/karel_cloch.json', function(geometry) {
-                        var material = new THREE.MeshLambertMaterial( { color: '#345678' } );
+                        var material = new THREE.MeshBasicMaterial( { color: '#345678' } );
                         karel_cloch = new THREE.Mesh(geometry, material);
                         karel_skin = new THREE.Mesh(skin, material);
                         karel_cloch.scale.set(100, 100, 100);

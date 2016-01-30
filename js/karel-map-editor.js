@@ -305,6 +305,7 @@ KarelMapEditor.prototype.phaserInit = function () {
 };
 
 KarelMapEditor.prototype.saveMap=function () {
+
     function formArrayForExport(map,obj) {
         var res=[];
         for(var y=0;y<obj.mapHeight;y++){
@@ -365,17 +366,18 @@ KarelMapEditor.prototype.saveMap=function () {
                 beepers:1000
             }
         },
-        final:{
+        final:[{
             map:arExpFinal,
             karel:{
                 position:karelPos1,
                 direction:this.karelFinalDir
             }
-        },
+        }],
         description:"problem solving"
     };
     Storage.append('maps', objToSave);
 };
+
 KarelMapEditor.prototype.incrMapWidth=function (flagResize) {
     console.log("+ width pressed");
     var map=this.currentMap;

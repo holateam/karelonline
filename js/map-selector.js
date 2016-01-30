@@ -18,13 +18,12 @@ MapSelector.prototype.formOptions = function() {
 
     for (var i = 0; i < list.length; i++) {
         var option = $('<option></option>');
-        option.html(list[i].name);
+        option.text(list[i].name);
         option.val(i);
         this.element.append(option);
     }
 
     this.element.change(function() {
-        console.log(list[self.element.find('option:selected').val()]);
         if (self.callback)
             self.callback( list[self.element.find('option:selected').val()] );
     });

@@ -357,7 +357,9 @@ var KarelCodeCompiler = (function (){
 //======================================================================================================================
 
         function compareMaps(templateMaps, resultMap) {
+            console.log('comparing maps', templateMaps);
             for (var map = 0; map < templateMaps.length; map++){
+                console.log('map '+map, templateMaps[map].map);
                 if(compareTwoMaps(templateMaps[map].map, resultMap)) {
                     return true;
                 }

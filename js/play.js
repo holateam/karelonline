@@ -48,6 +48,7 @@ $(function () {
     var karelCodeEditor = new KarelCodeEditor($codeEditor);
     var karelMapSelector = new MapSelector($mapSelectionList);
     var karelMapEditor = null;
+    var compileResults = null;
 
     karelCodeEditor.onCodeSubmit(onCodeSubmit);
     karelMapSelector.onChange(preparePlayer);
@@ -67,11 +68,21 @@ $(function () {
     function onCodeSubmit() {
         var code = karelCodeEditor.getCode();
         var data = KarelCodeCompiler.compile(code, map);
+        compileResults = data.result;
         karelPlayer.play(data.commands, onPlayerFinish);
     }
 
     function onPlayerFinish() {
-        alert('Finished');
+        if (compileResults === null) {
+            alert('No any compile results.');
+        } else {
+            console.log(compileResults);
+            if (compileResults === true) {
+                alert('Task SOLVED!');
+            } else {
+                alert('Task not solved.');
+            }
+        }
     }
 
     $('#pause-btn').click(function(){

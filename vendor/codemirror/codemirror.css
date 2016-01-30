@@ -29,6 +29,8 @@
 }
 .CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
+  font-size: 13px;
+  line-height: 13px;
   padding: 0 3px 0 5px;
   min-width: 20px;
   text-align: right;
@@ -234,11 +236,11 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   border-width: 0;
   background: transparent;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 13px;
   margin: 0;
   white-space: pre;
   word-wrap: normal;
-  line-height: inherit;
+  line-height: 13px;
   color: inherit;
   z-index: 2;
   position: relative;
