@@ -53,10 +53,15 @@ $(function () {
     karelMapSelector.onChange(preparePlayer);
     karelMapSelector.formOptions();
 
-    function preparePlayer(map, force2D) {
-        karelPlayer = (force2D || !window.WebGLRenderingContext) ?
-            new Karel2dPlayer($renderer, map.original):
-            new Karel3dPlayer($renderer, map.original);
+    function preparePlayer(new_map, force2D) {
+        map=new_map;
+        if((force2D==undefined)&&(renderer=="2D")){
+            karelPlayer = new Karel2dPlayer($renderer, map.original);
+        } else {
+            karelPlayer = (force2D || !window.WebGLRenderingContext) ?
+                new Karel2dPlayer($renderer, map.original):
+                new Karel3dPlayer($renderer, map.original);
+        }
     }
 
     function onCodeSubmit() {

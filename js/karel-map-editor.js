@@ -42,6 +42,7 @@ function KarelMapEditor(elem) {
     this.karelFinalDir=1;
     this.karelStartFlipped=false;
     this.karelFinalFlipped=false;
+    this.finalMapEdited=false;
     this.addPhaser();
 
 }
@@ -329,7 +330,10 @@ KarelMapEditor.prototype.saveMap=function () {
 
     var arExpStart=formArrayForExport(this.maps.startMap, this);
     console.log(arExpStart);
-    var arExpFinal=formArrayForExport(this.maps.finalMap, this);
+    if(this.finalMapEdited)
+        var arExpFinal=formArrayForExport(this.maps.finalMap, this);
+    else
+        var arExpFinal=formArrayForExport(this.maps.startMap, this);
     console.log(arExpFinal);
 
     var karelStartPos=this.findMapXY(this.karelStart.x, this.karelStart.y);
@@ -450,6 +454,7 @@ KarelMapEditor.prototype.startMap=function () {
 };
 KarelMapEditor.prototype.finalMap=function () {
     var obj=this;
+    obj.finalMapEdited=true;
     function transferWallsToFinalMap() {
         for(var y=0;y<obj.mapHeight;y++)
             for(var x=0;x<obj.mapWidth;x++)

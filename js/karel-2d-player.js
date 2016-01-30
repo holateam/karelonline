@@ -25,9 +25,9 @@ function Karel2dPlayer(elem, map) {
     this.fillKarelDataFromMap(this.sourceKarel,map);
 
     this.beepersSpritesInCells=[];
-    this.init();
     this.karelSpriteMovingTime=1000;
-    //this.drawMapAndKarel();
+    this.canvasMarginTop="55px";
+    this.init();
 }
 Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
     _karel.x=map.karel.position[0];
@@ -37,21 +37,25 @@ Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
 };
 Karel2dPlayer.prototype.init = function () {
     var obj=this;
-    phLoaded=function(){
-        console.log("phaser loaded");
-        obj.phaserInit();
-    };
-    var s = document.createElement('script');
-    s.type='text/javascript';
-    s.onload=phLoaded;
-    s.src='vendor/js/phaser.min.js';
-    document.body.appendChild(s);
     var line=[];
     for(var i=0;i<this.map[0].length;i++)
         line.push("");
     for(i=0;i<this.map.length;i++){
         var nline=line.slice();
         this.beepersSpritesInCells.push(nline);
+    }
+    phLoaded=function(){
+        console.log("phaser loaded");
+        obj.phaserInit();
+    };
+    if($("canvas").css("margin-top")==this.canvasMarginTop){ // already loaded
+        obj.phaserInit();
+    } else {
+        var s = document.createElement('script');
+        s.type='text/javascript';
+        s.onload=phLoaded;
+        s.src='vendor/js/phaser.min.js';
+        document.body.appendChild(s);
     }
 };
 
@@ -280,6 +284,10 @@ Karel2dPlayer.prototype.phaserInit = function () {
         drawButtons();
         obj.karelSprite=obj.createKarelSprite();
         obj.karelSpriteSetup();
+        /*margin-top: 55px;*/
+        var canv=$("canvas");
+        canv.css("margin-top",obj.canvasMarginTop);
+
     };
 
     function putBeeperSprite(x,y,num) {
@@ -404,9 +412,12 @@ Karel2dPlayer.prototype.phaserInit = function () {
     this.realCellSize=this.scaleFactor*this.spriteCellSize;
     this.karelOffset=3;
 
+    if($("canvas").css("margin-top")==this.canvasMarginTop){ // old canvas present
+        $("canvas").remove();
+        //game.world.removeAll();
+    }
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
     //this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
-
 };
 
 Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
@@ -553,3 +564,13 @@ Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
 };
 
+Karel2dPlayer.prototype.setMap = function(map) {
+    //this.map = map;
+    //this.world.loadMap(this.map);
+    this.map = JSON.parse(JSON.stringify(map.map));
+    this.myKarel=new KarelObj();
+    this.sourceKarel=new KarelObj();
+    this.fillKarelDataFromMap(this.myKarel,map);
+    this.sourceMap = JSON.parse(JSON.stringify(map.map));
+    this.fillKarelDataFromMap(this.sourceKarel,map);
+};
