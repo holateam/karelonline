@@ -335,7 +335,13 @@ KarelMapEditor.prototype.saveMap=function () {
     var karelStartPos=this.findMapXY(this.karelStart.x, this.karelStart.y);
     console.log(karelStartPos);
 
-    var karelFinPos=this.findMapXY(this.karelFinal.x, this.karelFinal.y);
+    if(this.karelFinal!=undefined)
+        var karelFinPos=this.findMapXY(this.karelFinal.x, this.karelFinal.y);
+    else {
+        var karelFinPos={};
+        karelFinPos.x=-1;
+        karelFinPos.y=-1;
+    }
     console.log(karelFinPos);
 
     var karelPos0=[];
