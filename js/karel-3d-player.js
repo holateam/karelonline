@@ -44,7 +44,7 @@ Karel3dPlayer.prototype.playScenario = function(scenario, callback) {
 					see.addEvent(this.world.karelTurnRight, 0.25);
 				}
 			}
-			else if (command == 'pickup') {
+			else if (command == 'pick') {
 				see.addEvent(this.world.karelTakeBeeper);
 			}
 			else if (command == 'put') {

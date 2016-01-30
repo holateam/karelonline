@@ -210,7 +210,7 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
 Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
 
     var texture = this.tl.load( 'img/textures/beeper.png' );
-    var material = new THREE.MeshLambertMaterial( { map: texture } );
+    var material = new THREE.MeshLambertMaterial( { color: '#345678' } );
     var retVal = [];
 
     if (amount > 0 && amount < 7) {
@@ -266,39 +266,48 @@ Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
  */
 Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
 
-    var extrPathP1 = new THREE.Vector3( 0, 0, 0 );
-    var extrPathP2 = new THREE.Vector3( 0, 0, 10 );
+    // var extrPathP1 = new THREE.Vector3( 0, 0, 0 );
+    // var extrPathP2 = new THREE.Vector3( 0, 0, 10 );
 
-    var extrudeSettings = {
-        steps           : 1,
-        bevelEnabled    : false,
-        extrudePath     : new THREE.LineCurve3 (extrPathP1, extrPathP2)
-    };
+    // var extrudeSettings = {
+    //     steps           : 1,
+    //     bevelEnabled    : false,
+    //     extrudePath     : new THREE.LineCurve3 (extrPathP1, extrPathP2)
+    // };
 
-    var points = [
-        new THREE.Vector2 ( -0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
-        new THREE.Vector2 (  0 * DEF_CELL_WIDTH,     0.3 * DEF_CELL_WIDTH  ),
-        new THREE.Vector2 (  0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
-        new THREE.Vector2 (  0 * DEF_CELL_WIDTH,    -0.1 * DEF_CELL_WIDTH  )
-    ];
+    // var points = [
+    //     new THREE.Vector2 ( -0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
+    //     new THREE.Vector2 (  0 * DEF_CELL_WIDTH,     0.3 * DEF_CELL_WIDTH  ),
+    //     new THREE.Vector2 (  0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
+    //     new THREE.Vector2 (  0 * DEF_CELL_WIDTH,    -0.1 * DEF_CELL_WIDTH  )
+    // ];
 
-    var shape = new THREE.Shape( points );
-    var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-    var texture = this.tl.load( 'img/textures/beeper.png' );
-    var material = new THREE.MeshLambertMaterial( { map: texture } );
+    // var shape = new THREE.Shape( points );
+    // var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+    // var texture = this.tl.load( 'img/textures/beeper.png' );
+    // var material = new THREE.MeshLambertMaterial( { map: texture } );
 
-    this.karel = new THREE.Mesh( geometry, material );
+    // this.karel = new THREE.Mesh( geometry, material );
+    
+    var loader = new THREE.JSONLoader();
+    var self = this;
+    loader.load('./meshes/karel_mesh.json', function(geometry) {
+        self.karel = new THREE.Mesh(geometry);
+        self.scene.add(self.karel);
 
-    this.karel.position.x = X * DEF_CELL_WIDTH;
-    this.karel.position.y = -1 * Y * DEF_CELL_WIDTH;
-    this.karel.position.z = DEF_CELL_HEIGHT * 1.5;
+        self.karel.position.x = X * DEF_CELL_WIDTH;
+        self.karel.position.y = -1 * Y * DEF_CELL_WIDTH;
+        self.karel.position.z = DEF_CELL_HEIGHT * 1.5;
 
-    this.karel.direction = direction || 0;
-    this.karel.rotation.z = degToRad( (-this.karel.direction + 1) * 90 );
-    this.karel.x = X;
-    this.karel.y = Y;
+        self.karel.direction = direction || 0;
+        self.karel.rotation.z = degToRad( (-self.karel.direction + 1) * 90 );
+        self.karel.x = X;
+        self.karel.y = Y;
 
-    this.scene.add(this.karel);
+        self.karel.scale.set(10, 10, 10);
+
+        self.scene.add(self.karel);
+    });
 }
 
 /**

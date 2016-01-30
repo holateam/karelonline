@@ -1,73 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>[shpp] three.js webgl - karel - field</title>
+        <title>three.js webgl - geometry - cube</title>
         <meta charset="utf-8">
         <style>
             body {
                 margin: 0px;
+                background-color: #000000;
                 overflow: hidden;
-            }
-            #container {
-                width: 600px;
-                height: 600px;
             }
         </style>
     </head>
     <body>
 
-        <div id="container"></div>
-        <div id="controls">
-            <input type="button" onclick="player.play(scenario, al)" value="start">
-            <input type="button" onclick="player.pause()" value="pause">
-            <input type="button" onclick="player.resume()" value="resume">
-            <input type="button" onclick="player.stop()" value="stop">
-            <input type="button" onclick="player.replay()" value="replay">
-        </div>
-        <script src="vendor/jquery-2.2.0.min.js"></script>
-        <script src="vendor/three.min.js"></script>
-        <script src="js/karel-3d-lib.js"></script>
-        <script src="js/sequence-events.js"></script>
-        <script src="js/karel-3d-player.js"></script>
+        <script src="vendor/js/three.min.js"></script>
 
         <script>
 
-        var map = {
-            map:[
-                ['x', '', '', '', '', '', ''],
-                ['x', '', '', '', 'x', '', ''],
-                ['', '', 'x', '', 'x', '', ''],
-                ['', 'x', '', 'x', '', '', 5],
-                ['', 'x', '', '', 'x', 'x', ''],
-                ['',  '',   '', '', 'x', 'x', ''],
-                ['x', '', 'x', '', '', '', '']
-            ],
-            karel: {
-                position: [0, 4],
-                direction: 1,
-                beepers: 1000
+            var camera, scene, renderer;
+            var karel_skin, karel_cloch;
+
+            init();
+
+            function init() {
+
+                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+                camera.position.z = 400;
+
+                scene = new THREE.Scene();
+                var loader = new THREE.JSONLoader();
+                loader.load('./meshes/karel_skin.json', function(geometry) {
+                    var skin = geometry;
+                    loader.load('./meshes/karel_cloch.json', function(geometry) {
+                        var material = new THREE.MeshLambertMaterial( { color: '#345678' } );
+                        karel_cloch = new THREE.Mesh(geometry, material);
+                        karel_skin = new THREE.Mesh(skin, material);
+                        karel_cloch.scale.set(100, 100, 100);
+                        karel_skin.scale.set(100, 100, 100);
+                        scene.add(karel_cloch);
+                        scene.add(karel_skin);
+                        animate();
+                    });
+                });
+
+                renderer = new THREE.WebGLRenderer();
+                renderer.setPixelRatio( window.devicePixelRatio );
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                document.body.appendChild( renderer.domElement );
+
+                //
+
+                window.addEventListener( 'resize', onWindowResize, false );
+
             }
-        }
 
-        var element = $('#container');
+            function onWindowResize() {
 
-        var player = new Karel3dPlayer(element, map);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
 
-        var scenario = [
-            {command:'move'},
-            {command:'move'},
-            {command:'pickup'},
-            {command:'rotate', data: {angle:-1}},
-            {command:'rotate', data: {angle:-1}},
-            {command:'rotate', data: {angle:-1}},
-            {command:'move'},
-            {command:'put'},
-            {command:'put'}
-        ];
+                renderer.setSize( window.innerWidth, window.innerHeight );
 
-        var al = function() {
-            alert('done');
-        }
+            }
+
+            function animate() {
+
+                requestAnimationFrame( animate );
+
+                karel_skin.rotation.x += 0.005;
+                karel_cloch.rotation.x += 0.005;
+                karel_skin.rotation.y += 0.01;
+                karel_cloch.rotation.y += 0.01;
+
+                renderer.render( scene, camera );
+
+            }
+
         </script>
 
     </body>
