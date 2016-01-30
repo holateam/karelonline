@@ -1,5 +1,5 @@
 var DEF_CELL_WIDTH = 70;
-var DEF_CELL_HEIGHT = 20;
+var DEF_CELL_HEIGHT = 10;
 var DEF_KAREL_RADIUS = 20;
 var DEF_BEEPER_SIZE = 10;
 var DIRECTION_PRESET_ARRAY = [ [0,-1], [1,0], [0,1], [-1,0] ];
@@ -15,6 +15,10 @@ var BEEPER_POSITIONS_PRESET_ARRAY = [
 
 function degToRad(deg) {
     return deg * Math.PI / 180;
+}
+
+function radToDeg(rad) {
+    return rad / (Math.PI / 180);
 }
 
 function bind(func, context) {
@@ -91,7 +95,15 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
     var light = new THREE.AmbientLight( 0x707070 );
     this.scene.add( light );
 
-    this.camera.position.y = this.map.length * DEF_CELL_WIDTH / -1;
+    var diff = (this.map.length - this.map[0].length) / 4;
+    this.camera.position.set(
+        // this.map[0].length * DEF_CELL_WIDTH / -1,
+        // this.map.length * DEF_CELL_WIDTH / -0.66,
+        (-1 - diff) * DEF_CELL_WIDTH, 
+        (-1 * this.map.length + diff) * DEF_CELL_WIDTH, 
+        300
+    );
+    // this.camera.position.y = this.map.length * DEF_CELL_WIDTH / -1;
 }
 
 /**
@@ -121,11 +133,16 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
         1000 
     );
 
-    this.camera.rotation.x = degToRad(55);
-    this.camera.rotation.y = degToRad(-30);
-    this.camera.rotation.z = degToRad(-10);
-    // this.camera.position.x = -500;
-    this.camera.position.z = 300;
+    this.camera.rotation.set(
+        degToRad(45),
+        degToRad(-35),
+        degToRad(-30)
+    );
+
+    // alert(
+    //     radToDeg(this.camera.rotation.x) + ' ' + 
+    //     radToDeg(this.camera.rotation.y) + ' ' + 
+    //     radToDeg(this.camera.rotation.z));
 
     var self = this;
 
@@ -139,6 +156,11 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
 
     $(document).mouseup(function(e) {
         container.pressed = false;
+        // alert(
+        //     self.camera.position.x + ' ' +
+        //     self.camera.position.y + ' ' +
+        //     self.camera.position.z
+        // );
     });
 
     container.mousemove(function(e) {
@@ -178,25 +200,51 @@ Karel3DWorld.prototype.createCellBase = function(X, Y) {
  */
 Karel3DWorld.prototype.createWall = function(X, Y) {
 
-    var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_HEIGHT );
-    var texture = this.tl.load( 'img/textures/wall.png' );
-    var material = new THREE.MeshLambertMaterial( { map: texture } );
-    var mesh = new THREE.Mesh( geometry, material );
+    // var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_HEIGHT );
+    // var texture = this.tl.load( 'img/textures/wall.png' );
+    // var material = new THREE.MeshLambertMaterial( { map: texture } );
+    // var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.x = X * DEF_CELL_WIDTH;
-    mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
-    mesh.position.z = DEF_CELL_HEIGHT;
+    // mesh.position.x = X * DEF_CELL_WIDTH;
+    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
+    // mesh.position.z = DEF_CELL_HEIGHT;
 
-    this.scene.add(mesh);
+    // this.scene.add(mesh);
 
-    var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/4, DEF_CELL_WIDTH/4, DEF_CELL_HEIGHT/2 );
-    var mesh = new THREE.Mesh( geometry, material );
+    // geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/4, DEF_CELL_WIDTH/4, DEF_CELL_HEIGHT/2 );
+    // mesh = new THREE.Mesh( geometry, material );
+    
+    // mesh.position.x = X * DEF_CELL_WIDTH;
+    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
+    // mesh.position.z = DEF_CELL_HEIGHT * 1.75;
 
-    mesh.position.x = X * DEF_CELL_WIDTH;
-    mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
-    mesh.position.z = DEF_CELL_HEIGHT * 1.75;
+    // this.scene.add(mesh);
+    
+    var loader = new THREE.JSONLoader();
+    var self = this;
 
-    this.scene.add(mesh);
+    var xPos = X * DEF_CELL_WIDTH;
+    var yPos = -1 * Y * DEF_CELL_WIDTH;
+    var zPos = DEF_CELL_HEIGHT/2 + 1;
+
+    var xRot = degToRad(90);
+    var yRot = 0;
+    var zRot = 0;
+
+    var rand = Math.round(Math.random() * (3 - 1) + 1);
+    var path = './meshes/mountain'+rand+'.json';
+
+    loader.load(path, function(geometry) {
+        var texture = self.tl.load( 'img/textures/wall.png' );
+        var material = new THREE.MeshLambertMaterial( { color: '#cccccc', wireframe: true, wireframeLinewidth: 1, depthTest: true, depthWrite: true } );
+        var mesh = new THREE.Mesh(geometry, material);
+        
+        mesh.position.set(xPos, yPos, zPos);
+        mesh.rotation.set(xRot, yRot, zRot); 
+        mesh.scale.set(DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2);
+
+        self.scene.add(mesh);
+    });
 }
 
 /**
@@ -210,7 +258,7 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
 Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
 
     var texture = this.tl.load( 'img/textures/beeper.png' );
-    var material = new THREE.MeshLambertMaterial( { map: texture } );
+    var material = new THREE.MeshPhongMaterial( { map: texture } );
     var retVal = [];
 
     if (amount > 0 && amount < 7) {
@@ -231,27 +279,6 @@ Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
             retVal.push(beeper);
             this.scene.add(beeper);
         }
-    } else if (amount >= 7) {
-        // var geometry = new THREE.TextGeometry( ''+amount, {
-
-        //     size: DEF_CELL_WIDTH * 0.8,
-        //     height: DEF_BEEPER_SIZE,
-
-        //     font: 'helvetiker',
-        //     weight: 'bold',
-        //     style: 'normal',
-
-        //     material: 1,
-        //     extrudeMaterial: 1
-
-        // } )
-        // var mesh = new THREE.Mesh( geometry, material )
-
-        // mesh.position.x = X * DEF_CELL_WIDTH
-        // mesh.position.y = Y * DEF_CELL_WIDTH
-        // mesh.position.z = DEF_CELL_HEIGHT
-
-        // this.scene.add(mesh)
     }
 
     return retVal;
@@ -265,29 +292,6 @@ Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
  * @param  {integer} direction -- initial facing of the robot, indexing DIRECTION_PRESET_ARRAY
  */
 Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
-
-    // var extrPathP1 = new THREE.Vector3( 0, 0, 0 );
-    // var extrPathP2 = new THREE.Vector3( 0, 0, 10 );
-
-    // var extrudeSettings = {
-    //     steps           : 1,
-    //     bevelEnabled    : false,
-    //     extrudePath     : new THREE.LineCurve3 (extrPathP1, extrPathP2)
-    // };
-
-    // var points = [
-    //     new THREE.Vector2 ( -0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
-    //     new THREE.Vector2 (  0 * DEF_CELL_WIDTH,     0.3 * DEF_CELL_WIDTH  ),
-    //     new THREE.Vector2 (  0.3 * DEF_CELL_WIDTH,  -0.25 * DEF_CELL_WIDTH ),
-    //     new THREE.Vector2 (  0 * DEF_CELL_WIDTH,    -0.1 * DEF_CELL_WIDTH  )
-    // ];
-
-    // var shape = new THREE.Shape( points );
-    // var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-    // var texture = this.tl.load( 'img/textures/beeper.png' );
-    // var material = new THREE.MeshLambertMaterial( { map: texture } );
-
-    // this.karel = new THREE.Mesh( geometry, material );
     
     this.karel = {};
     this.karel.x = X;
@@ -304,7 +308,6 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
     var xRot = degToRad(90);
     var yRot = degToRad( (-this.karel.direction + 2) * 90 );
     var zRot = 0;
-    // var zRot = degToRad( (-this.karel.direction + 1) * 90 );
 
     loader.load('./meshes/karel_cloch.json', function(clochGeometry) {
 

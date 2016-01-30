@@ -28,19 +28,17 @@
                 camera.position.z = 400;
 
                 scene = new THREE.Scene();
+                
                 var loader = new THREE.JSONLoader();
-                loader.load('./meshes/karel_skin.json', function(geometry) {
-                    var skin = geometry;
-                    loader.load('./meshes/karel_cloch.json', function(geometry) {
-                        var material = new THREE.MeshBasicMaterial( { color: '#345678' } );
-                        karel_cloch = new THREE.Mesh(geometry, material);
-                        karel_skin = new THREE.Mesh(skin, material);
-                        karel_cloch.scale.set(100, 100, 100);
-                        karel_skin.scale.set(100, 100, 100);
-                        scene.add(karel_cloch);
-                        scene.add(karel_skin);
-                        animate();
-                    });
+                var rand = Math.round(Math.random() * (3 - 1) + 1);
+                var path = './meshes/mountain'+rand+'.json';
+                alert(path);
+                loader.load('./meshes/mountain'+rand+'.json', function(geometry) {
+                    var material = new THREE.MeshLambertMaterial( { color: '#707070', wireframe: true, wireframeLinewidth: 2, depthTest: true, depthWrite: true } );
+                    karel_cloch = new THREE.Mesh(geometry, material);
+                    karel_cloch.scale.set(50, 50, 50);
+                    scene.add(karel_cloch);
+                    animate();
                 });
 
                 renderer = new THREE.WebGLRenderer();
@@ -48,7 +46,12 @@
                 renderer.setSize( window.innerWidth, window.innerHeight );
                 document.body.appendChild( renderer.domElement );
 
-                //
+                var light = new THREE.PointLight(0xffffff, 1, 0);
+                light.position.set( 0, 500, 0 );
+                scene.add(light);
+
+                light = new THREE.AmbientLight( 0x707070 );
+                scene.add( light );
 
                 window.addEventListener( 'resize', onWindowResize, false );
 
@@ -67,12 +70,10 @@
 
                 requestAnimationFrame( animate );
 
-                karel_skin.rotation.x += 0.005;
-                karel_cloch.rotation.x += 0.005;
-                karel_skin.rotation.y += 0.01;
-                karel_cloch.rotation.y += 0.01;
+                karel_cloch.rotation.x += 0.0025;
+                karel_cloch.rotation.y += 0.005;
 
-                renderer.render( scene, camera );
+                setTimeout(function(){renderer.render( scene, camera )}, 100);
 
             }
 
