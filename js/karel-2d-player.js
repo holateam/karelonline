@@ -244,8 +244,8 @@ Karel2dPlayer.prototype.phaserInit = function () {
     var preload=function() {
         obj.game.load.spritesheet('presets', 'img/tmw_desert_spacing.png',obj.spriteCellSize,obj.spriteCellSize);
         obj.game.load.image('beeper', 'img/aqua_ball.png');
-        obj.game.load.image('karel', 'img/val1.png');
-        obj.game.load.image('karelFlipped', 'img/val3.png');
+        obj.game.load.image('karel', 'img/new_rob1.png');
+        obj.game.load.image('karelFlipped', 'img/new_rob3.png');
         obj.game.load.image('btn_pause','img/btn_pause.png');
         obj.game.load.image('btn_play','img/btn_play.png');
         obj.game.load.image('btn_replay','img/btn_replay.png');
@@ -281,9 +281,9 @@ Karel2dPlayer.prototype.phaserInit = function () {
             var fieldCenterX=obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
             var fieldMaxY=obj.map.length*obj.spriteCellSize*obj.scaleFactor;
             var btnOffset=30;
-            obj.btnPause = obj.game.add.button(20, fieldMaxY+btnOffset, 'btn_pause', onPauseBtn, this);
-            obj.btnPlay = obj.game.add.button(110, fieldMaxY+btnOffset, 'btn_play', onPlayBtn, this);
-            obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
+            //obj.btnPause = obj.game.add.button(20, fieldMaxY+btnOffset, 'btn_pause', onPauseBtn, this);
+            //obj.btnPlay = obj.game.add.button(110, fieldMaxY+btnOffset, 'btn_play', onPlayBtn, this);
+            //obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
         }
 
         obj.drawMap();
