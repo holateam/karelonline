@@ -26,7 +26,8 @@ function Karel2dPlayer(elem, map) {
 
     this.beepersSpritesInCells=[];
     this.karelSpriteMovingTime=1000;
-    this.canvasMarginTop="55px";
+    //this.canvasMarginTop="55px";
+    this.canvasFontSize="11px";
     this.init();
 }
 Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
@@ -48,7 +49,8 @@ Karel2dPlayer.prototype.init = function () {
         console.log("phaser loaded");
         obj.phaserInit();
     };
-    if($("canvas").css("margin-top")==this.canvasMarginTop){ // already loaded
+    //if($("canvas").css("margin-top")==this.canvasMarginTop){ // already loaded
+    if($("canvas").css("font-size")==this.canvasFontSize){ // already loaded
         obj.phaserInit();
     } else {
         var s = document.createElement('script');
@@ -286,7 +288,8 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.karelSpriteSetup();
         /*margin-top: 55px;*/
         var canv=$("canvas");
-        canv.css("margin-top",obj.canvasMarginTop);
+        canv.css("font-size",obj.canvasFontSize);
+        //canv.css("margin-top",obj.canvasMarginTop);
 
     };
 
@@ -404,7 +407,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         }
     };
 
-    var divForPhaser=this.element.selector.substr(1);
+    var divForPhaser=this.element[0];
 
     this.spriteCellSize=33;
     this.spriteBeeperSize=17;
@@ -412,10 +415,11 @@ Karel2dPlayer.prototype.phaserInit = function () {
     this.realCellSize=this.scaleFactor*this.spriteCellSize;
     this.karelOffset=3;
 
-    if($("canvas").css("margin-top")==this.canvasMarginTop){ // old canvas present
+    try{
         $("canvas").remove();
         //game.world.removeAll();
-    }
+    } catch (e) {}
+
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
     //this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
 };
