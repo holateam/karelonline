@@ -245,6 +245,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.game.load.image('btn_pause','img/btn_pause.png');
         obj.game.load.image('btn_play','img/btn_play.png');
         obj.game.load.image('btn_replay','img/btn_replay.png');
+        //obj.game.load.audio('boden', 'js/testing/square.mp3');
     };
     function onPauseBtn(){
         console.log("pause pressed");
@@ -285,11 +286,12 @@ Karel2dPlayer.prototype.phaserInit = function () {
         drawButtons();
         obj.karelSprite=obj.createKarelSprite();
         obj.karelSpriteSetup();
-        /*margin-top: 55px;*/
+
         var canv=$("canvas");
         canv.css("font-size",obj.canvasFontSize);
-        //canv.css("margin-top",obj.canvasMarginTop);
 
+        //obj.music = obj.game.add.audio('boden');
+        //obj.game.sound.setDecodedCallback([obj.music], start, this);
     };
 
     function putBeeperSprite(x,y,num) {
@@ -420,7 +422,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
     } catch (e) {}
 
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
-    //this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
+
 };
 
 Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
@@ -536,6 +538,10 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
     this.arMoves=this.fillArMovies(incomingCommands);
     this.incomingCommands=incomingCommands.slice();
     this.onPlayerFinish=onPlayerFinish;
+
+    //this.music.volume=0.5;
+    //this.music.play();
+
     this.goKarel();
 };
 
@@ -565,17 +571,27 @@ Karel2dPlayer.prototype.goKarel=function(){
 
 Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
+    //this.music.stop();
 };
 
 Karel2dPlayer.prototype.setMap = function(map) {
-    //this.map = map;
-    //this.world.loadMap(this.map);
+
     this.map = JSON.parse(JSON.stringify(map.map));
+    this.sourceMap = JSON.parse(JSON.stringify(map.map));
+
+    this.fillKarelDataFromMap(this.sourceKarel,map);
+
     this.myKarel=new KarelObj();
     this.sourceKarel=new KarelObj();
+
     this.fillKarelDataFromMap(this.myKarel,map);
-    this.sourceMap = JSON.parse(JSON.stringify(map.map));
     this.fillKarelDataFromMap(this.sourceKarel,map);
+
+    this.game.world.removeAll();
+    this.drawMap();
+    this.karelSprite=this.createKarelSprite();
+    this.karelSpriteSetup();
+
 };
 
 Karel2dPlayer.prototype.destroy=function(){

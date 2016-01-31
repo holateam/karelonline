@@ -55,6 +55,7 @@ $(function () {
     karelMapSelector.formOptions();
 
     function preparePlayer(newMap, forceRenderer) {
+        map=newMap; // for compliler
         if (forceRenderer) {
             karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
                 new Karel2dPlayer($renderer, newMap.original):
