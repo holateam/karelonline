@@ -49,7 +49,6 @@ Karel2dPlayer.prototype.init = function () {
         console.log("phaser loaded");
         obj.phaserInit();
     };
-    //if($("canvas").css("margin-top")==this.canvasMarginTop){ // already loaded
     if($("canvas").css("font-size")==this.canvasFontSize){ // already loaded
         obj.phaserInit();
     } else {

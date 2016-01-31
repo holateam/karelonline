@@ -43,6 +43,7 @@ function KarelMapEditor(elem) {
     this.karelStartFlipped=false;
     this.karelFinalFlipped=false;
     this.finalMapEdited=false;
+    this.canvasFontSize="11px";
     this.addPhaser();
 
 }
@@ -53,11 +54,15 @@ KarelMapEditor.prototype.addPhaser = function () {
         console.log("phaser loaded");
         obj.phaserInit();
     };
-    var s = document.createElement('script');
-    s.type='text/javascript';
-    s.onload=phLoaded;
-    s.src='vendor/js/phaser.min.js';
-    document.body.appendChild(s);
+    if($("canvas").css("font-size")==this.canvasFontSize){ // already loaded
+        obj.phaserInit();
+    } else {
+        var s = document.createElement('script');
+        s.type='text/javascript';
+        s.onload=phLoaded;
+        s.src='vendor/js/phaser.min.js';
+        document.body.appendChild(s);
+    }
 };
 KarelMapEditor.prototype.phaserInit = function () {
     var obj=this;
@@ -290,17 +295,25 @@ KarelMapEditor.prototype.phaserInit = function () {
         obj.addText(160,10,"Karel's map editor. ",32,"red");
         obj.writeCurrentMapName();
         drawRightMenu();
+        var canv=$("canvas");
+        canv.css("font-size",obj.canvasFontSize);
     };
 
     var update= function () {
     };
 
-    var divForPhaser=this.element.selector.substr(1);
     this.spriteCellSize=33;
     this.spriteBeeperSize=17;
     this.scaleFactor=2;
     this.realCellSize=this.scaleFactor*this.spriteCellSize;
     this.karelOffset=3;
+
+    var divForPhaser=this.element[0];
+    try{
+        $("canvas").remove();
+        //game.world.removeAll();
+    } catch (e) {}
+
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
 };
 
