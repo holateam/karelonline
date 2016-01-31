@@ -420,7 +420,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
     } catch (e) {}
 
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
-    this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
+    //this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
 };
 
 Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
