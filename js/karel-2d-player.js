@@ -26,7 +26,7 @@ function Karel2dPlayer(elem, map) {
 
     this.beepersSpritesInCells=[];
     this.karelSpriteMovingTime=1000;
-    //this.canvasMarginTop="55px";
+
     this.canvasFontSize="11px";
     this.init();
 }
@@ -396,7 +396,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
             putBeeperSprite(obj.myKarel.x,obj.myKarel.y,totalBeepersInCell);
         } else if(obj.currentCommand=="finish"){
             obj.currentCommand="";
-            writeFinalTextSprite("YOU WIN!", "red");
+            writeFinalTextSprite("you pass!", "red");
         } else if(obj.currentCommand=="crash"){
             obj.currentCommand="";
             writeFinalTextSprite("YOU CRASHED!", "black");
@@ -420,7 +420,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
     } catch (e) {}
 
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
-    //this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
+    this.game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
 };
 
 Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
@@ -576,4 +576,8 @@ Karel2dPlayer.prototype.setMap = function(map) {
     this.fillKarelDataFromMap(this.myKarel,map);
     this.sourceMap = JSON.parse(JSON.stringify(map.map));
     this.fillKarelDataFromMap(this.sourceKarel,map);
+};
+
+Karel2dPlayer.prototype.destroy=function(){
+    this.game.world.destroy();
 };

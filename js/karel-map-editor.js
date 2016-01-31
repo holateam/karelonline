@@ -787,3 +787,6 @@ KarelMapEditor.prototype.flipKarelSprite=function () {
         }
     }
 }
+KarelMapEditor.prototype.destroy=function(){
+    this.game.world.destroy();
+};
