@@ -1,4 +1,4 @@
-var DEF_CELL_WIDTH = 70;
+var DEF_CELL_WIDTH = 75;
 var DEF_CELL_HEIGHT = 10;
 var DEF_KAREL_RADIUS = 20;
 var DEF_BEEPER_SIZE = 10;
@@ -12,6 +12,14 @@ var BEEPER_POSITIONS_PRESET_ARRAY = [
     [ [-0.3,-0.3],      [0.3,0.3],          [0.3,-0.3],         [-0.3,0.3],         [0,0]                       ],
     [ [-0.25, -0.3],    [-0.25, 0],         [-0.25, 0.3],       [0.25, -0.3],       [0.25, 0],      [0.25, 0.3] ]
 ];
+var COLOR = {
+    cell: '#613302',
+    core: '#0077FF',
+    wall: '#00FF00',
+    beeper: '#FFFF00',
+    karelCloch: '#1ABC9C',
+    karelSkin: '#FFA500'
+}
 
 function degToRad(deg) {
     return deg * Math.PI / 180;
@@ -88,12 +96,12 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
         karelObj.direction
     );
 
-    var light = new THREE.PointLight(0xffffff, 0.5, 0);
-    light.position.set( -300, 100, 500 );
-    this.scene.add(light);
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight.position.set(1, 2, 3);
+    this.scene.add( dirLight );
 
-    var light = new THREE.AmbientLight( 0x707070 );
-    this.scene.add( light );
+    var ambLight = new THREE.AmbientLight( 0x606060 );
+    this.scene.add( ambLight );
 
     var diff = (this.map.length - this.map[0].length) / 4;
     this.camera.position.set(
@@ -103,7 +111,7 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
         (-1 * this.map.length + diff) * DEF_CELL_WIDTH, 
         300
     );
-    // this.camera.position.y = this.map.length * DEF_CELL_WIDTH / -1;
+
 }
 
 /**
@@ -181,15 +189,30 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
  */
 Karel3DWorld.prototype.createCellBase = function(X, Y) {
 
-    var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH, DEF_CELL_WIDTH, DEF_CELL_HEIGHT );
-    var texture = this.tl.load( 'img/textures/cellbase.png' );
-    var material = new THREE.MeshLambertMaterial( { map: texture } );
-    var mesh = new THREE.Mesh( geometry, material );
+    // var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH, DEF_CELL_WIDTH, DEF_CELL_HEIGHT );
+    // var texture = this.tl.load( 'img/textures/cellbase.png' );
+    // var material = new THREE.MeshLambertMaterial( { map: texture } );
+    // var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.x = X * DEF_CELL_WIDTH;
-    mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
+    // mesh.position.x = X * DEF_CELL_WIDTH;
+    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
 
-    this.scene.add(mesh);
+    // this.scene.add(mesh);
+    
+    var width = DEF_CELL_WIDTH - 5;
+    var cellGeometry = new THREE.BoxGeometry( width, width, DEF_CELL_HEIGHT );
+    var cellMaterial = new THREE.MeshLambertMaterial( { color: COLOR.cell } );
+    var cell = new THREE.Mesh( cellGeometry, cellMaterial );
+
+    var coreGeometry = new THREE.BoxGeometry( DEF_CELL_WIDTH, DEF_CELL_WIDTH, DEF_CELL_HEIGHT/4 );
+    var coreMaterial = new THREE.MeshLambertMaterial( { color: COLOR.core } );
+    var core = new THREE.Mesh( coreGeometry, coreMaterial );
+
+    cell.position.x = core.position.x = X * DEF_CELL_WIDTH;
+    cell.position.y = core.position.y = -1 * Y * DEF_CELL_WIDTH;
+
+    this.scene.add(cell);
+    this.scene.add(core);
 }
 
 /**
@@ -200,6 +223,7 @@ Karel3DWorld.prototype.createCellBase = function(X, Y) {
  */
 Karel3DWorld.prototype.createWall = function(X, Y) {
 
+    // BOX GEOMETRY WALL
     // var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_HEIGHT );
     // var texture = this.tl.load( 'img/textures/wall.png' );
     // var material = new THREE.MeshLambertMaterial( { map: texture } );
@@ -220,31 +244,75 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
 
     // this.scene.add(mesh);
     
-    var loader = new THREE.JSONLoader();
-    var self = this;
 
-    var xPos = X * DEF_CELL_WIDTH;
-    var yPos = -1 * Y * DEF_CELL_WIDTH;
-    var zPos = DEF_CELL_HEIGHT/2 + 1;
+    // BLENDER EXPORTED WALL
+    // var loader = new THREE.JSONLoader();
+    // var self = this;
 
-    var xRot = degToRad(90);
-    var yRot = 0;
-    var zRot = 0;
+    // var xPos = X * DEF_CELL_WIDTH;
+    // var yPos = -1 * Y * DEF_CELL_WIDTH;
+    // var zPos = DEF_CELL_HEIGHT/2 + 1;
 
-    var rand = Math.round(Math.random() * (3 - 1) + 1);
-    var path = './meshes/mountain'+rand+'.json';
+    // var xRot = degToRad(90);
+    // var yRot = 0;
+    // var zRot = 0;
 
-    loader.load(path, function(geometry) {
-        var texture = self.tl.load( 'img/textures/wall.png' );
-        var material = new THREE.MeshLambertMaterial( { color: '#cccccc', wireframe: true, wireframeLinewidth: 1, depthTest: true, depthWrite: true } );
-        var mesh = new THREE.Mesh(geometry, material);
+    // var rand = Math.round(Math.random() * (3 - 1) + 1);
+    // var path = './meshes/mountain'+rand+'.json';
+
+    // loader.load(path, function(geometry) {
+    //     var mesh = new THREE.Mesh(geometry, material);
         
-        mesh.position.set(xPos, yPos, zPos);
-        mesh.rotation.set(xRot, yRot, zRot); 
-        mesh.scale.set(DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2);
+    //     mesh.position.set(xPos, yPos, zPos);
+    //     mesh.rotation.set(xRot, yRot, zRot); 
+    //     mesh.scale.set(DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2);
 
-        self.scene.add(mesh);
-    });
+    //     self.scene.add(mesh);
+    // });
+    
+    var material = new THREE.MeshPhongMaterial( { color: COLOR.wall, shading: THREE.FlatShading, shininess: 500 } );
+    var side = DEF_CELL_WIDTH/2 - 7;
+    var range = {
+        min: 1,
+        max: 1.5
+    };
+
+    for (var i = 0; i < 2; i++)
+        for (var j = 0; j < 2; j++) {
+            var geometry = new THREE.Geometry();
+            var height = Math.round(Math.random() * (side*1.5 - side*1) + side*1);
+            
+            geometry.vertices = [
+                new THREE.Vector3( -side/2, -side/2, 0 ),
+                new THREE.Vector3( -side/2, side/2, 0 ),
+                new THREE.Vector3( side/2, side/2, 0 ),
+                new THREE.Vector3( side/2, -side/2, 0 ),
+                new THREE.Vector3( 0, 0, height )
+            ];
+
+            geometry.faces = [
+                new THREE.Face3( 0, 1, 2 ),
+                new THREE.Face3( 0, 2, 3 ),
+                new THREE.Face3( 1, 0, 4 ),
+                new THREE.Face3( 2, 1, 4 ),
+                new THREE.Face3( 3, 2, 4 ),
+                new THREE.Face3( 0, 3, 4 )
+            ]; 
+
+            geometry.computeFaceNormals();
+            geometry.computeVertexNormals();
+
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(
+                (X + 0.5*i - 0.25) * DEF_CELL_WIDTH,
+                -1 * (Y + 0.5*j - 0.25) * DEF_CELL_WIDTH,
+                DEF_CELL_HEIGHT/2
+            );
+
+            var scale = Math.random() * (1 - 0.8) + 0.8;
+            mesh.scale.set(scale, scale, scale);
+            this.scene.add(mesh);
+        }
 }
 
 /**
@@ -257,8 +325,8 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
  */
 Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
 
-    var texture = this.tl.load( 'img/textures/beeper.png' );
-    var material = new THREE.MeshPhongMaterial( { map: texture } );
+    // var texture = this.tl.load( 'img/textures/beeper.png' );
+    var material = new THREE.MeshPhongMaterial( { color: COLOR.beeper } );
     var retVal = [];
 
     if (amount > 0 && amount < 7) {
@@ -311,24 +379,24 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
 
     loader.load('./meshes/karel_cloch.json', function(clochGeometry) {
 
-        var clochMaterial = new THREE.MeshLambertMaterial({ color: '#1abc9c' });
+        var clochMaterial = new THREE.MeshLambertMaterial({ color: COLOR.karelCloch });
         self.karel.cloch_mesh = new THREE.Mesh(clochGeometry, clochMaterial);
         
         self.karel.cloch_mesh.position.set(xPos, yPos, zPos);
         self.karel.cloch_mesh.rotation.set(xRot, yRot, zRot); 
-        self.karel.cloch_mesh.scale.set(15, 15, 15);
+        self.karel.cloch_mesh.scale.set(13, 13, 13);
 
         self.scene.add(self.karel.cloch_mesh);
     });
     
     loader.load('./meshes/karel_skin.json', function(skinGeometry) {
 
-        var skinMaterial = new THREE.MeshLambertMaterial({ color: '#FFA500' });
+        var skinMaterial = new THREE.MeshLambertMaterial({ color: COLOR.karelSkin });
         self.karel.skin_mesh = new THREE.Mesh(skinGeometry, skinMaterial);
         
         self.karel.skin_mesh.position.set(xPos, yPos, zPos);
         self.karel.skin_mesh.rotation.set(xRot, yRot, zRot); 
-        self.karel.skin_mesh.scale.set(15, 15, 15);
+        self.karel.skin_mesh.scale.set(13, 13, 13);
 
         self.scene.add(self.karel.skin_mesh);
     });

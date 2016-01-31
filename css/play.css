@@ -2,6 +2,10 @@
 /* --------------GENERAL BLOCK-------------- */
 /* ----------------------------------------- */
 
+body {
+    overflow: hidden;
+}
+
 .play-block {
     position: absolute;
     top: 0;
@@ -58,6 +62,9 @@ body canvas{
     size: 3;
 }
 
+#map-editor-controls {
+    display: none;
+}
 
 .karel-code-editor {
     height: 100%;

@@ -54,14 +54,18 @@ $(function () {
     karelMapSelector.onChange(preparePlayer);
     karelMapSelector.formOptions();
 
-    function preparePlayer(new_map, force2D) {
-        map=new_map;
-        if((force2D==undefined)&&(renderer=="2D")){
-            karelPlayer = new Karel2dPlayer($renderer, map.original);
+    function preparePlayer(newMap, forceRenderer) {
+        if (forceRenderer) {
+            karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
+                new Karel2dPlayer($renderer, newMap.original):
+                new Karel3dPlayer($renderer, newMap.original);
+        }
+        if (!karelPlayer) {
+            karelPlayer = (!window.WebGLRenderingContext) ?
+                new Karel2dPlayer($renderer, newMap.original):
+                new Karel3dPlayer($renderer, newMap.original);
         } else {
-            karelPlayer = (force2D || !window.WebGLRenderingContext) ?
-                new Karel2dPlayer($renderer, map.original):
-                new Karel3dPlayer($renderer, map.original);
+            karelPlayer.setMap(newMap.original);
         }
     }
 
@@ -95,15 +99,15 @@ $(function () {
 
     $('#renderer-switch').click(function(){
         console.log(renderer);
+        $renderer.html('');
         if (renderer == '2D') {
             $('#renderer-switch').text('Use 2D renderer');
-            preparePlayer(map);
             renderer = '3D';
         } else {
             $('#renderer-switch').text('Use 3D renderer');
-            preparePlayer(map, true);
             renderer = '2D';
         }
+        preparePlayer(map, renderer);
     });
 
     $('#editor-btn').click(function(){
