@@ -171,7 +171,8 @@ Karel2dPlayer.prototype.addEmptyCell=function (x,y){
     var spr=obj.game.add.sprite(realX, realY, 'empty');
     obj.arSprites.push(spr);
     //spr.frame = 33; // road
-    spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
+    var cellSpriteScaleFactor=obj.spriteCellSize/spr.height;
+    spr.scale.setTo(obj.scaleFactor*cellSpriteScaleFactor,obj.scaleFactor*cellSpriteScaleFactor);
 };
 Karel2dPlayer.prototype.addWallCell=function (x,y){
     var obj=this;
@@ -180,7 +181,8 @@ Karel2dPlayer.prototype.addWallCell=function (x,y){
     var spr=obj.game.add.sprite(realX, realY, 'wall');
     obj.arSprites.push(spr);
     //spr.frame = 9; // wall
-    spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
+    var cellSpriteScaleFactor=obj.spriteCellSize/spr.height;
+    spr.scale.setTo(obj.scaleFactor*cellSpriteScaleFactor,obj.scaleFactor*cellSpriteScaleFactor);
 };
 Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
     var obj=this;
@@ -299,7 +301,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         //    //obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
         //}
         //this.game.stage.backgroundColor = "#4488AA";
-        background = obj.game.add.tileSprite(0, 0, obj.element.width(), obj.element.height(), "background");
+        var background = obj.game.add.tileSprite(0, 0, obj.element.width(), obj.element.height(), "background");
 
         obj.drawMap();
         //drawButtons();

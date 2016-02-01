@@ -35,7 +35,7 @@ $(function () {
             ],
             karel: {
                 position: [0, 5],
-                direction: 1,
+                direction: 1
             }
         }],
         description: 'problem solving'
