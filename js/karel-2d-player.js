@@ -35,7 +35,8 @@ function Karel2dPlayer(elem, map) {
     this.scaleFactor=1;
     this.realCellSize=this.scaleFactor*this.spriteCellSize;
     this.karelOffset=3;
-
+    this.mapStartX=0; this.mapStartY=0;
+    this.defineStartXYforMap();
     this.init();
 }
 Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
@@ -166,8 +167,8 @@ Karel2dPlayer.prototype.redrawBeepers=function () {
 
 Karel2dPlayer.prototype.addEmptyCell=function (x,y){
     var obj=this;
-    var realX=x*obj.spriteCellSize*obj.scaleFactor,
-        realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var realX=obj.mapStartX+x*obj.spriteCellSize*obj.scaleFactor,
+        realY=obj.mapStartY+y*obj.spriteCellSize*obj.scaleFactor;
     var spr=obj.game.add.sprite(realX, realY, 'empty');
     obj.arSprites.push(spr);
     //spr.frame = 33; // road
@@ -176,8 +177,8 @@ Karel2dPlayer.prototype.addEmptyCell=function (x,y){
 };
 Karel2dPlayer.prototype.addWallCell=function (x,y){
     var obj=this;
-    var realX=x*obj.spriteCellSize*obj.scaleFactor,
-        realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var realX=obj.mapStartX+x*obj.spriteCellSize*obj.scaleFactor,
+        realY=obj.mapStartY+y*obj.spriteCellSize*obj.scaleFactor;
     var spr=obj.game.add.sprite(realX, realY, 'wall');
     obj.arSprites.push(spr);
     //spr.frame = 9; // wall
@@ -191,17 +192,15 @@ Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
         var spr=obj.game.add.sprite(x, y, 'beeper');
         spr.anchor.setTo(0.5, 0.5);
 
-        var beeperScaleFactor=obj.spriteCellSize/(4*spr.height)*obj.scaleFactor;
-        if(num>1&&num<3)beeperScaleFactor=beeperScaleFactor*0.7;
-        if(num>=3)beeperScaleFactor=beeperScaleFactor*0.7;
-
+        var beeperScaleFactor=obj.spriteCellSize/(4*spr.height)*obj.scaleFactor*0.9;
         //var sprSize=spr.height*beeperScaleFactor;
         //spr.x=x+sprSize/2; spr.y=y+sprSize/2;
         obj.arSprites.push(spr);
         spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
         arBeepersPerCell.push(spr);
     }
-    var realX=x*obj.spriteCellSize*obj.scaleFactor,realY=y*obj.spriteCellSize*obj.scaleFactor;
+    var realX=obj.mapStartX+x*obj.spriteCellSize*obj.scaleFactor,
+        realY=obj.mapStartY+y*obj.spriteCellSize*obj.scaleFactor;
     var cellSize=obj.spriteCellSize*obj.scaleFactor;
     var xCenter=realX+cellSize/2;
     var yCenter=realY+cellSize/2;
@@ -249,7 +248,7 @@ Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
         putBeepersLine(3,realY+cellSize*3/4);
     }
     obj.beepersSpritesInCells[y][x]=arBeepersPerCell;
-}
+};
 
 Karel2dPlayer.prototype.phaserInit = function () {
     var obj=this;
@@ -390,8 +389,8 @@ Karel2dPlayer.prototype.phaserInit = function () {
         function drawComand(currentCommand) {
             if(obj.lastTextObj!=undefined)
                 obj.lastTextObj.destroy(true);
-            var fieldCenterX=obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
-            var fieldMaxY=obj.map.length*obj.spriteCellSize*obj.scaleFactor;
+            var fieldCenterX=obj.mapStartX+obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
+            var fieldMaxY=obj.mapStartY+obj.map.length*obj.spriteCellSize*obj.scaleFactor;
             var text = obj.game.add.text(fieldCenterX, fieldMaxY+obj.karelOffset, currentCommand);
             text.anchor.set(0.5,0);
             text.align = 'center';
@@ -495,8 +494,8 @@ Karel2dPlayer.prototype.karelSpriteSetup=function (){
 Karel2dPlayer.prototype.createKarelSprite=function (){
     var obj=this;
     var x=obj.myKarel.x, y=obj.myKarel.y;
-    var realX=x*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset,
-        realY=y*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset;
+    var realX=obj.mapStartX+x*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset,
+        realY=obj.mapStartY+y*obj.spriteCellSize*obj.scaleFactor+obj.karelOffset;
 
     if (obj.myKarel.dir==3)
         var spr=obj.game.add.sprite(realX, realY, 'karelFlipped');
@@ -548,7 +547,7 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
         //if(this.textOnScreen!=undefined){
         //    this.textOnScreen.destroy(true);
         //}
-        if(this.arMoves){
+        if(this.arMoves&&this.arMoves.length>0){
             this.terminated=true;
             this.arMoves.splice(0,this.arMoves.length);
         }
@@ -594,6 +593,7 @@ Karel2dPlayer.prototype.goKarel=function(){
 
 Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
+    this.arMoves=false;
     //this.music.stop();
 };
 
@@ -614,6 +614,7 @@ Karel2dPlayer.prototype.setMap = function(map) {
         this.arSprites[i].destroy(true);
     this.arSprites.splice(0,this.arSprites.length);
 
+    this.defineStartXYforMap();
     this.drawMap();
     this.karelSprite=this.createKarelSprite();
     this.karelSpriteSetup();
@@ -622,4 +623,11 @@ Karel2dPlayer.prototype.setMap = function(map) {
 
 Karel2dPlayer.prototype.destroy=function(){
     this.game.world.destroy();
+};
+
+Karel2dPlayer.prototype.defineStartXYforMap = function () {
+    var mapWidth=this.map[0].length*this.spriteCellSize*this.scaleFactor;
+    var mapHeight=this.map.length*this.spriteCellSize*this.scaleFactor;
+    this.mapStartX=this.element.width()/2-mapWidth/2;
+    this.mapStartY=this.element.height()/2-mapHeight/2;
 };
