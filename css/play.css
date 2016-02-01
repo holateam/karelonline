@@ -59,7 +59,7 @@ body canvas{
 
 #controls input[type=text] {
     height: auto !important;
-    size: 3;
+    /*size: 3;*/
 }
 
 #map-editor-controls {
@@ -117,4 +117,7 @@ body canvas{
     background: #5dade2;
     color: #fff;
     font-size: 18px;
+}
+.btn:hover{
+    cursor: pointer;
 }

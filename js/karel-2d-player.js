@@ -186,14 +186,15 @@ Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
     var obj=this;
     var arBeepersPerCell=[];
     function putBeeperWithCenterAt(x, y) {
-        var spr=obj.game.add.sprite(-10, -10, 'beeper');
+        var spr=obj.game.add.sprite(x, y, 'beeper');
         spr.anchor.setTo(0.5, 0.5);
 
         var beeperScaleFactor=obj.spriteCellSize/(4*spr.height)*obj.scaleFactor;
         if(num>1&&num<3)beeperScaleFactor=beeperScaleFactor*0.7;
         if(num>=3)beeperScaleFactor=beeperScaleFactor*0.7;
-        var sprSize=spr.height*beeperScaleFactor;
-        spr.x=x-sprSize/2; spr.y=y-sprSize/2;
+
+        //var sprSize=spr.height*beeperScaleFactor;
+        //spr.x=x+sprSize/2; spr.y=y+sprSize/2;
         obj.arSprites.push(spr);
         spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
         arBeepersPerCell.push(spr);
@@ -257,6 +258,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.game.load.image('beeper', 'img/beeper_new.png');
         obj.game.load.image('karel', 'img/new_rob_1.png');
         obj.game.load.image('karelFlipped', 'img/new_rob_3.png');
+        obj.game.load.image("background", "img/fioletovyj-fon19.jpg");
         //obj.game.load.image('btn_pause','img/btn_pause.png');
         //obj.game.load.image('btn_play','img/btn_play.png');
         //obj.game.load.image('btn_replay','img/btn_replay.png');
@@ -296,6 +298,8 @@ Karel2dPlayer.prototype.phaserInit = function () {
         //    //obj.btnPlay = obj.game.add.button(110, fieldMaxY+btnOffset, 'btn_play', onPlayBtn, this);
         //    //obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
         //}
+        //this.game.stage.backgroundColor = "#4488AA";
+        background = obj.game.add.tileSprite(0, 0, obj.element.width(), obj.element.height(), "background");
 
         obj.drawMap();
         //drawButtons();
@@ -431,7 +435,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
     } catch (e) {}
 
     this.game = new Phaser.Game(this.element.width(), this.element.height(), Phaser.CANVAS, divForPhaser, { preload: preload, create: create, update: update});
-
 };
 
 Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
