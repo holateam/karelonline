@@ -378,6 +378,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         //bounce.to( { x: (obj.karelScaleFactor*1.3), y: (obj.karelScaleFactor*1.3) }, obj.karelSpriteMovingTime/2,
         //    Phaser.Easing.Linear.None, true,0,-1,true);
         //var f=function(){
+        obj.allFinished();
         obj.onPlayerFinish();
         //};
         //setTimeout(f,obj.karelSpriteMovingTime*3);
@@ -478,11 +479,13 @@ Karel2dPlayer.prototype.flipKarelSprite=function (param) {
         bounce2.start();
     });
     bounce.start();
-}
+};
 
 Karel2dPlayer.prototype.karelSpriteSetup=function (){
     var obj=this;
     obj.karelDancingBounce=obj.karelDancing(1);
+    obj.karelDancingBounce.pause();
+
     if(obj.myKarel.dir==0){
         obj.currentAngleRotation=1;
         obj.rotateKarelSprite("start");
@@ -490,7 +493,8 @@ Karel2dPlayer.prototype.karelSpriteSetup=function (){
         obj.currentAngleRotation=-1;
         obj.rotateKarelSprite("start");
     }
-}
+};
+
 Karel2dPlayer.prototype.createKarelSprite=function (){
     var obj=this;
     var x=obj.myKarel.x, y=obj.myKarel.y;
@@ -556,6 +560,7 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
     this.arMoves=this.fillArMovies(incomingCommands);
     this.incomingCommands=incomingCommands.slice();
     this.onPlayerFinish=onPlayerFinish;
+    this.karelDancingBounce.resume();
 
     //this.music.volume=0.5;
     //this.music.play();
@@ -594,6 +599,7 @@ Karel2dPlayer.prototype.goKarel=function(){
 Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
     this.arMoves=false;
+    this.karelDancingBounce.pause();
     //this.music.stop();
 };
 
