@@ -29,6 +29,13 @@ function Karel2dPlayer(elem, map) {
 
     this.canvasFontSize="11px";
     this.arSprites=[];
+
+    this.spriteCellSize=66;
+    this.spriteBeeperSize=34; //17;
+    this.scaleFactor=1;
+    this.realCellSize=this.scaleFactor*this.spriteCellSize;
+    this.karelOffset=3;
+
     this.init();
 }
 Karel2dPlayer.prototype.fillKarelDataFromMap=function (_karel, map) {
@@ -46,7 +53,7 @@ Karel2dPlayer.prototype.init = function () {
         var nline=line.slice();
         this.beepersSpritesInCells.push(nline);
     }
-    phLoaded=function(){
+    var phLoaded=function(){
         console.log("phaser loaded");
         obj.phaserInit();
     };
@@ -161,30 +168,32 @@ Karel2dPlayer.prototype.addEmptyCell=function (x,y){
     var obj=this;
     var realX=x*obj.spriteCellSize*obj.scaleFactor,
         realY=y*obj.spriteCellSize*obj.scaleFactor;
-    var spr=obj.game.add.sprite(realX, realY, 'presets');
+    var spr=obj.game.add.sprite(realX, realY, 'empty');
     obj.arSprites.push(spr);
-    spr.frame = 33; // road
+    //spr.frame = 33; // road
     spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
 };
 Karel2dPlayer.prototype.addWallCell=function (x,y){
     var obj=this;
     var realX=x*obj.spriteCellSize*obj.scaleFactor,
         realY=y*obj.spriteCellSize*obj.scaleFactor;
-    var spr=obj.game.add.sprite(realX, realY, 'presets');
+    var spr=obj.game.add.sprite(realX, realY, 'wall');
     obj.arSprites.push(spr);
-    spr.frame = 9; // wall
+    //spr.frame = 9; // wall
     spr.scale.setTo(obj.scaleFactor,obj.scaleFactor);
 };
 Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
     var obj=this;
     var arBeepersPerCell=[];
     function putBeeperWithCenterAt(x, y) {
-        var beeperScaleFactor=obj.scaleFactor*0.75;
+        var spr=obj.game.add.sprite(-10, -10, 'beeper');
+        spr.anchor.setTo(0.5, 0.5);
+
+        var beeperScaleFactor=obj.spriteCellSize/(4*spr.height)*obj.scaleFactor;
         if(num>1&&num<3)beeperScaleFactor=beeperScaleFactor*0.7;
-        if(num>=3)beeperScaleFactor=beeperScaleFactor*0.5;
-        var bSize=obj.spriteBeeperSize*beeperScaleFactor;
-        var realX=x-bSize/2, realY=y-bSize/2;
-        var spr=obj.game.add.sprite(realX, realY, 'beeper');
+        if(num>=3)beeperScaleFactor=beeperScaleFactor*0.7;
+        var sprSize=spr.height*beeperScaleFactor;
+        spr.x=x-sprSize/2; spr.y=y-sprSize/2;
         obj.arSprites.push(spr);
         spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
         arBeepersPerCell.push(spr);
@@ -242,13 +251,15 @@ Karel2dPlayer.prototype.addBeepersToCell=function (x,y, num){
 Karel2dPlayer.prototype.phaserInit = function () {
     var obj=this;
     var preload=function() {
-        obj.game.load.spritesheet('presets', 'img/tmw_desert_spacing.png',obj.spriteCellSize,obj.spriteCellSize);
-        obj.game.load.image('beeper', 'img/aqua_ball.png');
-        obj.game.load.image('karel', 'img/new_rob1.png');
-        obj.game.load.image('karelFlipped', 'img/new_rob3.png');
-        obj.game.load.image('btn_pause','img/btn_pause.png');
-        obj.game.load.image('btn_play','img/btn_play.png');
-        obj.game.load.image('btn_replay','img/btn_replay.png');
+        //obj.game.load.spritesheet('presets', 'img/tmw_desert_spacing.png',obj.spriteCellSize,obj.spriteCellSize);
+        obj.game.load.image('wall', 'img/2d_wall.jpg');
+        obj.game.load.image('empty', 'img/2d_grass.jpg');
+        obj.game.load.image('beeper', 'img/beeper_new.png');
+        obj.game.load.image('karel', 'img/new_rob_1.png');
+        obj.game.load.image('karelFlipped', 'img/new_rob_3.png');
+        //obj.game.load.image('btn_pause','img/btn_pause.png');
+        //obj.game.load.image('btn_play','img/btn_play.png');
+        //obj.game.load.image('btn_replay','img/btn_replay.png');
         //obj.game.load.audio('boden', 'js/testing/square.mp3');
     };
     function onPauseBtn(){
@@ -277,17 +288,17 @@ Karel2dPlayer.prototype.phaserInit = function () {
         obj.play();
     }
     var create=function () {
-        function drawButtons() {
-            var fieldCenterX=obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
-            var fieldMaxY=obj.map.length*obj.spriteCellSize*obj.scaleFactor;
-            var btnOffset=30;
-            //obj.btnPause = obj.game.add.button(20, fieldMaxY+btnOffset, 'btn_pause', onPauseBtn, this);
-            //obj.btnPlay = obj.game.add.button(110, fieldMaxY+btnOffset, 'btn_play', onPlayBtn, this);
-            //obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
-        }
+        //function drawButtons() {
+        //    var fieldCenterX=obj.map[0].length*obj.spriteCellSize*obj.scaleFactor/2;
+        //    var fieldMaxY=obj.map.length*obj.spriteCellSize*obj.scaleFactor;
+        //    var btnOffset=30;
+        //    //obj.btnPause = obj.game.add.button(20, fieldMaxY+btnOffset, 'btn_pause', onPauseBtn, this);
+        //    //obj.btnPlay = obj.game.add.button(110, fieldMaxY+btnOffset, 'btn_play', onPlayBtn, this);
+        //    //obj.btnReplay = obj.game.add.button(200, fieldMaxY+btnOffset, 'btn_replay', onReplayBtn, this);
+        //}
 
         obj.drawMap();
-        drawButtons();
+        //drawButtons();
         obj.karelSprite=obj.createKarelSprite();
         obj.karelSpriteSetup();
 
@@ -362,7 +373,7 @@ Karel2dPlayer.prototype.phaserInit = function () {
         //bounce.to( { x: (obj.karelScaleFactor*1.3), y: (obj.karelScaleFactor*1.3) }, obj.karelSpriteMovingTime/2,
         //    Phaser.Easing.Linear.None, true,0,-1,true);
         //var f=function(){
-            obj.onPlayerFinish();
+        obj.onPlayerFinish();
         //};
         //setTimeout(f,obj.karelSpriteMovingTime*3);
         //obj.bounceOnScreen=bounce;
@@ -413,12 +424,6 @@ Karel2dPlayer.prototype.phaserInit = function () {
     };
 
     var divForPhaser=this.element[0];
-
-    this.spriteCellSize=33;
-    this.spriteBeeperSize=17;
-    this.scaleFactor=2;
-    this.realCellSize=this.scaleFactor*this.spriteCellSize;
-    this.karelOffset=3;
 
     try{
         $("canvas").remove();
@@ -507,8 +512,8 @@ Karel2dPlayer.prototype.createKarelSprite=function (){
 Karel2dPlayer.prototype.karelDancing=function (){
     var obj=this;
     var bounce=obj.game.add.tween(obj.karelSprite.scale);
-    var karelScaleFactorX=1.1;
-    bounce.to( { x: (obj.karelScaleFactor*karelScaleFactorX), y: (obj.karelScaleFactor*1.1) }, obj.karelSpriteMovingTime/4,
+    var karelDancingScaleFactor=1.05;
+    bounce.to( { x: (obj.karelScaleFactor*karelDancingScaleFactor), y: (obj.karelScaleFactor*karelDancingScaleFactor) }, obj.karelSpriteMovingTime/4,
         Phaser.Easing.Linear.None, true,0,-1,true);
     return bounce;
 }
