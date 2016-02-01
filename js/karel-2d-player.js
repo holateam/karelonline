@@ -542,11 +542,15 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
         }
         if(this.bounceOnScreen!=undefined){
             this.bounceOnScreen.stop();
-            this.textOnScreen.destroy(true)
+            //this.textOnScreen.destroy(true)
             this.bounceOnScreen=undefined;
         }
-        if(this.textOnScreen!=undefined){
-            this.textOnScreen.destroy(true);
+        //if(this.textOnScreen!=undefined){
+        //    this.textOnScreen.destroy(true);
+        //}
+        if(this.arMoves){
+            this.terminated=true;
+            this.arMoves.splice(0,this.arMoves.length);
         }
     }
     this.onPause=false;
@@ -561,6 +565,10 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
 };
 
 Karel2dPlayer.prototype.goKarel=function(){
+    if(this.terminated){
+        this.terminated=false;
+        return;
+    }
     if(this.arMoves.length==0){
         this.allFinished();
         return;
