@@ -148,13 +148,14 @@ KarelMapEditor.prototype.phaserInit = function () {
 
             function addTextAtCenter(y,_text, size, color) {
                 var x=startX+obj.rightMenuSize/2;
-                var text = obj.game.add.text(x, y, _text);
+                var style = { font: ""+size+"px Verdana", fill: "#fff", align: "center" };
+                var text = obj.game.add.text(x, y, _text, style);
                 text.anchor.set(0.5,0);
-                text.align = 'center';
-                text.font = 'Arial';
-                text.fontWeight = 'bold';
-                text.fontSize = size;
-                text.fill = color;
+                //text.align = 'center';
+                //text.font = 'Arial';
+                //text.fontWeight = 'bold';
+                //text.fontSize = size;
+                //text.fill = color;
             }
             //function onPlusMapWidthBtn() {
             //    obj.incrMapWidth();
@@ -273,9 +274,9 @@ KarelMapEditor.prototype.phaserInit = function () {
             obj.karelStartY=curY;
 
             curY=curY+obj.spriteCellSize*obj.scaleFactor+offsetY/2;
-            addTextAtCenter(curY+3,"click to Karel", 16, "white");
+            addTextAtCenter(curY+3,"click Karel", 18, "white");
             curY=curY+offsetY/1.5;
-            addTextAtCenter(curY+3,"for rotate", 16, "white");
+            addTextAtCenter(curY+3,"for rotate", 18, "white");
 
             //curY+=obj.spriteCellSize*obj.scaleFactor+offsetX*2;
             //addTextAtCenter(curY+3,"Map's switch", 20, "yellow");

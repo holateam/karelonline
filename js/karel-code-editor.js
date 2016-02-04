@@ -32,7 +32,7 @@ KarelCodeEditor.prototype.template = function () {
         '<div class="code-block">' +
         '<textarea class="karel-code-editor-code-area">turnLeft();\nmove();turnRight();move();\n</textarea>' +
         '</div>' +
-        '<input type="submit" value="Send">' +
+        '<input class="btn" type="submit" value="Send">' +
         '</form>' +
         '</div>' +
         '';
