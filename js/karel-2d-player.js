@@ -454,7 +454,7 @@ Karel2dPlayer.prototype.rotateKarelSprite=function (param) {
         }
     });
     bounce.start();
-}
+};
 
 Karel2dPlayer.prototype.flipKarelSprite=function (param) {
     var obj=this;
@@ -560,6 +560,11 @@ Karel2dPlayer.prototype.play = function (incomingCommands,onPlayerFinish) {
     this.arMoves=this.fillArMovies(incomingCommands);
     this.incomingCommands=incomingCommands.slice();
     this.onPlayerFinish=onPlayerFinish;
+
+    this.game.lockRender = false;
+    this.game.paused = false;
+    this.game.stage.disableVisibilityChange = false;
+
     this.karelDancingBounce.resume();
 
     //this.music.volume=0.5;
@@ -600,6 +605,9 @@ Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
     this.arMoves=false;
     this.karelDancingBounce.pause();
+    this.game.lockRender = true;
+    this.game.paused = true;
+    this.game.stage.disableVisibilityChange = true;
     //this.music.stop();
 };
 
