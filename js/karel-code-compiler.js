@@ -17,126 +17,55 @@ var KarelCodeCompiler = (function (){
                 var idxEnd = commands.lastIndexOf("}");
                 commands = commands.substring(idxStart + 1, idxEnd);
             }
-            commands = commands.replace(/int /g, "var ");
-            commands = commands.replace(/public/g, "");
-            commands = commands.replace(/private/g, "");
-            commands = commands.replace(/void/g, "function");
-            commands = commands.replace(/throws Exception/g, "");
-            if (language == 'java')
-                commands = commands.replace(/run\(\)/g, "runKarelRunRunRun()");
-            else
-                commands = commands.replace(/main\(\)/g, "runKarelRunRunRun()");
-            commands = commands + 'runKarelRunRunRun();';
-            return commands;
+            commands = commands
+                .replace(/int /g, "var ")
+                .replace(/public/g, "")
+                .replace(/private/g, "")
+                .replace(/void/g, "function")
+                .replace(/throws Exception/g, "");
+            commands = (language == "java")
+                ? commands.replace(/run\(\)/g, "runKarelRunRunRun()")
+                : commands.replace(/main\(\)/g, "runKarelRunRunRun()");
+            return commands += 'runKarelRunRunRun();';
         }
         //adapt functions and logging
 //======================================================================================================================
-        function move() {
-            myKarel.move();
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions('move', name);
-        }
-        function turnLeft() {
-            myKarel.turnLeft();
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions('rotate', name, {angle: -1});
-        }
-        function turnRight() {
-            myKarel.turnRight();
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions('rotate', name, {angle: 1});
-        }
-        function pickBeeper() {
-            myKarel.pickBeeper();
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions('pick', name);
-        }
-        function putBeeper() {
-            myKarel.putBeeper();
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions('put', name);
-        }
-        function beepersPresent() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.beepersPresent();
-        }
-        function noBeepersPresent() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.noBeepersPresent();
-        }
-        function facingNorth() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.facingNorth();
-        }
-        function notFacingNorth() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.notFacingNorth();
-        }
-        function facingSouth() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.facingSouth();
-        }
-        function notFacingSouth() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.notFacingSouth();
-        }
-        function facingEast() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.facingEast();
-        }
-        function notFacingEast() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.notFacingEast();
-        }
-        function facingWest() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name,  name);
-            return myKarel.facingWest();
-        }
-        function notFacingWest() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.notFacingWest();
-        }
-        function frontIsClear() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.frontIsClear();
-        }
-        function frontIsBlocked() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.frontIsBlocked();
-        }
-        function rightIsClear() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.rightIsClear();
-        }
-        function rightIsBlocked() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.rightIsBlocked();
-        }
-        function leftIsClear() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.rightIsClear();
-        }
-        function leftIsBlocked() {
-            var name = (arguments.callee.toString()).split(' ')[1];
-            pushActions(name, name);
-            return myKarel.rightIsBlocked();
+        var listReturnBoolFunc = ["beepersPresent", "noBeepersPresent", "frontIsBlocked", "rightIsClear", "rightIsBlocked", "leftIsClear", "leftIsBlocked",
+            "facingNorth", "notFacingNorth", "facingSouth", "notFacingSouth", "facingEast", "notFacingEast", "facingWest", "notFacingWest", "frontIsClear"];
+
+        listReturnBoolFunc = listReturnBoolFunc.map(function(name) {
+            return "var " + name + " = function(){pushActions('" + name + "', '" + name + "'); return myKarel['" + name + "']();}\n";
+        });
+
+        var overriddenReturnBoolFunc = listReturnBoolFunc.reduce(function(concatStr, currentStr) {
+            return concatStr + currentStr;
+        });
+
+        function funcKarel(nickname, option) {
+            var name = arguments.callee.caller.name.toString();
+            var msg = myKarel[name]();
+            if (msg) {
+                crash(msg);
+            }
+            nickname = nickname || name;
+            pushActions(nickname, name, option);
         }
 
+        function move() {
+            funcKarel("move");
+        }
+        function turnLeft() {
+            funcKarel("rotate", {angle: -1});
+        }
+        function turnRight() {
+            funcKarel("rotate()", {angle: 1});
+        }
+        function pickBeeper() {
+            funcKarel("pick");
+        }
+        function putBeeper() {
+            funcKarel("put");
+        }
 //======================================================================================================================
 
         function Field(map) {
@@ -200,7 +129,7 @@ var KarelCodeCompiler = (function (){
                 this.beeperInBag--;
             }
             else{
-                crash('there are no beepers in the bag');
+                return ('there are no beepers in the bag');
             }
         };
 
@@ -210,7 +139,7 @@ var KarelCodeCompiler = (function (){
                 this.beeperInBag++;
             }
             else {
-                crash('there are no beepers here');
+                return('there are no beepers here');
             }
         };
 
@@ -329,7 +258,7 @@ var KarelCodeCompiler = (function (){
                     success = dX = -1;
             }
             if (!success)
-                crash('Karel can not move forward');
+                return('Karel can not move forward');
             else {
                 this.x += dX;
                 this.y += dY;
@@ -357,9 +286,7 @@ var KarelCodeCompiler = (function (){
 //======================================================================================================================
 
         function compareMaps(templateMaps, resultMap) {
-            console.log('comparing maps', templateMaps);
             for (var map = 0; map < templateMaps.length; map++){
-                console.log('map '+map, templateMaps[map].map);
                 if(compareTwoMaps(templateMaps[map].map, resultMap)) {
                     return true;
                 }
@@ -380,14 +307,22 @@ var KarelCodeCompiler = (function (){
 
         //code execution
 //======================================================================================================================
-        if (language !== 'js')
+
+        if (language !== 'js') {
             code = adaptCode(code);
+        } else if (code.search(/run\(\)[\s*](?!{)/) == -1) {
+            code = code + "\nrun();";
+        }
         try {
+            code = overriddenReturnBoolFunc + code;
             eval(code);
             resultActions.push({command: 'finish'});
         } catch(e) {
-            var msg_err = e.toString();
-            resultActions.push({command: 'error', data: {message : msg_err.split(' ')[1] + ' is not defined'}});
+            if (resultActions.length === 0 || resultActions[resultActions.length - 1].command !== 'error') {
+                var msg_err = e.toString();
+                console.log(e);
+                resultActions.push({command: 'error', data: {message : msg_err.split(' ')[1] + ' is not defined'}});
+            }
         }
 
         if (resultActions[resultActions.length - 1].command == 'finish') {
