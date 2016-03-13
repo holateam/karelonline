@@ -6,115 +6,102 @@ body {
     overflow: hidden;
 }
 
-.play-block {
+#renderer {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
+    right: 23em;
+}
+
+/* ------------------------------------------ */
+/* --------------SIDEBAR BLOCK--------------- */
+/* ------------------------------------------ */
+
+#sidebar {
+    position: absolute;
+    width: 23em;
+    top: 0;
+    bottom: 0;
     right: 0;
 }
 
-.play-block .left {
-    float: left;
-    width: 70%;
+.tab {
     height: 100%;
 }
 
-.play-block #renderer {
-    height: 100%;
-    background: #CED1CF;
-}
-
-#code-editor {
-    height: 100%;
-    background: #ececec;
-}
-
-body canvas{
-    position: absolute;
-    /*margin-top: 55px;*/
-}
 
 /* ------------------------------------------ */
-/* --------------CONTOLLS BLOCK-------------- */
+/* --------------CONTOLS BLOCK--------------- */
 /* ------------------------------------------ */
-
-.panel {
-    position: relative;
-    width: 100%;
-    background: #ececec;
-    z-index: 100;
-}
-
-.play-block .panel *, #controls button, #controls input[type=text] {
-    margin: 0.5em 0 0.5em 1em;
-    /*font-size: 16px;*/
-}
 
 #controls {
-    width: 30%;
-    height: 100%;
-    float: left;
+    position: fixed;
+    padding: 0 1em 1em 1em;
 }
 
-#controls input[type=text] {
-    height: auto !important;
-    size: 3;
-}
-
-#map-editor-controls {
-    display: none;
-}
-
-.karel-code-editor {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.karel-code-editor form {
-    height: 100%;
-}
-
-.karel-code-editor .code-block .CodeMirror {
-    height: 100% !important;
-}
-
-.karel-code-editor .code-block {
-    position: absolute;
+#controls.top {
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 50px;
-    width: 100%;
 }
 
-.karel-code-editor textarea {
-    box-sizing: border-box;
-    border: 0;
-    padding: 5px 10px;
-    width: 100%;
-    height: 100%;
-}
-
-.karel-code-editor textarea:focus {
-    outline: none;
-}
-
-.karel-code-editor input[type=submit]:focus {
-    outline: none;
-}
-
-.karel-code-editor input[type=submit] {
-    border: 0;
-    position: absolute;
+#controls.bottom {
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    width: 100%;
-    background: #5dade2;
-    color: #fff;
-    font-size: 18px;
+}
+
+#controls .row {
+    cursor: pointer;
+    height: 3em;
+    margin-top: 1em;
+    opacity: 0.5;
+}
+
+#controls .row * {
+    display: block;
+    float: left;
+    margin-right: 1em;
+}
+
+#controls .button {
+    border: 0;
+    width: 3em;
+    height: 3em;
+    background-position: center center;
+    background-size: 98% 98%;
+    background-repeat: no-repeat;
+    line-height: 4em;
+    /*
+    transition-timing-function: linear;
+    transition-duration: 0.1s;
+    */
+}
+
+#controls span {
+    color: #FFFFFF;
+    font-size: 1em;
+    line-height: 1em;
+    margin: 1em 0;
+}
+
+#controls .row:hover {
+    opacity: 1;
+}
+
+#controls .row:hover button {
+    background-size: 100% 100%;
+}
+
+#menu-btn .button {
+    background: url(../img/controls/menu.svg);
+}
+
+#code-btn .button {
+    background: url(../img/controls/code.svg);
+}
+
+#world-list-btn .button {
+    background: url(../img/controls/list.svg);
+}
+
+#play-pause-btn .button {
+    background: url(../img/controls/pause.svg);
 }

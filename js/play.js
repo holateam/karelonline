@@ -1,7 +1,7 @@
 $(function () {
 
     var $renderer = $("#renderer");
-    var $codeEditor = $("#code-editor");
+    var $codeEditor = $("#code-editor-tab");
     var $mapSelectionList = $("#map-selection-list");
 
     var renderer = '3D';
@@ -40,7 +40,11 @@ $(function () {
         }],
         description: 'problem solving'
     };
-
+    
+    var greetingsMove = [
+        { command: 'rotate', data: {angle: -1} },
+        { command: 'rotate', data: {angle: 1} }
+    ];
     var karelPlayer = null;
 
     preparePlayer(map);
@@ -55,6 +59,7 @@ $(function () {
     karelMapSelector.formOptions();
 
     function preparePlayer(newMap, forceRenderer) {
+        map = newMap;
         if (forceRenderer) {
             karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
                 new Karel2dPlayer($renderer, newMap.original):
@@ -67,12 +72,14 @@ $(function () {
         } else {
             karelPlayer.setMap(newMap.original);
         }
+        karelPlayer.play(greetingsMove, null);
     }
 
     function onCodeSubmit() {
         var code = karelCodeEditor.getCode();
         var data = KarelCodeCompiler.compile(code, map);
         compileResults = data.result;
+        console.log(data.commands);
         karelPlayer.play(data.commands, onPlayerFinish);
     }
 
@@ -99,6 +106,7 @@ $(function () {
 
     $('#renderer-switch').click(function(){
         console.log(renderer);
+        karelPlayer.destroy();
         $renderer.html('');
         if (renderer == '2D') {
             $('#renderer-switch').text('Use 2D renderer');
@@ -147,6 +155,15 @@ $(function () {
 
     $('#save-map').click(function(){
         karelMapEditor.saveMap();
+    });
+
+    $('#exit-editor').click(function(){
+        karelMapEditor.destroy();
+        karelMapEditor = null;
+        $('#map-editor-controls').hide();
+        $('.panel').show();
+        $codeEditor.show();
+        preparePlayer(map);
     });
 
 });

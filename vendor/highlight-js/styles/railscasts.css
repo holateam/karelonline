@@ -14,13 +14,13 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
 
 .hljs-comment,
 .hljs-quote {
-  color: #bc9458;
+  color: #DFCB00;
   font-style: italic;
 }
 
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #c26230;
+  color: #FF7F13;
 }
 
 .hljs-string,

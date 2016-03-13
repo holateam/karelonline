@@ -1,6 +1,4 @@
 @font-face {
-    /*font-family: 'Amaranth';*/
-    /*src: url(../fonts/Getvoipgrotesque.ttf);*/
     font-family: 'PT Sans', sans-serif;
     font-family: 'PT Mono' ;
 }
@@ -51,13 +49,13 @@ nav li a:hover {
 }
 
 .code {
-    background-color: #252525;
+    background-color: #2E4054;
     text-align: left;
     padding: 2em 3em;
 }
 .code code, .code pre {
     color: #fff !important;
-    background-color: #252525 !important; 
+    background-color: #2E4054 !important; 
     border-width: 0 !important;
     font-size: 0.9em !important;
 }

@@ -13,10 +13,10 @@ var BEEPER_POSITIONS_PRESET_ARRAY = [
     [ [-0.25, -0.3],    [-0.25, 0],         [-0.25, 0.3],       [0.25, -0.3],       [0.25, 0],      [0.25, 0.3] ]
 ];
 var COLOR = {
-    cell: '#613302',
+    cell: '#cccccc',
     core: '#0077FF',
-    wall: '#00FF00',
-    beeper: '#FFFF00',
+    wall: '#aaaaaa',
+    beeper: '#00FF00',
     karelCloch: '#1ABC9C',
     karelSkin: '#FFA500'
 }
@@ -100,7 +100,7 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
     dirLight.position.set(1, 2, 3);
     this.scene.add( dirLight );
 
-    var ambLight = new THREE.AmbientLight( 0x606060 );
+    var ambLight = new THREE.AmbientLight( 0x707070 );
     this.scene.add( ambLight );
 
     var diff = (this.map.length - this.map[0].length) / 4;
@@ -147,11 +147,6 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
         degToRad(-30)
     );
 
-    // alert(
-    //     radToDeg(this.camera.rotation.x) + ' ' + 
-    //     radToDeg(this.camera.rotation.y) + ' ' + 
-    //     radToDeg(this.camera.rotation.z));
-
     var self = this;
 
     container.mousedown(function(e) {
@@ -164,11 +159,6 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
 
     $(document).mouseup(function(e) {
         container.pressed = false;
-        // alert(
-        //     self.camera.position.x + ' ' +
-        //     self.camera.position.y + ' ' +
-        //     self.camera.position.z
-        // );
     });
 
     container.mousemove(function(e) {
@@ -188,16 +178,6 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
  * @param  {integer} Y -- y-coordinate of cell in the field
  */
 Karel3DWorld.prototype.createCellBase = function(X, Y) {
-
-    // var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH, DEF_CELL_WIDTH, DEF_CELL_HEIGHT );
-    // var texture = this.tl.load( 'img/textures/cellbase.png' );
-    // var material = new THREE.MeshLambertMaterial( { map: texture } );
-    // var mesh = new THREE.Mesh( geometry, material );
-
-    // mesh.position.x = X * DEF_CELL_WIDTH;
-    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
-
-    // this.scene.add(mesh);
     
     var width = DEF_CELL_WIDTH - 5;
     var cellGeometry = new THREE.BoxGeometry( width, width, DEF_CELL_HEIGHT );
@@ -222,53 +202,6 @@ Karel3DWorld.prototype.createCellBase = function(X, Y) {
  * @param  {integer} Y -- y-coordinate of cell in the field
  */
 Karel3DWorld.prototype.createWall = function(X, Y) {
-
-    // BOX GEOMETRY WALL
-    // var geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_HEIGHT );
-    // var texture = this.tl.load( 'img/textures/wall.png' );
-    // var material = new THREE.MeshLambertMaterial( { map: texture } );
-    // var mesh = new THREE.Mesh( geometry, material );
-
-    // mesh.position.x = X * DEF_CELL_WIDTH;
-    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
-    // mesh.position.z = DEF_CELL_HEIGHT;
-
-    // this.scene.add(mesh);
-
-    // geometry = new THREE.BoxGeometry( DEF_CELL_WIDTH/4, DEF_CELL_WIDTH/4, DEF_CELL_HEIGHT/2 );
-    // mesh = new THREE.Mesh( geometry, material );
-    
-    // mesh.position.x = X * DEF_CELL_WIDTH;
-    // mesh.position.y = -1 * Y * DEF_CELL_WIDTH;
-    // mesh.position.z = DEF_CELL_HEIGHT * 1.75;
-
-    // this.scene.add(mesh);
-    
-
-    // BLENDER EXPORTED WALL
-    // var loader = new THREE.JSONLoader();
-    // var self = this;
-
-    // var xPos = X * DEF_CELL_WIDTH;
-    // var yPos = -1 * Y * DEF_CELL_WIDTH;
-    // var zPos = DEF_CELL_HEIGHT/2 + 1;
-
-    // var xRot = degToRad(90);
-    // var yRot = 0;
-    // var zRot = 0;
-
-    // var rand = Math.round(Math.random() * (3 - 1) + 1);
-    // var path = './meshes/mountain'+rand+'.json';
-
-    // loader.load(path, function(geometry) {
-    //     var mesh = new THREE.Mesh(geometry, material);
-        
-    //     mesh.position.set(xPos, yPos, zPos);
-    //     mesh.rotation.set(xRot, yRot, zRot); 
-    //     mesh.scale.set(DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2, DEF_CELL_WIDTH/2);
-
-    //     self.scene.add(mesh);
-    // });
     
     var material = new THREE.MeshPhongMaterial( { color: COLOR.wall, shading: THREE.FlatShading, shininess: 500 } );
     var side = DEF_CELL_WIDTH/2 - 7;
@@ -365,42 +298,32 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
     this.karel.x = X;
     this.karel.y = Y;
     this.karel.direction = direction || 0;
+    this.karel.mesh = null;
 
-    var loader = new THREE.JSONLoader();
+    var loader = new THREE.ObjectLoader();
+    var texLoader = new THREE.TextureLoader();
     var self = this;
 
     var xPos = X * DEF_CELL_WIDTH;
     var yPos = -1 * Y * DEF_CELL_WIDTH;
-    var zPos = DEF_CELL_HEIGHT * 1.5;
+    var zPos = DEF_CELL_HEIGHT * 3;
 
-    var xRot = degToRad(90);
-    var yRot = degToRad( (-this.karel.direction + 2) * 90 );
-    var zRot = 0;
+    var xRot = degToRad(0);
+    var yRot = degToRad( (-this.karel.direction + 1) * 90 );
+    var zRot = degToRad(0);
 
-    loader.load('./meshes/karel_cloch.json', function(clochGeometry) {
+    loader.load('./meshes/karel_school.json', function(mesh) {
+        texLoader.load('./img/textures/karel_shcool.jpg', function (texture) {
+            // var material = new THREE.MeshBasicMaterial({ map: texture });
+            self.karel.mesh = mesh;
+            self.karel.mesh.material = new THREE.MeshLambertMaterial({ map: texture });
 
-        var clochMaterial = new THREE.MeshLambertMaterial({ color: COLOR.karelCloch });
-        self.karel.cloch_mesh = new THREE.Mesh(clochGeometry, clochMaterial);
-        
-        self.karel.cloch_mesh.position.set(xPos, yPos, zPos);
-        self.karel.cloch_mesh.rotation.set(xRot, yRot, zRot); 
-        self.karel.cloch_mesh.scale.set(13, 13, 13);
-
-        self.scene.add(self.karel.cloch_mesh);
-    });
-    
-    loader.load('./meshes/karel_skin.json', function(skinGeometry) {
-
-        var skinMaterial = new THREE.MeshLambertMaterial({ color: COLOR.karelSkin });
-        self.karel.skin_mesh = new THREE.Mesh(skinGeometry, skinMaterial);
-        
-        self.karel.skin_mesh.position.set(xPos, yPos, zPos);
-        self.karel.skin_mesh.rotation.set(xRot, yRot, zRot); 
-        self.karel.skin_mesh.scale.set(13, 13, 13);
-
-        self.scene.add(self.karel.skin_mesh);
-    });
-        
+            self.karel.mesh.position.set(xPos, yPos, zPos);
+            self.karel.mesh.rotation.set(xRot, yRot, zRot); 
+            self.karel.mesh.scale.set(0.4, 0.4, 0.4);
+            self.scene.add(self.karel.mesh);
+        });
+    });     
 }
 
 /**
@@ -543,12 +466,9 @@ Karel3DWorld.prototype.render = function() {
         if (this.animation) {
             if (this.animation.frames > 0) {
                 this.animation.frames--;
-                this.karel.cloch_mesh.position.x += this.animation.px;
-                this.karel.cloch_mesh.position.y += this.animation.py;
-                this.karel.cloch_mesh.rotation.y += this.animation.rz;
-                this.karel.skin_mesh.position.x += this.animation.px;
-                this.karel.skin_mesh.position.y += this.animation.py;
-                this.karel.skin_mesh.rotation.y += this.animation.rz;
+                this.karel.mesh.position.x += this.animation.px;
+                this.karel.mesh.position.y += this.animation.py;
+                this.karel.mesh.rotation.z += this.animation.rz;
             } else {
                 fn = this.animation.callback;
                 args = this.animation.cbargs;
@@ -563,8 +483,8 @@ Karel3DWorld.prototype.render = function() {
                         ,200
                     );
             }
+            this.renderer.render( this.scene, this.camera );
         }
-        this.renderer.render( this.scene, this.camera );
         this.animationFrame = requestAnimationFrame( bind(this.render, this) );
     }
 }

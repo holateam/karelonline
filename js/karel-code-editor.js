@@ -12,7 +12,11 @@ KarelCodeEditor.prototype.init = function () {
     this.$codeArea = this.element.find('.karel-code-editor-code-area');
 
     this.editor = CodeMirror.fromTextArea(this.$codeArea.get(0), {
-        lineNumbers: true
+        lineNumbers : true,
+        lineWrapping: true,
+        theme       : "mdn-like",
+        mode        : "clike",
+        indentUnit  : 4
     });
 
     this.$form.on('submit', this.submit.bind(this));
@@ -28,12 +32,12 @@ KarelCodeEditor.prototype.submit = function (e) {
 KarelCodeEditor.prototype.template = function () {
     return '' +
         '<div class="karel-code-editor">' +
-        '<form>' +
-        '<div class="code-block">' +
-        '<textarea class="karel-code-editor-code-area">turnLeft();\nmove();turnRight();move();\n</textarea>' +
-        '</div>' +
-        '<input type="submit" value="Send">' +
-        '</form>' +
+            '<form>' +
+                '<div class="code-block">' +
+                    '<textarea class="karel-code-editor-code-area">// Function Run is the progtamm entry point.\n// It would be executed as a programm start\n\nvoid Run() {\n\t// Your code here.\n}</textarea>' +
+                '</div>' +
+                '<input type="submit" value="Send">' +
+            '</form>' +
         '</div>' +
         '';
 };

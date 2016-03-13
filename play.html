@@ -6,15 +6,17 @@
 
     <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/codemirror.css">
-    <link rel="stylesheet" type="text/css" href="vendor/codemirror/3024-day.css">
+    <link rel="stylesheet" type="text/css" href="vendor/codemirror/theme/mdn-like.css">
     <link rel="stylesheet" type="text/css" href="vendor/css/flat-ui.css">
+    <link rel="stylesheet" href="css/karel-code-editor.css">
     <link rel="stylesheet" href="css/play.css">
 
     <script src="vendor/js/jquery-2.2.0.min.js"></script>
     <script src="vendor/js/three.min.js"></script>
     <script src="vendor/js/flat-ui.min.js"></script>
     <script src="vendor/codemirror/codemirror.js"></script>
-    <script src="vendor/codemirror/javascript.js"></script>
+    <script src="vendor/codemirror/mode/javascript.js"></script>
+    <script src="vendor/codemirror/mode/clike.js"></script>
 
 
     <script src="js/storage.js"></script>
@@ -34,50 +36,40 @@
     
 </header>
 <div class="play-block">
-    <div class="left">
 
-        <div class="panel">
-            <button class="btn btn-primary btn-wide" id="pause-btn">Pause</button>
-            <button class="btn btn-primary btn-wide" id="resume-btn">Resume</button>
-            <select class="btn btn-primary" id="map-selection-list">
-                <option disabled>-- Select map --</option>
-            </select>
-            <button class="btn btn-primary btn-wide" id="renderer-switch">Use 2D renderer</button>
-            <button class="btn btn-primary btn-wide" id="editor-btn">MapEditor</button>
-        </div>
-
-        <div id="renderer">
-        </div>
-
+    <div id="renderer" class="left">
     </div>
-    <div id="controls">
-        <div id="code-editor">
-        
-        </div>
-        <div id="map-editor-controls">
-            <div class="row">
-                <p>Map width</p>
-                <button class="btn btn-primary" id="dec-w">-</button>
-                <input class="form-control" id="map-w" type="text" value="6" size="2" readonly>
-                <button class="btn btn-primary" id="inc-w">+</button>
-            </div>
-            <div class="row">
-                <p>Map height</p>
-                <button class="btn btn-primary" id="dec-h">-</button>
-                <input class="form-control" id="map-h" type="text" value="4" size="2" readonly>
-                <button class="btn btn-primary" id="inc-h">+</button>
-            </div>
-            <div class="row">
-                <p>Edited map mode</p>
-                <button class="btn btn-primary btn-wide" id="sel-orig-map">Original<br>map</button>
-                <button class="btn btn-primary btn-wide" id="sel-final-map">Final<br>map</button>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary btn-wide" id="save-map">Save map</button>
-            </div>
-        </div>
 
+    <div id="sidebar">
+        <div id="code-editor-tab" class="tab">
+        </div>
+        <div id="menu-tab" class="tab">
+        </div>
+        <div id="world-list-tab" class="tab">
+        </div>
     </div>
+
+    <div id="controls" class="top">
+        <div class="row" id="menu-btn">
+            <div class="button"></div>
+            <span>Menu</span>
+        </div>
+        <div class="row" id="code-btn">
+            <div class="button"></div>
+            <span>Code</span>
+        </div>
+        <div class="row" id="world-list-btn">
+            <div class="button"></div>
+            <span>Worlds</span>
+        </div>        
+    </div>
+
+    <div id="controls" class="bottom">
+        <div class="row" id="play-pause-btn">
+            <div class="button"></div>
+        </div>
+    </div>
+
 </div>
 <footer></footer>
 </body>

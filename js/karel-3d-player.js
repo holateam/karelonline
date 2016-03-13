@@ -18,7 +18,8 @@ Karel3dPlayer.prototype.resetWorld = function() {
 	this.pause();
 	this.world.clear();
 	this.setMap(this.map);
-	this.resume();
+	var self = this;
+	setTimeout(function() { self.resume(); }, 700);
 }
 
 Karel3dPlayer.prototype.setMap = function(map) {
@@ -101,4 +102,10 @@ Karel3dPlayer.prototype.play = function(scenario, callback) {
 	        }
 		})(this), 300
 	);
+}
+
+Karel3dPlayer.prototype.destroy = function() {
+	this.world.clear();
+	this.stop();
+	return 0;
 }
