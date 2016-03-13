@@ -35,7 +35,7 @@ $(function () {
             ],
             karel: {
                 position: [0, 5],
-                direction: 1,
+                direction: 1
             }
         }],
         description: 'problem solving'
@@ -59,18 +59,21 @@ $(function () {
     karelMapSelector.formOptions();
 
     function preparePlayer(newMap, forceRenderer) {
-        map = newMap;
-        if (forceRenderer) {
-            karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
-                new Karel2dPlayer($renderer, newMap.original):
-                new Karel3dPlayer($renderer, newMap.original);
-        }
-        if (!karelPlayer) {
-            karelPlayer = (!window.WebGLRenderingContext) ?
-                new Karel2dPlayer($renderer, newMap.original):
-                new Karel3dPlayer($renderer, newMap.original);
-        } else {
+
+        if(map!=newMap){ // detect map changing
+            map=newMap; // for compliler
             karelPlayer.setMap(newMap.original);
+        } else {
+            if (forceRenderer=='2D'||forceRenderer=='3D') {
+                karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
+                    new Karel2dPlayer($renderer, newMap.original):
+                    new Karel3dPlayer($renderer, newMap.original);
+            }
+            if (!karelPlayer) {
+                karelPlayer = (!window.WebGLRenderingContext) ?
+                    new Karel2dPlayer($renderer, newMap.original):
+                    new Karel3dPlayer($renderer, newMap.original);
+            }
         }
         karelPlayer.play(greetingsMove, null);
     }

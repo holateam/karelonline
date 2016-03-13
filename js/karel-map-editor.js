@@ -44,6 +44,12 @@ function KarelMapEditor(elem) {
     this.karelFinalFlipped=false;
     this.finalMapEdited=false;
     this.canvasFontSize="11px";
+
+    this.spriteCellSize=66;
+    this.spriteBeeperSize=34;
+    this.scaleFactor=1;
+    this.realCellSize=this.scaleFactor*this.spriteCellSize;
+
     this.addPhaser();
 
 }
@@ -68,17 +74,12 @@ KarelMapEditor.prototype.phaserInit = function () {
     var obj=this;
 
     var preload=function() {
-        obj.game.load.spritesheet('presets', 'img/tmw_desert_spacing.png',obj.spriteCellSize,obj.spriteCellSize);
-        obj.game.load.image('beeper', 'img/aqua_ball.png');
-        obj.game.load.image('karel', 'img/val1.png');
-        obj.game.load.image('karelFlipped', 'img/val3.png');
-        obj.game.load.image('btn_plus', 'img/plus.png');
-        obj.game.load.image('btn_minus', 'img/minus.png');
-        obj.game.load.image('btn_save', 'img/btn_save.png');
-        obj.game.load.image('btn_restore', 'img/btn_restore.png');
-        obj.game.load.image('btn_start_map', 'img/btn_start_map.png');
-        obj.game.load.image('btn_final_map', 'img/btn_final_map.png');
-        obj.game.load.image('btn_quit', 'img/btn_quit.png');
+        obj.game.load.image('wall', 'img/2d_wall.jpg');
+        obj.game.load.image('empty', 'img/2d_grass.jpg');
+        obj.game.load.image('beeper', 'img/beeper_new.png');
+        obj.game.load.image('karel', 'img/new_rob_1.png');
+        obj.game.load.image('karelFlipped', 'img/new_rob_3.png');
+        obj.game.load.image("background", "img/fioletovyj-fon19.jpg");
     };
 
     function addBeepersToCell(x,y, num){
@@ -147,13 +148,14 @@ KarelMapEditor.prototype.phaserInit = function () {
 
             function addTextAtCenter(y,_text, size, color) {
                 var x=startX+obj.rightMenuSize/2;
-                var text = obj.game.add.text(x, y, _text);
+                var style = { font: ""+size+"px Verdana", fill: "#fff", align: "center" };
+                var text = obj.game.add.text(x, y, _text, style);
                 text.anchor.set(0.5,0);
-                text.align = 'center';
-                text.font = 'Arial';
-                text.fontWeight = 'bold';
-                text.fontSize = size;
-                text.fill = color;
+                //text.align = 'center';
+                //text.font = 'Arial';
+                //text.fontWeight = 'bold';
+                //text.fontSize = size;
+                //text.fill = color;
             }
             //function onPlusMapWidthBtn() {
             //    obj.incrMapWidth();
@@ -265,11 +267,16 @@ KarelMapEditor.prototype.phaserInit = function () {
             obj.createDropBeeperProperties(obj.sprRMenuBeeper);
 
             var sx=startX+offsetX;
-            var sy=curY+obj.spriteCellSize*obj.scaleFactor+offsetY/2;
-            obj.karelStart=obj.createKarelSprite(sx, sy);
+            curY=curY+obj.spriteCellSize*obj.scaleFactor+offsetY/2;
+            obj.karelStart=obj.createKarelSprite(sx, curY);
             obj.createDropKarelProperties(obj.karelStart);
             obj.karelStartX=sx;
-            obj.karelStartY=sy;
+            obj.karelStartY=curY;
+
+            curY=curY+obj.spriteCellSize*obj.scaleFactor+offsetY/2;
+            addTextAtCenter(curY+3,"click Karel", 18, "white");
+            curY=curY+offsetY/1.5;
+            addTextAtCenter(curY+3,"for rotate", 18, "white");
 
             //curY+=obj.spriteCellSize*obj.scaleFactor+offsetX*2;
             //addTextAtCenter(curY+3,"Map's switch", 20, "yellow");
@@ -302,10 +309,6 @@ KarelMapEditor.prototype.phaserInit = function () {
     var update= function () {
     };
 
-    this.spriteCellSize=33;
-    this.spriteBeeperSize=17;
-    this.scaleFactor=2;
-    this.realCellSize=this.scaleFactor*this.spriteCellSize;
     this.karelOffset=3;
 
     var divForPhaser=this.element[0];
@@ -506,14 +509,14 @@ KarelMapEditor.prototype.addEmptyCell=function (x,y){
     return this.createCellSprite(realX,realY,"empty");
 };
 KarelMapEditor.prototype.createCellSprite=function (realX, realY, name, toTop) {
-    var spr=this.game.add.sprite(realX, realY, 'presets');
+    if(name=="wall")
+        var spr=this.game.add.sprite(realX, realY, 'wall');
+    else
+        var spr=this.game.add.sprite(realX, realY, 'empty');
     if(toTop==undefined)
         this.game.world.sendToBack(spr);
-    if(name=="wall")
-        spr.frame = 9; // wall
-    else
-        spr.frame = 33; // road
-    spr.scale.setTo(this.scaleFactor,this.scaleFactor);
+    var cellScaleFactor=this.scaleFactor*this.realCellSize/spr.height;
+    spr.scale.setTo(cellScaleFactor,cellScaleFactor);
     var xy=this.findMapXY(realX,realY);
     spr.name=name+" x"+xy.x+"y"+xy.y+"fr"+spr.frame;
     return spr;
@@ -599,7 +602,11 @@ KarelMapEditor.prototype.addWallCell=function (x,y){
 };
 KarelMapEditor.prototype.createBeeperSprite=function (realX, realY, beeperScaleFactor) {
     var spr=this.game.add.sprite(realX, realY, 'beeper');
-    spr.scale.setTo(beeperScaleFactor,beeperScaleFactor);
+    this.beeperScaleFactor=this.scaleFactor*this.realCellSize/spr.height/4;
+    var sc=this.beeperScaleFactor;
+    if(beeperScaleFactor)
+        sc*=beeperScaleFactor;
+    spr.scale.setTo(sc,sc);
     return spr;
 };
 KarelMapEditor.prototype.createDropBeeperProperties=function (elem) {
@@ -607,7 +614,7 @@ KarelMapEditor.prototype.createDropBeeperProperties=function (elem) {
     function onDragStop(sprite, pointer) {
         function addBeeperSpriteOnMap(mapXY, sprite) {
             sprite.name="beeperx"+mapXY.x+"y"+mapXY.y;
-            sprite.scale.setTo(1,1);
+            sprite.scale.setTo(obj.beeperScaleFactor,obj.beeperScaleFactor);
             obj.currentMap[mapXY.y][mapXY.x].cellBeepersSprites.push(sprite);
         }
         function createNewRMenuBeeperSprite() {
@@ -668,7 +675,7 @@ KarelMapEditor.prototype.createKarelSprite=function (x,y,angle){
     else
         var _karelImg='karelFlipped';
     var spr=obj.game.add.sprite(x, y, _karelImg);
-    var sc=obj.spriteCellSize*obj.scaleFactor/spr.height;
+    var sc=obj.scaleFactor*obj.realCellSize/spr.height;
     obj.karelScaleFactor=sc;
     spr.scale.setTo(sc,sc);
     spr.anchor.setTo(0.5, 0.5);
