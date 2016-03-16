@@ -14,7 +14,7 @@ KarelCodeEditor.prototype.init = function () {
     this.editor = CodeMirror.fromTextArea(this.$codeArea.get(0), {
         lineNumbers : true,
         lineWrapping: true,
-        theme       : "mdn-like",
+        theme       : "material-dark",
         mode        : "clike",
         indentUnit  : 4
     });

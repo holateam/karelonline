@@ -7,10 +7,12 @@
     <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/codemirror.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/theme/mdn-like.css">
+    <link rel="stylesheet" type="text/css" href="vendor/codemirror/theme/material-dark.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/addon/display/fullscreen.css">
     <link rel="stylesheet" type="text/css" href="vendor/css/flat-ui.css">
     <link rel="stylesheet" href="css/karel-code-editor.css">
     <link rel="stylesheet" href="css/play.css">
+    <link rel="stylesheet" href="css/controls.css">
 
     <script src="vendor/js/jquery-2.2.0.min.js"></script>
     <script src="vendor/js/jquery-ui.min.js"></script>
@@ -45,13 +47,54 @@
     <div id="sidebar">
         <div id="code-editor-tab" class="tab">
         </div>
-        <div id="menu-tab" class="tab" style="background:white;">
+        <div id="menu-tab" class="tab">
+            <div class="tab-title">
+                <span>Menu</span>
+            </div>
+            <ul>
+                <li>
+                    <div id="home-glyph" class="glyph"></div>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <div id="editor-glyph" class="glyph"></div>
+                    <a href="#">World editor</a>
+                </li>
+                <li>
+                    <div id="manual-glyph" class="glyph"></div>
+                    <a href="#">Manual page</a>
+                </li>
+                <li>
+                    <div id="team-glyph" class="glyph"></div>
+                    <a href="#">About team</a>
+                </li>
+            </ul>
         </div>
         <div id="world-list-tab" class="tab">
+            <div class="tab-title">
+                <span>World List</span>
+            </div>
+            <ul>
+                <li>
+                    <div id="team-glyph" class="glyph"></div>
+                    <span>Some map name</span>
+                    <div class="edit sidebar-btn"></div>
+                </li>
+                <li>
+                    <div id="team-glyph" class="glyph"></div>
+                    <span>Some map name</span>
+                    <div class="edit sidebar-btn"></div>
+                </li>
+                <li>
+                    <div id="user-glyph" class="glyph"></div>
+                    <span>Some map name</span>
+                    <div class="delete sidebar-btn"></div>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <div id="controls" class="top">
+    <div class="controls top">
         <div class="row" id="menu-btn">
             <div class="button"></div>
             <span>Menu</span>
@@ -66,7 +109,7 @@
         </div>        
     </div>
 
-    <div id="controls" class="bottom">
+    <div class="controls bottom">
         <div class="row" id="play-pause-btn">
             <div class="button"></div>
         </div>

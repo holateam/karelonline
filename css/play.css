@@ -37,7 +37,39 @@ body {
     width: 100%;
     height: 100%;
     transition-timing-function: linear;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
+}
+
+.tab-title {
+    font-size: 2em;
+    padding: 0.4em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
+    box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
+}
+
+.glyph#home-glyph {
+    background: url('../img/circles/browser.svg') center center no-repeat;
+}
+
+.glyph#editor-glyph {
+    background: url('../img/circles/circlecompass.svg') center center no-repeat;
+}
+
+.glyph#manual-glyph {
+    background: url('../img/circles/dev.svg') center center no-repeat;
+}
+
+.glyph#team-glyph {
+    background: url('../img/circles/star.svg') center center no-repeat;
+}
+
+.glyph#user-glyph {
+    background: url('../img/circles/profile.svg') center center no-repeat;
 }
 
 #fullscreen-editor-btn {
@@ -59,76 +91,101 @@ body {
 }
 
 /* ------------------------------------------ */
-/* --------------CONTOLS BLOCK--------------- */
+/* ---------------TABS BLOCK----------------- */
 /* ------------------------------------------ */
 
-#controls {
-    position: fixed;
-    padding: 0 1em 1em 1em;
+#menu-tab {
+    background: #34495e;
 }
 
-#controls.top {
-    top: 0;
+#menu-tab ul {
+    margin-left: 5em;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 0;
 }
 
-#controls.bottom {
-    bottom: 0;
+#menu-tab li {
+    height: 5em;
 }
 
-#controls .row {
-    cursor: pointer;
-    height: 3em;
-    margin-top: 1em;
-    opacity: 0.5;
-}
-
-#controls .row * {
-    display: block;
+#menu-tab li .glyph {
     float: left;
-    margin-right: 1em;
+    width: 5em;
+    height: 100%;
+    margin-left: -5em;
+    background-size: 65% 65%;
 }
 
-#controls .row .button {
-    border: 0;
+#menu-tab li a { 
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 2em 2em;
+    line-height: 1em;
+    font-size: 1em;
+    color: #34495e;
+    transition: none;
+}
+
+#menu-tab li:hover * {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+#world-list-tab {
+    background: #34495e;
+}
+
+#world-list-tab ul {
+    margin-left: 3em;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 0;
+}
+
+#world-list-tab li {
+    display: block;
+    height: 1em;
+    padding: 1em 2em;
+}
+
+#world-list-tab li .glyph {
+    float: left;
     width: 3em;
     height: 3em;
-    background-position: center center;
-    background-size: 98% 98%;
-    background-repeat: no-repeat;
-    line-height: 4em;
-    /*
-    transition-timing-function: linear;
-    transition-duration: 0.1s;
-    */
+    margin: -1em 0 0 -5em;
+    background-size: 50% 50%;
 }
 
-#controls span {
-    color: #FFFFFF;
-    font-size: 1em;
+#world-list-tab li span { 
+    float: left;
+    display: block;
+    /*width: 100%;*/
     line-height: 1em;
-    margin: 1em 0;
+    font-size: 1em;
+    color: #34495e;
 }
 
-#controls .row:hover {
-    opacity: 1;
+#world-list-tab li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-#controls .row:hover button {
-    background-size: 100% 100%;
+#world-list-tab .sidebar-btn {
+    float: right;
+    height: 1em;
+    width: 1em;
+    background: center center no-repeat;
+    background-size: 70% 70%;
+    cursor: pointer;
 }
 
-#menu-btn .button {
-    background: url(../img/controls/menu.svg);
+#world-list-tab .sidebar-btn.edit {
+    background-image: url('../img/controls/edit.svg'); 
 }
 
-#code-btn .button {
-    background: url(../img/controls/code.svg);
-}
-
-#world-list-btn .button {
-    background: url(../img/controls/list.svg);
-}
-
-#play-pause-btn .button {
-    background: url(../img/controls/pause.svg);
+#world-list-tab .sidebar-btn.delete {
+    background-image: url('../img/controls/cross.svg'); 
 }
