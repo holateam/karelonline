@@ -11,14 +11,13 @@ SidebarSlider.prototype.showTab = function(tab) {
 	console.log(tab, this.active);
 	if (tab != this.active) {
 
-		if (this.active) {
-			$('.tab').css({
-				'opacity': 0,
-				'z-index': 1,
-				'left': this.width
-			});
-		}
 		this.active = tab;
+
+		$('.tab').css({
+			'opacity': 0,
+			'z-index': 1,
+			'left': this.width
+		});
 		tab.css({
 		 	'opacity': 1,
 			'z-index': 2,
