@@ -58,7 +58,7 @@ var KarelCodeCompiler = (function (){
             funcKarel("rotate", {angle: -1});
         }
         function turnRight() {
-            funcKarel("rotate()", {angle: 1});
+            funcKarel("rotate", {angle: 1});
         }
         function pickBeeper() {
             funcKarel("pick");
