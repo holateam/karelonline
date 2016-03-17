@@ -40,6 +40,50 @@ body {
     transition-duration: 1s;
 }
 
+.tab-title {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 2em;
+    padding: 0.4em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+#menu-tab {
+    background: #34495e;
+}
+
+#menu-tab ul {
+    height: 100%;
+    margin-left: 5em;
+    background: #FFFFFF;
+}
+
+#menu-tab li {
+    height: 4em;
+}
+
+#menu-tab li .glyph {
+    float: left;
+    width: 5em;
+    height: 100%;
+    margin-left: -5em;
+    background-color: red;
+}
+
+#menu-tab li a { 
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 1.5em 2em;
+    font-size: 1em;
+    color: #34495e;
+}
+
+#menu-tab li:hover a {
+    background-color: #DDDDDD;
+}
+
 #fullscreen-editor-btn {
     height: 25px;
     width: 7em;
@@ -56,79 +100,4 @@ body {
 
 #fullscreen-editor-btn:hover {
     opacity: 1;
-}
-
-/* ------------------------------------------ */
-/* --------------CONTOLS BLOCK--------------- */
-/* ------------------------------------------ */
-
-#controls {
-    position: fixed;
-    padding: 0 1em 1em 1em;
-}
-
-#controls.top {
-    top: 0;
-}
-
-#controls.bottom {
-    bottom: 0;
-}
-
-#controls .row {
-    cursor: pointer;
-    height: 3em;
-    margin-top: 1em;
-    opacity: 0.5;
-}
-
-#controls .row * {
-    display: block;
-    float: left;
-    margin-right: 1em;
-}
-
-#controls .row .button {
-    border: 0;
-    width: 3em;
-    height: 3em;
-    background-position: center center;
-    background-size: 98% 98%;
-    background-repeat: no-repeat;
-    line-height: 4em;
-    /*
-    transition-timing-function: linear;
-    transition-duration: 0.1s;
-    */
-}
-
-#controls span {
-    color: #FFFFFF;
-    font-size: 1em;
-    line-height: 1em;
-    margin: 1em 0;
-}
-
-#controls .row:hover {
-    opacity: 1;
-}
-
-#controls .row:hover button {
-    background-size: 100% 100%;
-}
-
-#menu-btn .button {
-    background: url(../img/controls/menu.svg);
-}
-
-#code-btn .button {
-    background: url(../img/controls/code.svg);
-}
-
-#world-list-btn .button {
-    background: url(../img/controls/list.svg);
-}
-
-#play-pause-btn .button {
-    background: url(../img/controls/pause.svg);
 }
