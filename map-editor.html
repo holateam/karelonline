@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karel Map Editor</title>
+
+    <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
+<!--
+    <link rel="stylesheet" type="text/css" href="vendor/css/flat-ui.css">
+-->
+
+    <link rel="stylesheet" href="css/map-editor.css">
+    <link rel="stylesheet" href="css/controls.css">
+<!--
+    <link rel="stylesheet" href="css/tabs.css">
+-->
+
+
+    <script src="vendor/js/jquery-2.2.0.min.js"></script>
+    <script src="vendor/js/jquery-ui.min.js"></script>
+    <script src="vendor/js/flat-ui.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/map-selector.js"></script>
+
+</head>
+<body>
+<header>
+
+</header>
+<div class="play-block">
+    <div class="left">
+            <div class="controls top">
+                <div class="row" id="exit-btn">
+                    <div class="button"></div>
+                </div>
+                <div class="row" id="reset">
+                    <div class="button"></div>
+                </div>
+                <div class="row" id="save-start-map">
+                    <div class="button"></div>
+                </div>
+                <div>
+                    <ul id="original-map"></ul>
+                </div>
+                <div class="row" id="save-final-map">
+                    <div class="button"></div>
+                </div>
+                <div>
+                    <ul id="final-maps"></ul>
+                </div>
+            </div>
+        <!--<div class="pop-up slider" id="beepers-count">
+            <label for="num-beepers">Input number of beepers:</label>
+            <input type="text" id="num-beepers" />
+        </div>
+        <form class="pop-up" id="complete">
+            <div id="close-pop-up">&#215</div>
+            <span>To save edited maps input:</span>
+            <label for="name">name:</label>
+            <input type="text" id="name" name="name" />
+            <label for="description">short description:</label>
+            <input type="text" id="description" name="description" />
+            <input type="submit" value="complete" />
+        </form>-->
+        <div class="controls bottom">
+            <div class="row" id="finalize">
+                <div class="button"></div>
+            </div>
+        </div>
+
+       <!-- <div class="panel">
+            <button class="btn btn-primary btn-wide" id="exit-btn">Exit</button>
+            <select class="btn btn-primary" id="map-selection-list">
+                <option disabled>&#45;&#45; Select map &#45;&#45;</option>
+            </select>
+            <button class="btn btn-primary btn-wide" id="reset">Reset</button>
+            <button class="btn btn-primary btn-wide" id="save-start-map">Save start map</button><div><ul id="original-map"></ul></div>
+            <button class="btn btn-primary btn-wide" id="save-final-map">Save final map</button><div><ul id="final-maps"></ul></div>
+            <button class="btn btn-primary btn-wide" id="finalize">Finalize</button>
+        </div>-->
+
+
+
+       <!-- <div class="controls bottom-center">
+            <div class="row">
+                <div class="button arrow a-top" id="decrement-height"></div>
+                <div class="value" id="value-height">1</div>
+                <div class="button arrow a-bottom" id="increment-height"></div>
+            </div>
+        </div>
+
+        <div class="controls right-center">
+            <div class="row" id="increment-width">
+                <div class="button arrow rgt"></div>
+            </div>
+        </div>
+        <div class="row value" id="value-width">1</div>
+        <div class="controls bottom-center">
+            <div class="row" id="decrement-width">
+                <div class="button arrow lft"></div>
+            </div>
+        </div>-->
+
+        <div id="map-editor">
+            <!--<div class="pop-up" id="alert">
+                <div id="close-alert">&#215</div>
+                <span id="alert-msg"></span>
+                <input type="submit" value="OK" id="ok-alert"/>
+            </div>-->
+            <div id="map-field"></div>
+        </div>
+        <div class="map-size-editor">
+            <div id="height-editor">
+                <div class="height" id="decrement-height"></div>
+                <div class="value" id="value-height">1</div>
+                <div class="height" id="increment-height"></div>
+            </div>
+            <div  id="width-editor">
+                <div class="width" id="decrement-width"></div>
+                <div class="value" id="value-width">1</div>
+                <div class="width" id="increment-width"></div>
+
+            </div>
+        </div>
+    </div>
+   <!-- <div id="sidebar">
+        <div id="map-selector-btn" class="vertical-text">Select map</div>
+            <div id="world-list-tab" class="tab">
+                <div class="tab-title">
+                    <span>World  List</span>
+                </div>
+                    <ul>
+                        <li>
+                            <div id="user-glyph" class="glyph"></div>
+                            <span>some map name</span>
+                            <div class="edit sidebar-btn"></div>
+                        </li>
+                    </ul>
+            </div>
+    </div>-->
+    <div id="control-editor">
+
+        <div class="cell-editor">
+            <div class="btn-cell" id="wall">
+            </div>
+            <div class="btn-cell" id="empty">
+            </div>
+            <div class="btn-cell" id="beeper">
+            </div>
+            <div class="btn-cell" id="karel">
+            </div>
+            <div class="btn-cell" id="backpack">
+                <div id="inner">1000</div>
+            </div>
+            <div id="zoom"></div>
+            <div id="minus">&#150</div>
+            <div id="plus">&#043</div>
+        </div>
+
+    </div>
+</div>
+<footer></footer>
+<script src="js/map-editor.js"></script>
+
+</body>
+</html>
