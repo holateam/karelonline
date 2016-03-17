@@ -51,8 +51,11 @@ $(function () {
 
     var karelCodeEditor = new KarelCodeEditor($codeEditor);
     var karelMapSelector = new MapSelector($mapSelectionList);
+    var sidebarManager = new SidebarSlider($codeEditor);
+
     var karelMapEditor = null;
     var compileResults = null;
+    var playState = true;
 
     karelCodeEditor.onCodeSubmit(onCodeSubmit);
     karelMapSelector.onChange(preparePlayer);
@@ -79,6 +82,9 @@ $(function () {
     }
 
     function onCodeSubmit() {
+        karelPlayer.resume();
+        playState = true;
+        $('#play-pause-btn > .button').css('background-image', 'url("img/controls/pause.svg")');
         var code = karelCodeEditor.getCode();
         var data = KarelCodeCompiler.compile(code, map);
         compileResults = data.result;
@@ -99,12 +105,38 @@ $(function () {
         }
     }
 
-    $('#pause-btn').click(function(){
-        karelPlayer.pause();
+    $('#menu-btn').click(function() {
+        sidebarManager.showTab($('#menu-tab'));
     });
 
-    $('#resume-btn').click(function(){
-        karelPlayer.resume(); 
+    $('#code-btn').click(function() {
+        sidebarManager.showTab($('#code-editor-tab'));
+    });
+
+    $('#world-list-btn').click(function() {
+        sidebarManager.showTab($('#world-list-tab'));
+    });
+
+    $('#play-pause-btn').click(function() {
+        if (playState) {
+            karelPlayer.pause();
+            playState = false;
+            $('#play-pause-btn > .button').css('background-image', 'url("img/controls/play.svg")');
+        } else { 
+            karelPlayer.resume();
+            playState = true;
+            $('#play-pause-btn > .button').css('background-image', 'url("img/controls/pause.svg")');
+        }
+    });
+
+    $('#fullscreen-editor-btn').click(function(){
+        karelCodeEditor.editor.setOption("fullScreen", true);
+    });
+
+    $('body').keydown(function(e){
+        if(e.which == 27 && karelCodeEditor.editor.getOption('fullScreen')){
+            karelCodeEditor.editor.setOption("fullScreen", false);
+        }
     });
 
     $('#renderer-switch').click(function(){
@@ -121,61 +153,5 @@ $(function () {
         preparePlayer(map, renderer);
     });
 
-    $('#editor-btn').click(function(){
-        $('.panel').hide();
-        $codeEditor.hide();
-        $('#map-editor-controls').show();
-        karelMapEditor = new KarelMapEditor($renderer);
-    });
 
-    $('#inc-w').click(function(){
-        karelMapEditor.incrMapWidth(); 
-        $('#map-w').val(parseInt($('#map-w').val())+1);
-    });
-
-    $('#inc-h').click(function(){
-        karelMapEditor.incrMapHeight(); 
-        $('#map-h').val(parseInt($('#map-h').val())+1);
-    });
-
-    $('#dec-w').click(function(){
-        karelMapEditor.decrMapWidth(); 
-        $('#map-w').val($('#map-w').val()-1);
-    });
-
-    $('#dec-h').click(function(){
-        karelMapEditor.decrMapHeight(); 
-        $('#map-h').val($('#map-h').val()-1);
-    });
-
-    $('#sel-orig-map').click(function(){
-        karelMapEditor.startMap(); 
-    });
-
-    $('#sel-final-map').click(function(){
-        karelMapEditor.finalMap(); 
-    });
-
-    $('#save-map').click(function(){
-        karelMapEditor.saveMap();
-    });
-
-    $('#exit-editor').click(function(){
-        karelMapEditor.destroy();
-        karelMapEditor = null;
-        $('#map-editor-controls').hide();
-        $('.panel').show();
-        $codeEditor.show();
-        preparePlayer(map);
-    });
-
-});
-
-// ---------------------------------------------
-// Flat UI controls initialisation
-// ---------------------------------------------
-
-$(document).ready(function(){
-    // alert('!!');
-    // $("select").select2({dropdownCssClass: 'dropdown-inverse'});
 });

@@ -7,17 +7,18 @@
     <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/codemirror.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/theme/mdn-like.css">
+    <link rel="stylesheet" type="text/css" href="vendor/codemirror/addon/display/fullscreen.css">
     <link rel="stylesheet" type="text/css" href="vendor/css/flat-ui.css">
     <link rel="stylesheet" href="css/karel-code-editor.css">
     <link rel="stylesheet" href="css/play.css">
 
     <script src="vendor/js/jquery-2.2.0.min.js"></script>
+    <script src="vendor/js/jquery-ui.min.js"></script>
     <script src="vendor/js/three.min.js"></script>
-    <script src="vendor/js/flat-ui.min.js"></script>
     <script src="vendor/codemirror/codemirror.js"></script>
     <script src="vendor/codemirror/mode/javascript.js"></script>
     <script src="vendor/codemirror/mode/clike.js"></script>
-
+    <script src="vendor/codemirror/addon/display/fullscreen.js"></script>
 
     <script src="js/storage.js"></script>
     <script src="js/sequence-events.js"></script>
@@ -28,6 +29,7 @@
     <script src="js/karel-3d-player.js"></script>
     <script src="js/karel-2d-player.js"></script>
     <script src="js/map-selector.js"></script>
+    <script src="js/sidebar-slider.js"></script>
     <script src="js/play.js"></script>
 
 </head>
@@ -43,7 +45,7 @@
     <div id="sidebar">
         <div id="code-editor-tab" class="tab">
         </div>
-        <div id="menu-tab" class="tab">
+        <div id="menu-tab" class="tab" style="background:white;">
         </div>
         <div id="world-list-tab" class="tab">
         </div>

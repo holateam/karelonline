@@ -31,6 +31,7 @@ KarelCodeEditor.prototype.submit = function (e) {
 
 KarelCodeEditor.prototype.template = function () {
     return '' +
+        '<div id="fullscreen-editor-btn" class="vertical-text">Full screen</div>' +
         '<div class="karel-code-editor">' +
             '<form>' +
                 '<div class="code-block">' +
