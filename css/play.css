@@ -37,51 +37,39 @@ body {
     width: 100%;
     height: 100%;
     transition-timing-function: linear;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
 }
 
 .tab-title {
-    background-color: rgba(0, 0, 0, 0.1);
     font-size: 2em;
     padding: 0.4em 0;
     color: white;
     text-align: center;
     font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
+    box-shadow: 0px 6px 19px 0px rgba(0,0,0,0.22);
 }
 
-#menu-tab {
-    background: #34495e;
+.glyph#home-glyph {
+    background: url('../img/circles/browser.svg') center center no-repeat;
 }
 
-#menu-tab ul {
-    height: 100%;
-    margin-left: 5em;
-    background: #FFFFFF;
+.glyph#editor-glyph {
+    background: url('../img/circles/circlecompass.svg') center center no-repeat;
 }
 
-#menu-tab li {
-    height: 4em;
+.glyph#manual-glyph {
+    background: url('../img/circles/dev.svg') center center no-repeat;
 }
 
-#menu-tab li .glyph {
-    float: left;
-    width: 5em;
-    height: 100%;
-    margin-left: -5em;
-    background-color: red;
+.glyph#team-glyph {
+    background: url('../img/circles/star.svg') center center no-repeat;
 }
 
-#menu-tab li a { 
-    float: left;
-    display: block;
-    width: 100%;
-    padding: 1.5em 2em;
-    font-size: 1em;
-    color: #34495e;
-}
-
-#menu-tab li:hover a {
-    background-color: #DDDDDD;
+.glyph#user-glyph {
+    background: url('../img/circles/profile.svg') center center no-repeat;
 }
 
 #fullscreen-editor-btn {
@@ -100,4 +88,104 @@ body {
 
 #fullscreen-editor-btn:hover {
     opacity: 1;
+}
+
+/* ------------------------------------------ */
+/* ---------------TABS BLOCK----------------- */
+/* ------------------------------------------ */
+
+#menu-tab {
+    background: #34495e;
+}
+
+#menu-tab ul {
+    margin-left: 5em;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 0;
+}
+
+#menu-tab li {
+    height: 5em;
+}
+
+#menu-tab li .glyph {
+    float: left;
+    width: 5em;
+    height: 100%;
+    margin-left: -5em;
+    background-size: 65% 65%;
+}
+
+#menu-tab li a { 
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 2em 2em;
+    line-height: 1em;
+    font-size: 1em;
+    color: #34495e;
+    transition: none;
+}
+
+#menu-tab li:hover * {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+#world-list-tab {
+    background: #34495e;
+}
+
+#world-list-tab ul {
+    margin-left: 3em;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 0;
+}
+
+#world-list-tab li {
+    display: block;
+    height: 1em;
+    padding: 1em 2em;
+}
+
+#world-list-tab li .glyph {
+    float: left;
+    width: 3em;
+    height: 3em;
+    margin: -1em 0 0 -5em;
+    background-size: 50% 50%;
+}
+
+#world-list-tab li span { 
+    float: left;
+    display: block;
+    /*width: 100%;*/
+    line-height: 1em;
+    font-size: 1em;
+    color: #34495e;
+}
+
+#world-list-tab li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#world-list-tab .sidebar-btn {
+    float: right;
+    height: 1em;
+    width: 1em;
+    background: center center no-repeat;
+    background-size: 70% 70%;
+    cursor: pointer;
+}
+
+#world-list-tab .sidebar-btn.edit {
+    background-image: url('../img/controls/edit.svg'); 
+}
+
+#world-list-tab .sidebar-btn.delete {
+    background-image: url('../img/controls/cross.svg'); 
 }
