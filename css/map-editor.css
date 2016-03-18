@@ -171,8 +171,8 @@ body {
 .close {
     position: absolute;
     display: inline-block;
-    top: -3px;
-    right: 0;
+    top: -2px;
+    right: 2px;
 }
 
 /*#save-start-map::before{
@@ -228,6 +228,11 @@ __________________________________________________________right panel editor____
     height: 100%;
     width: 10%;
     background: white;
+    z-index: 5;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bottom-panel, .right-panel {
     z-index: 2;
 }
 
@@ -302,6 +307,7 @@ __________________________________________________________right panel editor____
 
 
 .cell-editor > ::after {
+    min-height: 2em;
     border-radius: 5%;
     border: solid 1px #99A7AA;
     font-size: small;
@@ -316,7 +322,7 @@ __________________________________________________________right panel editor____
 }
 
 #wall::after {
-    content: "Click on the field to mount wall. Click on mounted wall to remove it.";
+    content: "Click on the field to mount the wall. Click on the mounted wall to remove it.";
 }
 
 #empty::after {
@@ -324,22 +330,22 @@ __________________________________________________________right panel editor____
 }
 
 #karel::after {
-    content: "Click on the field to determinate Karel position. Click on Karel on the field to change his direction.";
+    content: "Click on the field to determinate Karel position. Click on Karel to change his direction. Click right mouse button to remove Karel";
 }
 
 #beeper::after {
-    content: "Click on the field to put beeper. Every click adds one beeper.";
+    content: "Click on the field to put beeper. Every click adds one beeper. Right mouse click remove one beeper";
 }
 
 #backpack::after {
-    content: "Click to set number of beepers in the Karel's backpack.";
+    content: "Click to set number of beepers in Karel's backpack.";
 }
 
 .cell-editor > .btn-cell:hover::after {
     display: block;
 }
 
-.btn:hover, .cell:hover, .btn-cell:hover{
+.btn:hover, .cell:hover, .btn-cell:hover, .close:hover {
     cursor: pointer;
 }
 
@@ -438,10 +444,137 @@ td {
 
 
 
-.pop-up {
+
+#sidebar {
+    z-index: 3;
+    position: absolute;
+    right: -8%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+#map-selector-btn {
+    padding-top: 4px;
+    height: 25px;
+    width: 7em;
+    background-color: rgb(86, 140, 189);
+    border-color: rgb(86, 140, 189);
+    border-top-left-radius: 8px;
+    position: absolute;
+    left: -8.5em;
+    color: white;
+    text-align: center;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.vertical-text {
+    transform: rotate(-90deg);
+    transform-origin: right top 0;
+}
+
+.tab {
+    position: relative;
+}
+
+.tab-title {
+    font-size: 2em;
+    padding: 0.4em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 19px 0 rgba(0, 0, 0, 0.22);
+}
+
+
+
+
+/*______________________________________________________pop-up window_____________________________________________________
+*/
+
+.controls {
+    position: absolute;
+}
+
+#complete {
+    padding: 10px;
+    box-sizing: border-box;
+    width: 20em;
+    height: 15em;
+    background: #fff;
+    border-radius: 5px;
+    position: absolute;
+    left: 7em;
+    bottom: 5em;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    font-size: 1em;
+    z-index: 2;
+    color: #333;
+    visibility: hidden;
+}
+
+.pop-up > span {
+    font-size: 1.2em;
+    /*
+    padding-left: 2em;
+    */
+}
+
+label{
+    display:block;
+    margin-top:1em;
+    margin-bottom:0.5em;
+}
+label::first-letter {
+    text-transform: capitalize;
+}
+label:first-child{
+    margin-top:0;
+}
+input[type="text"]{
+    width:100%;
+    border:1px solid #ccc;
+    padding:7px 5px;
+    background:white;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+input[type="text"]:focus{
+    box-shadow:0 0 5px rgba(50, 200, 255, 0.5);
+    outline: none;
+}
+
+input[type="submit"]{
+    display: inline-block;
+    width: 10em;
+}
+
+input[type="submit"], .networks{
+    margin-top: 30px;
+    padding: 5px 15px;
+    font-weight: bold;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #fff, #ddd);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow:0 1px 1px white;
+    cursor: pointer;
+}
+input:last-child {
+    float: right;
+}
+
+input[type="submit"]:hover {
+    background-image: linear-gradient(to bottom, #ddd, #bbb);
+}
+
+#beepers-count{
     display: none;
 }
 
-#sidebar {
+#alert {
     display: none;
 }
