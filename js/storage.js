@@ -7,18 +7,24 @@ var Storage = (function () {
     };
 
     storage.set = function (key, value) {
-        instance.setItem(key, JSON.stringify(value))
+        instance.setItem(key, JSON.stringify(value));
     };
 
-    storage.append = function (key, value) {
+    storage.append = function (key, value, targetIndex) {
         var data = storage.get(key);
         if(!data) {
-            data=[value]
-        } else {
-            if (data[0] == undefined)
-                data = [data];
-            data.push(value);
+            data=[];
+        } else if (!data.appandable) {
+            data = [data];
         }
+        data.appandable = true;
+        
+        if (!targetIndex) {
+            data.push(value);
+        } else {
+            data['targetIndex'] = value;
+        }
+
         storage.set(key, data);
     }
 

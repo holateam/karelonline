@@ -11,9 +11,13 @@ MapSelector.prototype.onChange = function(callback) {
     this.callback = callback
 };
 
-MapSelector.prototype.formOptions = function() {
+MapSelector.prototype.getMaps = function() {
+    return Storage.get('maps') || [];
+};
 
-    var list = Storage.get('maps') || [];
+MapSelector.prototype.formOptions = function() {
+    
+    var list = this.getMaps();
     var self = this;
 
     for (var i = 0; i < list.length; i++) {
@@ -29,6 +33,55 @@ MapSelector.prototype.formOptions = function() {
     });
 
 };
+
+MapSelector.prototype.formUlList = function(flags) {
+
+    flags = flags || {};
+    var list = this.getMaps();
+    var self = this;
+
+    if (!list) {
+        return;
+    }
+
+    var $ul = $('<ul></ul>');
+
+    for (var property in list) {
+        if (list.hasOwnProperty(property)) {
+            var map     = list[property];
+            var glyphId = (map.secretOwnership) ? 'team-glyph' : 'user-glyph';
+            var $li     = $('<li></li>');
+            var $glyph  = $('<div id="' + glyphId + '" class="glyph"></div>');
+            var $span   = $('<span>' + map.name + '</span>');
+
+            $ul.append($li);
+            $li.append($glyph);
+            $li.append($span);
+
+            if (self.callback) {
+                $li.onClick(function() {
+                    self.callback( map );
+                });
+            }
+
+            if (flags.editCallback) {
+                var $edit = $('<div class="edit sidebar-btn"></div>'); 
+                $edit.onClick(function() {
+                    flags.editCallback( map );
+                });
+                $li.append($edit);
+            }
+
+            if (flags.deleteCallback) {
+                var $remove = $('<div class="delete sidebar-btn"></div>'); 
+                $remove.onClick(function() {
+                    flags.deleteCallback( map );
+                });
+                $li.append($remove);
+            }
+        }
+    }
+}
 
 // ---------------------------------------------------------------
 // ---------------------------------------------------------------
