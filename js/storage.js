@@ -3,29 +3,27 @@ var Storage = (function () {
     var instance = localStorage;
 
     storage.get = function (key) {
-        return JSON.parse(instance.getItem(key));
+        var data = instance.getItem(key);
+        return (data) ? JSON.parse(data) : null;
     };
 
     storage.set = function (key, value) {
         instance.setItem(key, JSON.stringify(value));
     };
 
-    storage.append = function (key, value, targetIndex) {
-        var data = storage.get(key);
-        if(!data) {
-            data=[];
-        } else if (!data.appandable) {
-            data = [data];
-        }
-        data.appandable = true;
+    storage.addMap = function (title, map) {
         
-        if (!targetIndex) {
-            data.push(value);
-        } else {
-            data['targetIndex'] = value;
+        var mapList = storage.get('karelMapsIndex');
+        if (!mapList) {
+            mapList = [];
         }
 
-        storage.set(key, data);
+        if (mapList.indexOf(title) < 0) {
+            mapList.push(title);
+            storage.set('karelMapsIndex', mapList);
+        }
+        storage.set(title, map);
+
     }
 
     storage.clear = function (key) {

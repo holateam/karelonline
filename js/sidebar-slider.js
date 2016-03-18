@@ -8,7 +8,7 @@ function SidebarSlider(initialTab) {
 }
 
 SidebarSlider.prototype.showTab = function(tab) {
-	console.log(tab, this.active);
+	// console.log(tab, this.active);
 	if (tab != this.active) {
 
 		this.active = tab;

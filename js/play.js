@@ -2,7 +2,7 @@ $(function () {
 
     var $renderer = $("#renderer");
     var $codeEditor = $("#code-editor-tab");
-    var $mapSelectionList = $("#map-selection-list");
+    var $mapSelectionList = $("#world-list-tab");
 
     var renderer = '3D';
     var map =  {
@@ -40,7 +40,8 @@ $(function () {
         }],
         description: 'problem solving'
     };
-    
+    Storage.addMap('Demonstrative Karel Map', map);
+
     var greetingsMove = [
         { command: 'rotate', data: {angle: -1} },
         { command: 'rotate', data: {angle: 1} }
@@ -59,7 +60,11 @@ $(function () {
 
     karelCodeEditor.onCodeSubmit(onCodeSubmit);
     karelMapSelector.onChange(preparePlayer);
-    karelMapSelector.formOptions();
+    karelMapSelector.formUlList({
+        editCallback : function (map) {
+            alert('edit button pressed');
+        }
+    });
 
     function preparePlayer(newMap, forceRenderer) {
 

@@ -12,7 +12,13 @@ MapSelector.prototype.onChange = function(callback) {
 };
 
 MapSelector.prototype.getMaps = function() {
-    return Storage.get('maps') || [];
+    var mapTitles = Storage.get('karelMapsIndex') || [];
+    var retVal = [];
+    for (var i = 0; i < mapTitles.length; i++) {
+        var key = mapTitles[i];
+        retVal[key] = Storage.get(key);
+    }
+    return retVal;
 };
 
 MapSelector.prototype.formOptions = function() {
@@ -45,7 +51,7 @@ MapSelector.prototype.formUlList = function(flags) {
     }
 
     var $ul = $('<ul></ul>');
-
+    this.element.append($ul);
     for (var property in list) {
         if (list.hasOwnProperty(property)) {
             var map     = list[property];
@@ -59,14 +65,14 @@ MapSelector.prototype.formUlList = function(flags) {
             $li.append($span);
 
             if (self.callback) {
-                $li.onClick(function() {
+                $li.click(function() {
                     self.callback( map );
                 });
             }
 
             if (flags.editCallback) {
                 var $edit = $('<div class="edit sidebar-btn"></div>'); 
-                $edit.onClick(function() {
+                $edit.click(function() {
                     flags.editCallback( map );
                 });
                 $li.append($edit);
@@ -74,7 +80,7 @@ MapSelector.prototype.formUlList = function(flags) {
 
             if (flags.deleteCallback) {
                 var $remove = $('<div class="delete sidebar-btn"></div>'); 
-                $remove.onClick(function() {
+                $remove.click(function() {
                     flags.deleteCallback( map );
                 });
                 $li.append($remove);
