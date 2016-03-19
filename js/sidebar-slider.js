@@ -1,10 +1,8 @@
 
 function SidebarSlider(initialTab) {
 	this.active = null;
+	this.width = initialTab.width();
 	this.showTab(initialTab);
-	if (this.width==undefined){
-		this.width = initialTab.width();
-	}
 }
 
 SidebarSlider.prototype.showTab = function(tab) {

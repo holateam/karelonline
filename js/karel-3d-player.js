@@ -109,3 +109,7 @@ Karel3dPlayer.prototype.destroy = function() {
 	this.stop();
 	return 0;
 }
+
+Karel3dPlayer.prototype.setSpeed = function(speed) {
+	this.world.setSpeed(speed);
+}

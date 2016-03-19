@@ -58,7 +58,7 @@ MapSelector.prototype.formUlList = function(flags) {
             var glyphId = (map.secretOwnership) ? 'team-glyph' : 'user-glyph';
             var $li     = $('<li></li>');
             var $glyph  = $('<div id="' + glyphId + '" class="glyph"></div>');
-            var $span   = $('<span>' + map.name + '</span>');
+            var $span   = $('<span>' + property + '</span>');
 
             $ul.append($li);
             $li.append($glyph);

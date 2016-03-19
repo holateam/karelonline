@@ -7,11 +7,15 @@ body {
     background-color: black;
 }
 
-#renderer {
+.play-block, #renderer {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
+    right: 0;
+}
+
+.play-block {
     right: 23em;
 }
 
@@ -20,6 +24,9 @@ body {
     transform-origin: right top 0;
 }
 
+.lightbox {
+    display: none;
+}
 /* ------------------------------------------ */
 /* --------------SIDEBAR BLOCK--------------- */
 /* ------------------------------------------ */
@@ -72,20 +79,81 @@ body {
     background: url('../img/circles/profile.svg') center center no-repeat;
 }
 
-#fullscreen-editor-btn {
-    height: 25px;
-    width: 7em;
-    background-color: rgb(86, 140, 189);
-    border-color: rgb(86, 140, 189);
-    border-top-left-radius: 8px;
-    position: relative;
-    left: -8.3em;
-    color: white;
-    text-align: center;
-    opacity: 0.8;
+/* ------------------------------------------ */
+/* -----------CODE CONTROLS BLOCK------------ */
+/* ------------------------------------------ */
+
+#code-editor-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2em;
+    background-color: #1ABC9C;
+    color: #AAAAAA;
+    line-height: 1em;
+    font-size: 1em;
+    overflow: hidden;
+}
+
+#code-editor-controls .row {
+    margin-right: -1em;
+    padding: 1em 1em 0 0;
+}
+
+#code-editor-controls .row > * {
+    margin-right: 1em; 
+    float: right;
     cursor: pointer;
 }
 
-#fullscreen-editor-btn:hover {
+#code-editor-controls .row > *:hover {
     opacity: 1;
+}
+
+#code-editor-controls .button, #code-editor-controls a {
+    color: #212E3D;
+    opacity: 0.8;
+}
+
+#code-editor-controls select {
+    margin-top: -0.25em;
+    border: 0;
+    background-color: #2E4054;
+    color: #fff;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0 6px;
+}
+
+#code-editor-controls select:focus {
+    border: 0;
+}
+
+#code-editor-controls #compile {
+    float: left;
+    background-color: #2E4054;
+    opacity: 1;
+    margin-top: -1em;
+    width: 3em;
+    height: 2em;
+}
+
+#compile-btn {
+    position: absolute;
+    bottom: 1.5em;
+    right: 1.5em;
+    width: 4em;
+    height: 4em;
+    background: url('../img/circles/star.svg') center center;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 2em;
+    z-index: 10;
+}
+
+#compile-btn:hover {
+    -webkit-box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.22);
+    -moz-box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.22);
+    box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.22);
 }

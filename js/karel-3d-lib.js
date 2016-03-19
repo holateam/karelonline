@@ -2,6 +2,7 @@ var DEF_CELL_WIDTH = 75;
 var DEF_CELL_HEIGHT = 10;
 var DEF_KAREL_RADIUS = 20;
 var DEF_BEEPER_SIZE = 10;
+var ANIMATION_SPEED_RANGE = [0.5, 5];
 var DIRECTION_PRESET_ARRAY = [ [0,-1], [1,0], [0,1], [-1,0] ];
 var BEEPER_POSITIONS_PRESET_ARRAY = [
     [                                                                                                           ],
@@ -58,6 +59,7 @@ function Karel3DWorld() {
     this.karel      = null;
     this.map        = null;
     this.animation  = {};
+    this.animSpeed  = 1;
 }
 
 /**
@@ -465,10 +467,10 @@ Karel3DWorld.prototype.render = function() {
     if (!this.stop) {
         if (this.animation) {
             if (this.animation.frames > 0) {
-                this.animation.frames--;
-                this.karel.mesh.position.x += this.animation.px;
-                this.karel.mesh.position.y += this.animation.py;
-                this.karel.mesh.rotation.z += this.animation.rz;
+                this.animation.frames -= this.animSpeed;
+                this.karel.mesh.position.x += this.animation.px * this.animSpeed;
+                this.karel.mesh.position.y += this.animation.py * this.animSpeed;
+                this.karel.mesh.rotation.z += this.animation.rz * this.animSpeed;
             } else {
                 fn = this.animation.callback;
                 args = this.animation.cbargs;
@@ -507,4 +509,9 @@ Karel3DWorld.prototype.stopWorld = function() {
 Karel3DWorld.prototype.startWorld = function() {
     this.stop = false;
     this.animationFrame = requestAnimationFrame( bind(this.render, this) );
+}
+
+Karel3DWorld.prototype.setSpeed = function(speed) {
+    var fixed = Math.min(Math.max(parseInt(speed), ANIMATION_SPEED_RANGE[0]), ANIMATION_SPEED_RANGE[1]);
+    this.animSpeed = fixed;
 }

@@ -1,10 +1,14 @@
 $(function () {
 
     var $renderer = $("#renderer");
-    var $codeEditor = $("#code-editor-tab");
+    var $codeEditor = $("#karel-code-editor");
     var $mapSelectionList = $("#world-list-tab");
+    var $languageList = $("#language-list"); 
+    var $speedSlider = $('#speed-slider');
 
     var renderer = '3D';
+    var language = 'cpp';
+
     var map =  {
         name: 'some map name',
         original: {
@@ -40,6 +44,7 @@ $(function () {
         }],
         description: 'problem solving'
     };
+
     Storage.addMap('Demonstrative Karel Map', map);
 
     var greetingsMove = [
@@ -52,7 +57,7 @@ $(function () {
 
     var karelCodeEditor = new KarelCodeEditor($codeEditor);
     var karelMapSelector = new MapSelector($mapSelectionList);
-    var sidebarManager = new SidebarSlider($codeEditor);
+    var sidebarManager = new SidebarSlider($('#code-editor-tab'));
 
     var karelMapEditor = null;
     var compileResults = null;
@@ -88,12 +93,12 @@ $(function () {
 
     function onCodeSubmit() {
         karelPlayer.resume();
+        karelCodeEditor.editor.setOption("fullScreen", false);
         playState = true;
         $('#play-pause-btn > .button').css('background-image', 'url("img/controls/pause.svg")');
         var code = karelCodeEditor.getCode();
         var data = KarelCodeCompiler.compile(code, map);
         compileResults = data.result;
-        console.log(data.commands);
         karelPlayer.play(data.commands, onPlayerFinish);
     }
 
@@ -101,7 +106,7 @@ $(function () {
         if (compileResults === null) {
             alert('No any compile results.');
         } else {
-            console.log(compileResults);
+            console.log('compileResults', compileResults);
             if (compileResults === true) {
                 alert('Task SOLVED!');
             } else {
@@ -109,6 +114,38 @@ $(function () {
             }
         }
     }
+
+    function editorFont(param) {
+        var fontStep = 2;
+        var mod = (param == 'increese') ? fontStep : -1 * fontStep;
+        var oldFontSize = parseInt($('.CodeMirror-line').css('font-size'));
+        var newFontSize = oldFontSize + mod;
+        $('.CodeMirror-line, .CodeMirror-linenumber').css('font-size', newFontSize);
+    }
+
+    function changeSpeed( event, ui ) {
+        karelPlayer.setSpeed(ui.value);
+    }
+
+    $speedSlider.slider({
+        min     : 0.5,
+        max     : 5,
+        value   : 1,
+        step    : 0.5,
+        change: changeSpeed
+    });
+
+    $languageList.change(function() {
+        var selected = $(this).val();
+        if (language != selected) {
+            language = selected;
+            karelCodeEditor.setMode(language);
+        }
+    });
+
+    $('#compile-btn').click(function(){
+        onCodeSubmit();
+    });
 
     $('#menu-btn').click(function() {
         sidebarManager.showTab($('#menu-tab'));
@@ -141,11 +178,16 @@ $(function () {
     $('body').keydown(function(e){
         if(e.which == 27 && karelCodeEditor.editor.getOption('fullScreen')){
             karelCodeEditor.editor.setOption("fullScreen", false);
+        } else if (e.which == 13 && e.ctrlKey) {
+            onCodeSubmit();
+        } else if (e.which == 33 && e.ctrlKey) {
+            editorFont('increese');
+        } else if (e.which == 34 && e.ctrlKey) {
+            editorFont('decreese');
         }
     });
 
     $('#renderer-switch').click(function(){
-        console.log(renderer);
         karelPlayer.destroy();
         $renderer.html('');
         if (renderer == '2D') {
