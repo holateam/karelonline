@@ -1,0 +1,580 @@
+
+body {
+    overflow: hidden;
+}
+
+.field-block {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.field-block .left {
+    float: left;
+    width: 90%;
+    height: 100%;
+}
+
+.field-block #map-editor {
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+/*_______________________________________________________size editor____________________________________________________
+*/
+
+.bottom-panel {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 5em;
+    z-index: 2;
+}
+
+.right-panel {
+    position: fixed;
+    right: 10%;
+    width: 6em;
+    height: 100%;
+    z-index: 2;
+}
+
+.bottom-center {
+    position: relative;
+    width: 200px;
+    left: 45%;
+    transform: translate(-50%, 0);
+}
+.bottom-center * {
+    display: inline-block;
+}
+
+.right-center {
+    position: relative;
+    height: 170px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+[class*=arrow-] {
+    width: 5em;
+    height: 5em;
+    opacity: 0.5;
+}
+
+#decrement-height {
+    background-size: 100% 100%;
+    background-image: url(../img/controls/top.svg);
+}
+#increment-height {
+    background-size: 100% 100%;
+    background-image: url(../img/controls/bottom.svg);
+}
+#increment-width {
+    background-size: 100% 100%;
+    background-image: url(../img/controls/right.svg);
+}
+#decrement-width {
+    background-size: 100% 100%;
+    background-image: url(../img/controls/left.svg);
+}
+
+.value {
+    background: white;
+    font-size: 2em;
+    width: 1em;
+    height: 1em;
+    opacity: 0.5;
+}
+
+[class*=arrow-]:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
+/*______________________________________________________left panel editor_______________________________________________
+*/
+
+#exit-btn .button {
+    background-image: url(../img/controls/exit.svg);
+}
+#reset .button {
+    background-image: url(../img/controls/reset.svg);
+}
+#save-start-map .button {
+    background-image: url(../img/controls/save-start.svg);
+}
+#save-final-map .button {
+    background-image: url(../img/controls/save-final.svg);
+}
+#finalize .button {
+    background-image: url(../img/controls/finalize.svg);
+}
+
+.row {
+    font-size: 2em;
+    margin-bottom: 1.3em;
+    /*
+    margin-top: 0;
+    */
+}
+#finalize {
+    margin-bottom: 0;
+}
+.controls {
+    z-index: 2;
+}
+
+.controls .row:hover {
+    opacity: 0.5;
+}
+
+.controls .row:hover .button {
+    opacity: 1;
+    background-size: 100% 100%;
+}
+
+/*________________________________________________list working maps______________________________________________________
+*/
+
+/*#save-start-map, #save-final-map {
+    box-sizing: border-box;
+}*/
+
+#final-maps {
+    position: relative;
+    top: -2em;
+    left: 0em;
+}
+#original-map {
+    position: absolute;
+    top: 25.5em;
+    left: 1em;
+}
+
+.controls li {
+    background: white;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.5);
+    color: #596a72;
+    padding: 5px 15px;
+    position: relative;
+    white-space: nowrap;
+
+}
+
+.close {
+    position: absolute;
+    display: inline-block;
+    top: -2px;
+    right: 2px;
+}
+
+/*#save-start-map::before{
+    content: "";
+    border-radius: 5%;
+    border: solid 1px #99A7AA;
+    font-size: small;
+    position: absolute;
+    top: 30px;
+    left: 200px;
+    width: 200px;
+    background: #ececec;
+    display: none;
+    z-index: 101;
+    padding: 5px 3px 5px 10px;
+}
+
+#save-start-map:hover::before, #save-final-map:hover::before{
+    display: inline-block;
+}*/
+
+/*
+.panel {
+    position: relative;
+    width: 100%;
+    background: #ececec;
+    z-index: 100;
+}
+
+.play-block .panel *, #controls button {
+    margin: 0.5em 0 0.5em 1em;
+}*/
+
+/*#controls {
+    width: 10%;
+    height: 100%;
+    float: left;
+    background: #ececec;
+}*/
+
+/*#map-editor-controls {
+    z-index: 100;
+}*/
+
+/*
+__________________________________________________________right panel editor____________________________________________
+*/
+
+
+#control-editor {
+    position: fixed;
+    right: 0;
+    height: 100%;
+    width: 10%;
+    background: white;
+    z-index: 5;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bottom-panel, .right-panel {
+    z-index: 2;
+}
+
+.cell-editor {
+    width: 70px;
+    float: right;
+    margin: 90px 20%;
+}
+
+.btn-cell {
+    width: 70px;
+    height: 70px;
+    margin-top: 30px;
+}
+
+
+
+#wall {
+    background-image: url('../img/textures/wall2.png');
+    border: solid 2px #99A7AA;
+}
+#beeper {
+    background-size: 120% 120%;
+    background-image: url('../img/controls/beeper.svg');
+    background-position: center;
+
+}
+#karel {
+     background: url('../img/textures/karel.png') no-repeat center;
+}
+#empty {
+    background: radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+    border: solid 2px #CED1CF;
+}
+#backpack {
+    background: url('../img/textures/backpack.png') no-repeat center;
+}
+#inner {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    background-color: #6BBA70;
+    position: relative;
+    top: 70%;
+    left: 70%;
+    text-align: center;
+    padding-top: 10px;
+    font-size: 11px;
+    box-sizing: border-box;
+}
+
+#zoom {
+    width: 70px;
+    height: 70px;
+    margin-top: 100px;
+    background: url('../img/textures/search.png') no-repeat center;
+}
+
+#minus, #plus {
+    border-radius: 5%;
+    border: solid 1px #99A7AA;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #ececec;
+    display: inline-block;
+    z-index: 101;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+}
+
+
+.cell-editor > ::after {
+    min-height: 2em;
+    border-radius: 5%;
+    border: solid 1px #99A7AA;
+    font-size: small;
+    position: relative;
+    top: -30px;
+    left: -200px;
+    width: 200px;
+    background: #ececec;
+    display: none;
+    z-index: 101;
+    padding: 5px 3px 5px 10px;
+}
+
+#wall::after {
+    content: "Click on the field to mount the wall. Click on the mounted wall to remove it.";
+}
+
+#empty::after {
+    content: "Click on the field to clear the cell.";
+}
+
+#karel::after {
+    content: "Click on the field to determinate Karel position. Click on Karel to change his direction. Click right mouse button to remove Karel";
+}
+
+#beeper::after {
+    content: "Click on the field to put beeper. Every click adds one beeper. Right mouse click remove one beeper";
+}
+
+#backpack::after {
+    content: "Click to set number of beepers in Karel's backpack.";
+}
+
+.cell-editor > .btn-cell:hover::after {
+    display: block;
+}
+
+.btn:hover, .cell:hover, .btn-cell:hover, .close:hover {
+    cursor: pointer;
+}
+
+/*======================================================================================================================*/
+/*.line {
+    overflow: hidden;
+    white-space: nowrap;
+}*/
+.cell {
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+    height: 90px;
+    width: 90px;
+    position: relative;
+    background-clip: padding-box;
+    background: radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+table {
+    border: solid 3px #596a72;
+    position: relative;
+    top: 25.5em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+td {
+    border: solid 2px #CED1CF;
+}
+
+.beeper {
+    display: inline-block;
+    background-size: 100% 100%;
+    background-image: url('../img/controls/beeper.svg');
+    background-repeat: no-repeat;
+    background-position: top -0.2em left -0.1em;
+    color: #6BBA70;
+    padding-left: 33px;
+    box-sizing: border-box;
+    font-size: 1.9em;
+    width: 40px;
+    height: 40px;
+}
+
+.karel {
+   // background: url('../img/textures/karel_map.png') no-repeat center;
+}
+
+.direction-east {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+                url('../img/textures/karel-arrowE.png') no-repeat top 84% right 10%,
+                radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-west {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowW.png') no-repeat top 84% left 10%,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-south {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowS.png') no-repeat bottom 0 center,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-north {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowN.png') no-repeat top 35% center,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.wall {
+    background-image: url('../img/textures/wall2.png');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sidebar {
+    z-index: 3;
+    position: absolute;
+    right: -8%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+#map-selector-btn {
+    padding-top: 4px;
+    height: 25px;
+    width: 7em;
+    background-color: rgb(86, 140, 189);
+    border-color: rgb(86, 140, 189);
+    border-top-left-radius: 8px;
+    position: absolute;
+    left: -8.5em;
+    color: white;
+    text-align: center;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.vertical-text {
+    transform: rotate(-90deg);
+    transform-origin: right top 0;
+}
+
+.tab {
+    position: relative;
+}
+
+.tab-title {
+    font-size: 2em;
+    padding: 0.4em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 19px 0 rgba(0, 0, 0, 0.22);
+}
+
+
+
+
+/*______________________________________________________pop-up window_____________________________________________________
+*/
+
+.controls {
+    position: absolute;
+}
+
+#complete {
+    padding: 10px;
+    box-sizing: border-box;
+    width: 20em;
+    height: 15em;
+    background: #fff;
+    border-radius: 5px;
+    position: absolute;
+    left: 7em;
+    bottom: 5em;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    font-size: 1em;
+    z-index: 2;
+    color: #333;
+    visibility: hidden;
+}
+
+.pop-up > span {
+    font-size: 1.2em;
+    /*
+    padding-left: 2em;
+    */
+}
+
+label{
+    display:block;
+    margin-top:1em;
+    margin-bottom:0.5em;
+}
+label::first-letter {
+    text-transform: capitalize;
+}
+label:first-child{
+    margin-top:0;
+}
+input[type="text"]{
+    width:100%;
+    border:1px solid #ccc;
+    padding:7px 5px;
+    background:white;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+input[type="text"]:focus{
+    box-shadow:0 0 5px rgba(50, 200, 255, 0.5);
+    outline: none;
+}
+
+input[type="submit"]{
+    display: inline-block;
+    width: 10em;
+}
+
+input[type="submit"], .networks{
+    margin-top: 30px;
+    padding: 5px 15px;
+    font-weight: bold;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #fff, #ddd);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow:0 1px 1px white;
+    cursor: pointer;
+}
+input:last-child {
+    float: right;
+}
+
+input[type="submit"]:hover {
+    background-image: linear-gradient(to bottom, #ddd, #bbb);
+}
+
+#beepers-count{
+    display: none;
+}
+
+#alert {
+    display: none;
+}
