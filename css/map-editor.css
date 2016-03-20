@@ -33,7 +33,6 @@ body {
     bottom: 0;
     width: 100%;
     height: 5em;
-    z-index: 2;
 }
 
 .right-panel {
@@ -41,7 +40,6 @@ body {
     right: 10%;
     width: 6em;
     height: 100%;
-    z-index: 2;
 }
 
 .flexible {
@@ -64,13 +62,14 @@ body {
     top: 50%;
     transform: translate(0, -50%);
     flex-direction: column;
-
 }
 
 [class*=arrow-] {
     width: 3em;
     height: 3em;
     opacity: 0.5;
+    z-index: 2;
+
 }
 
 #decrement-height {
@@ -106,7 +105,6 @@ body {
 [class*=arrow-]:hover {
     cursor: pointer;
     opacity: 1;
-
 }
 
 /*______________________________________________________left panel editor_______________________________________________
@@ -142,8 +140,6 @@ body {
     position: absolute;
     width: 1.4em;
     height: 1.4em;
-/*    top: 21.9em;
-    left: 2.4em;*/
     top: 20.7em;
     left: 5.4em;
     margin: 0;
@@ -196,8 +192,9 @@ body {
 .close {
     position: absolute;
     display: inline-block;
-    top: -2px;
-    right: 2px;
+    top: 0;
+    right: 0.2em;
+    font-size: 2em;
 }
 
 /*
@@ -466,7 +463,7 @@ td {
     background: #fff;
     border-radius: 5px;
     position: absolute;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.3);
     z-index: 2;
     color: #333;
     padding: 10px;
@@ -536,19 +533,18 @@ input[type="submit"]{
     margin-top: 30px;
     padding: 5px 15px;
     font-weight: bold;
-    background: white;
-    border: none;
     border-radius: 5px;
-    background-image: linear-gradient(to bottom, #fff, #ddd);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    text-shadow:0 1px 1px white;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
+    text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     float: right;
 
 }
 
 input[type="submit"]:hover {
-    background-image: linear-gradient(to bottom, #ddd, #bbb);
+    text-shadow:0 1px 1px white;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 #beepers-count{
     position: absolute;
