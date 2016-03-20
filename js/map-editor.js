@@ -194,34 +194,33 @@ function Maps(maps) {
     this.active_map = "start";
     this.name = maps.name || "new-map";
     this.description = maps.description || "problem solving";
-    this.start_map = unzipMap(maps.original);
-    this.start_map_editor = new MapEdited(this.start_map);
-    this.final_map = [];
+    this.start_map_editor = new MapEdited(unzipMap(maps.original));
     this.final_map_editor = [];
-    this.unzipMaps(maps.final);
+    this.activateFinalMapsEditor(maps.final);
     this.originalMap = {};
     this.finalMap = [];
 }
 
 //======================================================Methods descriptions============================================
 
-Maps.prototype.unzipMaps = function(maps){
+Maps.prototype.activateFinalMapsEditor = function(maps){
     var _this = this;
     maps.forEach( function (map, idx) {
-        _this.final_map.push(unzipMap(map));
-        _this.final_map_editor.push(new MapEdited(_this.final_map[idx]));
+        _this.addFinalMap(unzipMap(map));
+        if (idx > 0) {
+            addIconFinalMap(idx + 1);
+        }
     })
 };
 
-Maps.prototype.addFinalMap = function () {
+Maps.prototype.addFinalMap = function (map) {
     var _this = this;
-    var idx = _this.final_map.push(JSON.parse(JSON.stringify(basicMap))) - 1;
-    _this.final_map_editor.push(new MapEdited(_this.final_map[idx]));
+    var currentMap = map || JSON.parse(JSON.stringify(basicMap));
+    _this.final_map_editor.push(new MapEdited(map));
 };
 
 Maps.prototype.removeFinalMap = function (idx) {
     var _this = this;
-    _this.final_map.splice(idx, 1);
     _this.final_map_editor.splice(idx, 1);
 };
 Maps.prototype.getActiveMap = function () {
@@ -241,16 +240,17 @@ Maps.prototype.setActiveMap = function (map) {
 
 Maps.prototype.saveStartMap = function () {
     var _this = this;
-    _this.originalMap = zipMap(_this.start_map);
+    _this.originalMap = zipMap(_this.start_map_editor.map);
 
 };
 
 Maps.prototype.saveFinalMap = function () {
     var _this = this;
     var finalMaps = [];
-    _this.final_map.forEach( function (map) {
-        finalMaps.push(zipMap(map));
+    _this.final_map_editor.forEach( function (map) {
+        finalMaps.push(zipMap(map.map));
     });
+    console.log('FINAL MAPS: ', finalMaps);
     _this.finalMap = finalMaps;
 };
 
@@ -566,11 +566,11 @@ $final_map.click(function() {
 });
 
 $add_final_map.click(function() {
-    if (setMap.final_map.length == maxFinalMaps) {
+    if (setMap.final_map_editor.length == maxFinalMaps) {
         alertMessage('You can save up to ' + maxFinalMaps + ' final maps.');
     } else {
         setMap.addFinalMap();
-        addIconFinalMap(setMap.final_map.length);
+        addIconFinalMap(setMap.final_map_editor.length);
     }
 });
 
@@ -591,10 +591,10 @@ function createDomElementIcon (item) {
 }
 
 function smartRemoveFinalMap(idx) {
-    if (idx == 0 && setMap.final_map.length == 1) {
+    if (idx == 0 && setMap.final_map_editor.length == 1) {
         setMap.final_map_editor[idx].resetMap();
     } else {
-        $('#final-map' + setMap.final_map.length).remove();
+        $('#final-map' + setMap.final_map_editor.length).remove();
         setMap.removeFinalMap(idx);
     }
 }
@@ -638,7 +638,9 @@ $backpack_cell.click(function() {
 });
 
 $map_field.mousedown(function() {
-    $map_field.draggable();
+    if (!active_edit_button) {
+        $map_field.draggable();
+    }
 });
 
 $minus.click(function() {
