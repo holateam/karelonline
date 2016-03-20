@@ -44,36 +44,42 @@ body {
     z-index: 2;
 }
 
+.flexible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .bottom-center {
     position: relative;
     width: 200px;
     left: 45%;
     transform: translate(-50%, 0);
 }
-.bottom-center * {
-    display: inline-block;
-}
+
 
 .right-center {
     position: relative;
     height: 170px;
     top: 50%;
     transform: translate(0, -50%);
+    flex-direction: column;
+
 }
 
 [class*=arrow-] {
-    width: 5em;
-    height: 5em;
+    width: 3em;
+    height: 3em;
     opacity: 0.5;
 }
 
 #decrement-height {
     background-size: 100% 100%;
-    background-image: url(../img/controls/top.svg);
+    background-image: url(../img/controls/bottom.svg);
 }
 #increment-height {
     background-size: 100% 100%;
-    background-image: url(../img/controls/bottom.svg);
+    background-image: url(../img/controls/top.svg);
 }
 #increment-width {
     background-size: 100% 100%;
@@ -87,85 +93,104 @@ body {
 .value {
     background: white;
     font-size: 2em;
-    width: 1em;
-    height: 1em;
+    width: 1.3em;
+    height: 1.3em;
     opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 [class*=arrow-]:hover {
     cursor: pointer;
     opacity: 1;
+
 }
 
 /*______________________________________________________left panel editor_______________________________________________
 */
 
+
 #exit-btn .button {
-    background-image: url(../img/controls/exit.svg);
+    background-image: url(../img/controls/arrow-exit.svg);
 }
 #reset .button {
-    background-image: url(../img/controls/reset.svg);
+    background-image: url(../img/controls/reset-arrow.svg);
+    transform-origin: center center;
 }
-#save-start-map .button {
-    background-image: url(../img/controls/save-start.svg);
+#start-map .button {
+    background-image: url(../img/controls/start.svg);
 }
-#save-final-map .button {
-    background-image: url(../img/controls/save-final.svg);
-}
-#finalize .button {
-    background-image: url(../img/controls/finalize.svg);
+.final-maps .button {
+    background-image: url(../img/controls/final.svg);
 }
 
-.row {
-    font-size: 2em;
-    margin-bottom: 1.3em;
-    /*
-    margin-top: 0;
-    */
+#finalize .button {
+    background-image: url(../img/controls/save.svg);
 }
+.controls {
+    z-index: 3;
+}
+.row {
+    font-size: 1.3em;
+    margin-bottom: 1.3em;
+}
+#plus-final-map {
+    opacity: 0.5;
+    position: absolute;
+    width: 1.4em;
+    height: 1.4em;
+/*    top: 21.9em;
+    left: 2.4em;*/
+    top: 20.7em;
+    left: 5.4em;
+    margin: 0;
+    z-index: 2;
+    background-size: 100% 100%;
+    background-image: url(../img/controls/plus.svg);
+}
+
 #finalize {
     margin-bottom: 0;
 }
-.controls {
-    z-index: 2;
+
+.button + div {
+    position: relative;
+    color: black;
+    font-size: 1em;
+    line-height: 1em;
+    left: -2.1em;
+    top: 0.3em;
+}
+
+.cross-sign {
+    opacity: 1;
+    position: relative;
+    width: 0.8em;
+    height: 0.8em;
+    left: -2em;
+    top: 0;
+    z-index: 3;
+    background-size: 100% 100%;
+    background-image: url(../img/controls/cross-sign.svg);
+}
+#close-final, #close-final2, #close-final3 {
+    visibility: hidden;
+}
+#final-map:hover #close-final, #final-map2:hover #close-final2, #final-map3:hover #close-final3 {
+    visibility: visible;
 }
 
 .controls .row:hover {
     opacity: 0.5;
 }
 
-.controls .row:hover .button {
+.controls .row:hover .button, #plus-final-map:hover {
     opacity: 1;
     background-size: 100% 100%;
-}
-
-/*________________________________________________list working maps______________________________________________________
-*/
-
-/*#save-start-map, #save-final-map {
-    box-sizing: border-box;
-}*/
-
-#final-maps {
-    position: relative;
-    top: -2em;
-    left: 0em;
-}
-#original-map {
-    position: absolute;
-    top: 25.5em;
-    left: 1em;
-}
-
-.controls li {
-    background: white;
-    border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.5);
-    color: #596a72;
-    padding: 5px 15px;
-    position: relative;
-    white-space: nowrap;
-
+    cursor: pointer;
 }
 
 .close {
@@ -174,48 +199,6 @@ body {
     top: -2px;
     right: 2px;
 }
-
-/*#save-start-map::before{
-    content: "";
-    border-radius: 5%;
-    border: solid 1px #99A7AA;
-    font-size: small;
-    position: absolute;
-    top: 30px;
-    left: 200px;
-    width: 200px;
-    background: #ececec;
-    display: none;
-    z-index: 101;
-    padding: 5px 3px 5px 10px;
-}
-
-#save-start-map:hover::before, #save-final-map:hover::before{
-    display: inline-block;
-}*/
-
-/*
-.panel {
-    position: relative;
-    width: 100%;
-    background: #ececec;
-    z-index: 100;
-}
-
-.play-block .panel *, #controls button {
-    margin: 0.5em 0 0.5em 1em;
-}*/
-
-/*#controls {
-    width: 10%;
-    height: 100%;
-    float: left;
-    background: #ececec;
-}*/
-
-/*#map-editor-controls {
-    z-index: 100;
-}*/
 
 /*
 __________________________________________________________right panel editor____________________________________________
@@ -278,8 +261,6 @@ __________________________________________________________right panel editor____
     position: relative;
     top: 70%;
     left: 70%;
-    text-align: center;
-    padding-top: 10px;
     font-size: 11px;
     box-sizing: border-box;
 }
@@ -299,9 +280,10 @@ __________________________________________________________right panel editor____
     height: 30px;
     background: #ececec;
     display: inline-block;
-    z-index: 101;
+    z-index: 5;
     box-sizing: border-box;
     text-align: center;
+    padding-top: 5px;
     cursor: pointer;
 }
 
@@ -316,9 +298,11 @@ __________________________________________________________right panel editor____
     left: -200px;
     width: 200px;
     background: #ececec;
-    display: none;
-    z-index: 101;
+    visibility: hidden;
+    z-index: 6;
     padding: 5px 3px 5px 10px;
+    transition: all 0.25s ease-in-out;
+    display: block;
 }
 
 #wall::after {
@@ -342,7 +326,9 @@ __________________________________________________________right panel editor____
 }
 
 .cell-editor > .btn-cell:hover::after {
-    display: block;
+    transition: all 0.5s ease-in-out;
+    transition-delay: 1s;
+    visibility: visible;
 }
 
 .btn:hover, .cell:hover, .btn-cell:hover, .close:hover {
@@ -350,10 +336,7 @@ __________________________________________________________right panel editor____
 }
 
 /*======================================================================================================================*/
-/*.line {
-    overflow: hidden;
-    white-space: nowrap;
-}*/
+
 .cell {
     display: inline-block;
     box-sizing: border-box;
@@ -426,29 +409,10 @@ td {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #sidebar {
     z-index: 3;
     position: absolute;
-    right: -8%;
+    right: -7.6em;
     height: 100%;
     transition: all 0.5s ease-in-out;
 }
@@ -496,29 +460,46 @@ td {
 .controls {
     position: absolute;
 }
-
-#complete {
-    padding: 10px;
+.pop-up {
     box-sizing: border-box;
-    width: 20em;
-    height: 15em;
     background: #fff;
     border-radius: 5px;
     position: absolute;
-    left: 7em;
-    bottom: 5em;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    font-size: 1em;
     z-index: 2;
     color: #333;
+    padding: 10px;
+}
+
+.dialog {
+    transform: translate(-50%, -50%);
+    font-size: 1em;
+    top: 50%;
+    left: 45%;
+}
+
+#ok-alert {
+    bottom: -1.5em;
+}
+
+#alert {
+    width: auto;
+    min-height: 10em;
+    white-space: normal;
+    text-align: center;
+    padding: 2em 2em;
     visibility: hidden;
 }
 
-.pop-up > span {
+#complete {
+    padding: 10px;
+    width: 20em;
+    height: 15em;
+    visibility: hidden;
+}
+
+span {
     font-size: 1.2em;
-    /*
-    padding-left: 2em;
-    */
 }
 
 label{
@@ -548,10 +529,9 @@ input[type="text"]:focus{
 
 input[type="submit"]{
     display: inline-block;
+    position: relative;
+    bottom: 0;
     width: 10em;
-}
-
-input[type="submit"], .networks{
     margin-top: 30px;
     padding: 5px 15px;
     font-weight: bold;
@@ -562,19 +542,29 @@ input[type="submit"], .networks{
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     text-shadow:0 1px 1px white;
     cursor: pointer;
-}
-input:last-child {
     float: right;
+
 }
 
 input[type="submit"]:hover {
     background-image: linear-gradient(to bottom, #ddd, #bbb);
 }
-
 #beepers-count{
-    display: none;
+    position: absolute;
+    top: 70%;
+    right: 1em;
+    z-index: 6;
+    visibility: hidden;
+}
+#beepers-count * {
+    display: inline-block;
 }
 
-#alert {
-    display: none;
+#beepers-count > input {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    box-shadow:0 0 10px rgba(50, 255, 200, 0.5);
+    text-align: center;
 }
+

@@ -2,20 +2,25 @@
 document.body.oncontextmenu = function() {
     return false;
 };
+var start_map = [];
+var final_map = [];
 
 var maxCellsInLine = 15;
 var minCellsInLine = 1;
-var maxFinalMaps = 5;
+var maxFinalMaps = 3;
 
 //Storage.clear('maps');
 
+var visualise = {"visibility": "visible"};
+var hide = {"visibility": "hidden"};
 //____________________________________________________________buttons___________________________________________________
 
 var $exit_btn = $('#exit-btn');
 var $select_map = $('#map-selection-list');
 var $reset_btn = $('#reset');
-var $save_start_map = $('#save-start-map');
-var $save_final_map = $('#save-final-map');
+var $start_map = $('#start-map');
+var $final_map = $('#final-map');
+var $add_final_map = $('#plus-final-map');
 var $finalize = $('#finalize');
 var $decrement_height = $('#decrement-height');
 var $increment_height = $('#increment-height');
@@ -29,6 +34,7 @@ var $backpack_cell = $('#backpack');
 var $minus = $('#minus');
 var $plus = $('#plus');
 
+var $close_final = $('#close-final');
 var $complete = $('#complete');
 var $name = $('#name');
 var $description = $('#description');
@@ -42,6 +48,7 @@ var $num_beepers = $('#num-beepers');
 /*
 var $submit = $('#submit');
 */
+var $button_panel = $('#button-panel');
 var $map_selector_btn = $('#map-selector-btn');
 var $sidebar = $('#sidebar');
 var $map_list = $('#world-list-tab');
@@ -51,7 +58,122 @@ var $val_height = $('#value-height');
 var $count_beepers = $('#inner');
 var $original_map = $('#original-map');
 var $final_maps = $('#final-maps');
-//______________________________________________________________________________________________________________________
+var $reset_arrow = $('#reset-arrow');
+//=================================================active buttons functions=============================================
+
+
+//_____________________________________________________edit cell buttons________________________________________________
+
+var active_edit_button = false;
+
+function activeToggle (el) {
+    $(".btn-cell").css({"box-shadow": "none"});
+    if (active_edit_button == el) {
+        active_edit_button = false;
+    } else {
+        active_edit_button = el;
+        $(el).css({"box-shadow": "0 0 10px #000"});
+    }
+}
+
+//_______________________________________________________edit backpack__________________________________________________
+
+var active_backpack = false;
+
+function changeNumBeepersInBackpack() {
+    active_backpack = true;
+    $beepers_count.css(visualise);
+    $num_beepers.val($count_beepers.text());
+    $num_beepers.keypress( function(e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == 13) {
+            var result = parseInt($num_beepers.val());
+            if (result >= 0 && result <= 1000) {
+                $count_beepers.text(result);
+            }
+            $beepers_count.css(hide);
+            active_backpack = false;
+        }
+    });
+
+}
+
+function hideInput() {
+    $beepers_count.css(hide);
+    active_backpack = false;
+}
+
+//_______________________________________________________show world list________________________________________________
+
+var active_selector = false;
+
+
+function toggleShowWorldList() {
+    if (active_selector) {
+        $sidebar.css({"right": "-7.6em"});
+        active_selector = false;
+    } else {
+        $sidebar.css({"right": "9.5em"});
+        active_selector = true;
+    }
+}
+
+
+//__________________________________________________zip map_____________________________________________________________
+
+function zipMap(map) {
+    var zippedMap = [];
+    var currKarel = {};
+    for (var row = 0; row < map.length; row++) {
+        zippedMap.push([]);
+        for (var cell = 0; cell < map[row].length; cell++) {
+            var symbol = '';
+            if (map[row][cell].blocked) {
+                symbol = 'x';
+            } else if (map[row][cell].beepers) {
+                symbol = map[row][cell].beepers;
+            }
+            if (map[row][cell].isKarel) {
+                currKarel.position = [cell, row];
+                currKarel.direction = map[row][cell].karelDirection % 4;
+                currKarel.beeperInBag = $count_beepers.text();
+            }
+            zippedMap[row].push(symbol);
+        }
+    }
+    return {map: zippedMap, karel: currKarel};
+}
+
+//__________________________________________________unzip map___________________________________________________________
+
+function unzipMap(map){
+    var resultMap = [];
+    for (var y = 0; y < map.map.length; y++) {
+        resultMap.push([]);
+        for (var x = 0; x < map.map[y].length; x++){
+            var cell;
+            if (!map.map[y][x]) {
+                cell = new Cell();
+            } else if (map.map[y][x] == 'x'){
+                cell = new Cell(true);
+            } else {
+                cell = new Cell(false, map.map[y][x]);
+            }
+            resultMap[y].push(cell);
+        }
+    }
+    if (map.karel.position) {
+        cell = resultMap[map.karel.position[1]][map.karel.position[0]];
+        resultMap[map.karel.position[1]][map.karel.position[0]] = new Cell(cell.blocked, cell.beepers, true, map.karel.direction);
+        $count_beepers.text(map.karel.beeperInBag);
+    }
+    return resultMap;
+}
+
+
+
+//===================================================Classes constructors===============================================
+
 
 function Cell(wall, beepers, karel, direction){
     this.blocked = wall || false;
@@ -62,72 +184,104 @@ function Cell(wall, beepers, karel, direction){
 
 function MapEdited(map) {
     this.map = map;
-    this.name = "new-map";
-    this.description = 'problem solving';
     this.karel = false;
     this.karelPosition = [-1, -1];
-    this.active_btn = false;
-    this.originalMap = {};
-    this.finalMap = [];
-    this.zippedMap = [];
-    this.zippedKarel = {};
     this.scale = 1;
 }
 
 
+function Maps(maps) {
+    this.active_map = "start";
+    this.name = maps.name || "new-map";
+    this.description = maps.description || "problem solving";
+    this.start_map = unzipMap(maps.original);
+    this.start_map_editor = new MapEdited(this.start_map);
+    this.final_map = [];
+    this.final_map_editor = [];
+    this.unzipMaps(maps.final);
+    this.originalMap = {};
+    this.finalMap = [];
+}
 
-//__________________________________________________zip map_____________________________________________________________
+//======================================================Methods descriptions============================================
 
-MapEdited.prototype.zipMap = function() {
-    this.zippedMap = [];
-    this.zippedKarel = {};
-    for (var row = 0; row < this.map.length; row++) {
-        this.zippedMap.push([]);
-        for (var cell = 0; cell < this.map[row].length; cell++) {
-            var symbol = '';
-            if (this.map[row][cell].blocked) {
-                symbol = 'x';
-            } else if (this.map[row][cell].beepers) {
-                symbol = this.map[row][cell].beepers;
-            }
-            if (this.map[row][cell].isKarel) {
-                this.zippedKarel.position = [cell, row];
-                this.zippedKarel.direction = this.map[row][cell].karelDirection % 4;
-                this.zippedKarel.beeperInBag = $count_beepers.text();
-            }
-            this.zippedMap[row].push(symbol);
-        }
-    }
-};
-
-//__________________________________________________unzip map___________________________________________________________
-
-MapEdited.prototype.unzipMap = function (map) {
+Maps.prototype.unzipMaps = function(maps){
     var _this = this;
-    _this.map = [];
-    for (var y = 0; y < map.map.length; y++) {
-        _this.map.push([]);
-        for (var x = 0; x < map.map[y].length; x++){
-            var cell;
-            if (!map.map[y][x]) {
-                cell = new Cell();
-            } else if (map.map[y][x] == 'x'){
-                cell = new Cell(true);
-            } else {
-                cell = new Cell(false, map.map[y][x]);
-            }
-            _this.map[y].push(cell);
-        }
-    }
-    if (map.karel.position) {
-        cell = _this.map[map.karel.position[1]][map.karel.position[0]];
-        _this.map[map.karel.position[1]][map.karel.position[0]] = new Cell(cell.blocked, cell.beepers, true, map.karel.direction);
-        _this.karelPosition = map.karel.position;
-        $count_beepers.text(map.karel.beeperInBag);
+    maps.forEach( function (map, idx) {
+        _this.final_map.push(unzipMap(map));
+        _this.final_map_editor.push(new MapEdited(_this.final_map[idx]));
+    })
+};
+
+Maps.prototype.addFinalMap = function () {
+    var _this = this;
+    var idx = _this.final_map.push(JSON.parse(JSON.stringify(basicMap))) - 1;
+    _this.final_map_editor.push(new MapEdited(_this.final_map[idx]));
+};
+
+Maps.prototype.removeFinalMap = function (idx) {
+    var _this = this;
+    _this.final_map.splice(idx, 1);
+    _this.final_map_editor.splice(idx, 1);
+};
+Maps.prototype.getActiveMap = function () {
+    var _this = this;
+    if (_this.active_map == "start") {
+        return _this.start_map_editor;
+    } else {
+        return _this.final_map_editor[_this.active_map];
     }
 };
 
+Maps.prototype.setActiveMap = function (map) {
+    var _this = this;
+    _this.active_map = map;
+    _this.getActiveMap().redrawMap();
+};
 
+Maps.prototype.saveStartMap = function () {
+    var _this = this;
+    _this.originalMap = zipMap(_this.start_map);
+
+};
+
+Maps.prototype.saveFinalMap = function () {
+    var _this = this;
+    var finalMaps = [];
+    _this.final_map.forEach( function (map) {
+        finalMaps.push(zipMap(map));
+    });
+    _this.finalMap = finalMaps;
+};
+
+Maps.prototype.saveAllMaps = function () {
+    var _this = this;
+    var maps = {};
+    $name.val(_this.name);
+    $description.val(_this.description);
+    $complete.css(visualise);
+    $complete.submit(function () {
+        _this.name = ($name.val()) ?  $name.val() : _this.name;
+        _this.description = ($description.val()) ? $description.val() : _this.description;
+        maps.name = _this.name;
+        maps.original = _this.originalMap;
+        maps.final = _this.finalMap;
+        maps.description = _this.description;
+        Storage.addMap(_this.name, maps);
+        $complete.css(hide);
+    });
+};
+
+Maps.prototype.completeEdit = function () {
+    var _this = this;
+    _this.saveStartMap();
+    if (!_this.originalMap.karel.position){
+        alertMessage('You should determine Karel position for start map!');
+    } else {
+        _this.saveFinalMap();
+        _this.saveAllMaps();
+    }
+};
 
 
 //___________________________________________________draw map___________________________________________________________
@@ -156,6 +310,7 @@ function analyzeCell(y, x, cell, ctx){
     var direction;
     if (cell.beepers && cell.isKarel) {
         ctx.karel = true;
+        ctx.karelPosition = [x, y];
         direction = renderKarelDirection(cell.karelDirection % 4);
         return '<div class="cell karel ' + direction + '" id="' + id + '"><div class="beeper">' + cell.beepers + '</div></div>';
     }
@@ -164,6 +319,7 @@ function analyzeCell(y, x, cell, ctx){
     }
     if (cell.isKarel) {
         ctx.karel = true;
+        ctx.karelPosition = [x, y];
         direction = renderKarelDirection(cell.karelDirection % 4);
         return '<div class="cell karel ' + direction + '" id="' + id + '"></div>';
     }
@@ -198,6 +354,7 @@ MapEdited.prototype.redrawMap = function () {
     });
     $val_height.text(_this.map.length);
     $val_width.text(_this.map[0].length);
+    $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
 // Edit map
@@ -260,19 +417,6 @@ MapEdited.prototype.scaleMap = function(resize) {
     $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
-//_______________________________________________________active-edit-button_____________________________________________
-
-MapEdited.prototype.activeToggle = function (el) {
-    var _this = this;
-    $(".btn-cell").css({"box-shadow": "none"});
-    if (_this.active_btn == el) {
-        _this.active_btn = false;
-    } else {
-        _this.active_btn = el;
-        $(el).css({"box-shadow": "0 0 10px #000"});
-    }
-};
-
 //_____________________________________________________edit-cell________________________________________________________
 
 MapEdited.prototype.editMap = function (id, decrement) {
@@ -280,12 +424,13 @@ MapEdited.prototype.editMap = function (id, decrement) {
     var y = id.slice(1, pos);
     var x = id.slice(pos + 1);
     var currentCell = this.map[y][x];
-    if (this.active_btn) {
-        if (this.active_btn == "#wall") {
+    console.log('Y: ' + y + ' X: ' + x + ' ', this.map[y][x]);
+    if (active_edit_button) {
+        if (active_edit_button == "#wall") {
             mountWall(currentCell);
-        } else if (this.active_btn == "#beeper") {
+        } else if (active_edit_button == "#beeper") {
             changeBeepersCount(currentCell, decrement);
-        } else if (this.active_btn == "#empty") {
+        } else if (active_edit_button == "#empty") {
             clearCell(currentCell);
         } else {
             determinateKarelPosition(this, x, y, currentCell, decrement);
@@ -331,7 +476,7 @@ function determinateKarelPosition(ctx, x, y, cell, decrement) {
     }  else if (cell.isKarel) {
         cell.karelDirection = cell.karelDirection % 4 + 1;
     } else if (!decrement) {
-        console.log(ctx.active_btn);
+        console.log(active_edit_button);
         cell.isKarel = true;
         cell.blocked = false;
         if (ctx.karel) {
@@ -354,121 +499,13 @@ function removeKarel(cell) {
 
 MapEdited.prototype.resetMap = function () {
     var _this = this;
-    _this.activeToggle(_this.active_btn);
-    _this.map = JSON.parse(JSON.stringify(startMap));
+    activeToggle(false);
+    _this.map = JSON.parse(JSON.stringify(basicMap));
     _this.scale = 1;
     $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
     $map_field.css( 'top', 0);
     $map_field.css( 'left', 0);
     _this.redrawMap();
-};
-
-//___________________________________________________save start map_____________________________________________________
-
-function  createDomElementLi(id, name) {
-    return '<li id="' + id + '">' + name + '<div class="close" id="' + id + '-x">' + String.fromCharCode(215) + '</div></li>';
-}
-
-
-MapEdited.prototype.saveStartMap = function () {
-    var _this = this;
-    _this.activeToggle(_this.active_btn);
-    _this.zipMap();
-    if (!_this.zippedKarel.position) {
-        alertMessage('You should determine Karel position! Start map cannot be saved :(');
-    } else {
-        _this.originalMap = {map: _this.zippedMap, karel: _this.zippedKarel};
-        $original_map.html(createDomElementLi("start-map", "current start map"));
-        $('#start-map').click(function() {
-            loadSavedMap({original: _this.originalMap});
-        });
-        $('#start-map-x').click(function(){
-            $('#start-map').remove();
-            _this.originalMap = {};
-        });
-    }
-};
-
-//___________________________________________________save final map_____________________________________________________
-var idFinalMaps = {};
-var number = 0;
-
-
-
-
-MapEdited.prototype.saveFinalMap = function () {
-    var _this = this;
-    _this.activeToggle(_this.active_btn);
-    if (_this.finalMap.length == maxFinalMaps) {
-        alertMessage('You can save up to ' + maxFinalMaps + ' final maps. Your first final map will be removed.');
-        _this.finalMap.shift();
-        removeFinalMap(findIdMatchIdxZero());
-    }
-    _this.zipMap();
-    var idx = _this.finalMap.push({map: _this.zippedMap, karel: _this.zippedKarel}) - 1;
-    var  id = Math.random().toString().substr(2, 5);
-    $final_maps.append(createDomElementLi(id, 'current final map #' + ++number));
-    idFinalMaps[id] = idx;
-    $('#' + id + '').click(function() {
-        loadSavedMap({original: _this.finalMap[idFinalMaps[id]]});
-    });
-    $('#' + id + '-x').click(function(){
-        _this.finalMap.splice(idFinalMaps[id], 1);
-        removeFinalMap(id);
-    });
-};
-
-
-
-
-function findIdMatchIdxZero() {
-    for (var key in idFinalMaps) {
-        if (idFinalMaps[key] == 0) {
-            return key;
-        }
-    }
-}
-
-function removeFinalMap(id) {
-    $('#' + id + '').remove();
-    var idx = idFinalMaps[id];
-    delete idFinalMaps[id];
-    matchIdToIdx(idx);
-}
-
-function matchIdToIdx(idx) {
-    for (var keyId in idFinalMaps) {
-        if (idFinalMaps[keyId] > idx){
-            idFinalMaps[keyId]--;
-        }
-    }
-}
-
-//___________________________________________________save all maps______________________________________________________
-
-MapEdited.prototype.completeEdit = function () {
-    var _this = this;
-    var maps = {};
-    _this.activeToggle(_this.active_btn);
-    if (!_this.originalMap.map){
-        alertMessage('You should save start map!');
-    } else if (!_this.finalMap.length > 0) {
-        alertMessage('You should save at least one final map!');
-    } else {
-        $complete.css({"visibility": "visible"});
-        $complete.submit(function () {
-            _this.name = ($name.val()) ?  $name.val() : _this.name;
-            _this.description = ($description.val()) ? $description.val() : _this.description;
-            maps.name = _this.name;
-            maps.original = _this.originalMap;
-            maps.final = _this.finalMap;
-            maps.description = _this.description;
-            Storage.addMap(_this.name, maps);
-            _this.originalMap = {};
-            _this.finalMap = [];
-            $complete.css({"visibility": "hidden"});
-        });
-    }
 };
 
 
@@ -478,19 +515,19 @@ MapEdited.prototype.completeEdit = function () {
 // ___________________________________________resize map _______________________________________________________________
 
 $increment_width.click(function(){
-    currentMap.incrementWidth();
+    setMap.getActiveMap().incrementWidth();
 });
 
 $decrement_width.click(function() {
-    currentMap.decrementWidth();
+    setMap.getActiveMap().decrementWidth();
 });
 
 $increment_height.click(function(){
-    currentMap.incrementHeight();
+    setMap.getActiveMap().incrementHeight();
 });
 
 $decrement_height.click(function(){
-    currentMap.decrementHeight();
+    setMap.getActiveMap().decrementHeight();
 });
 
 //_______________________________________________________exit__________________________________________________________
@@ -503,123 +540,138 @@ $exit_btn.click(function(){
 
 
 $reset_btn.click(function(){
-    currentMap.resetMap();
-    });
-
-//___________________________________________________save start map_____________________________________________________
-
-
-$save_start_map.click(function() {
-    currentMap.saveStartMap();
+    $reset_arrow.css({"transform": "rotate(360deg)"});
+    $reset_arrow.css({"transition": "all 0.5s linear"});
+    setMap.getActiveMap().resetMap();
+    setTimeout(function() {
+        $reset_arrow.css({"transition": "none"});
+        $reset_arrow.css({"transform": "none"})
+    }, 1000);
 });
 
-//___________________________________________________save final map_____________________________________________________
+//___________________________________________________show start map_____________________________________________________
 
-$save_final_map.click(function() {
-    currentMap.saveFinalMap();
+
+$start_map.click(function() {
+    //console.log("click on start map: ");
+    setMap.setActiveMap("start");
+    //console.log('Current active map: ', setMap.active_map);
+
+});
+
+//___________________________________________________add remove and show final map_____________________________________________
+
+$final_map.click(function() {
+    setMap.setActiveMap(0);
+});
+
+$add_final_map.click(function() {
+    if (setMap.final_map.length == maxFinalMaps) {
+        alertMessage('You can save up to ' + maxFinalMaps + ' final maps.');
+    } else {
+        setMap.addFinalMap();
+        addIconFinalMap(setMap.final_map.length);
+    }
+});
+
+function addIconFinalMap(item) {
+    var icon = createDomElementIcon(item);
+    $button_panel.append(icon);
+    var idx =  item - 1;
+    $('#final-map' + item).click(function() {
+        setMap.setActiveMap(idx);
+    });
+    $('#close-final' + item).click(function() {
+         smartRemoveFinalMap(idx);
+    });
+}
+
+function createDomElementIcon (item) {
+    return '<div class="row final-maps" id="final-map' + item + '"><div class="button"></div><div>' + item + '</div><div class="cross-sign" id="close-final' + item + '"></div></div>';
+}
+
+function smartRemoveFinalMap(idx) {
+    if (idx == 0 && setMap.final_map.length == 1) {
+        setMap.final_map_editor[idx].resetMap();
+    } else {
+        $('#final-map' + setMap.final_map.length).remove();
+        setMap.removeFinalMap(idx);
+    }
+}
+
+$close_final.click(function() {
+    smartRemoveFinalMap(0);
 });
 
 //___________________________________________________save all maps______________________________________________________
 
 $finalize.click(function() {
-    currentMap.completeEdit();
+    setMap.completeEdit();
 });
 
 //___________________________________________________map-edit-buttons___________________________________________________
 
 
 $wall_cell.click(function(){
-    currentMap.activeToggle('#wall');
+    activeToggle('#wall');
 });
 
 $beeper_cell.click(function(){
-    currentMap.activeToggle('#beeper');
+    activeToggle('#beeper');
 });
 
 $karel_cell.click(function(){
-    currentMap.activeToggle('#karel');
+    activeToggle('#karel');
 });
 
 $empty_cell.click(function() {
-    currentMap.activeToggle('#empty');
+    activeToggle('#empty');
 });
 
-var active_backpack = false;
 
 $backpack_cell.click(function() {
     if (active_backpack) {
-        hideSlider();
+        hideInput();
     } else {
         changeNumBeepersInBackpack();
     }
 });
 
-function changeNumBeepersInBackpack() {
-    active_backpack = true;
-    $beepers_count.css({"left": "84.5%"});
-    $num_beepers.val($count_beepers.text());
-    $num_beepers.keypress( function(e) {
-        var keycode = (e.keyCode ? e.keyCode : e.which);
-        if (keycode == 13) {
-            var result = parseInt($num_beepers.val());
-            if (result >= 0 && result <= 1000) {
-                $count_beepers.text(result);
-            }
-            $beepers_count.css({"left": "100%"});
-            active_backpack = false;
-        }
-    });
-
-}
-
-function hideSlider() {
-    $beepers_count.css({"left": "100%"});
-    active_backpack = false;
-}
-
 $map_field.mousedown(function() {
     $map_field.draggable();
 });
 
-
 $minus.click(function() {
-    currentMap.scaleMap('decrement');
+    setMap.getActiveMap().scaleMap('decrement');
 });
 
 $plus.click(function() {
-    currentMap.scaleMap('increment');
+    setMap.getActiveMap().scaleMap('increment');
 });
 
 //________________________________________________other functional buttons________________________________________________
 
 function alertMessage(msg) {
     $alert_msg.text(msg);
-    $alert.css({"visibility": "visible"});
+    $alert.css(visualise);
 }
 
 $close_alert.click( function() {
-    $alert.css({"visibility": "hidden"});
+    $alert.css(hide);
 });
 
 $ok_alert.click( function() {
-    $alert.css({"visibility": "hidden"});
+    $alert.css(hide);
 });
 
 
 $close_pop_up.click( function() {
-    $complete.css({"visibility": "hidden"});
+    $complete.css(hide);
 });
 
 
-var active_selector = false;
 $map_selector_btn.click( function() {
-    if (active_selector) {
-        $sidebar.css({"right": "-15em"});
-        active_selector = false;
-    } else {
-        $sidebar.css({"right": 0});
-        active_selector = true;
-    }
+    toggleShowWorldList();
 });
 
 //_____________________________________________________start edit map___________________________________________________
@@ -627,12 +679,15 @@ $map_selector_btn.click( function() {
 var editorMapSelector = new MapSelector($map_list);
 
 var emptyCell = new Cell();
-var startMap =[[emptyCell]];
-var clone = JSON.parse(JSON.stringify(startMap));
-var currentMap = new MapEdited(clone);
-currentMap.redrawMap();
+var basicMap =[[emptyCell]];
+var setMap = new Maps({original: {map: [['']], karel: {}}, final: [{map: [['']], karel: {}}]});
+setMap.getActiveMap().redrawMap();
 
-editorMapSelector.onChange(loadSavedMap);
+
+
+
+
+editorMapSelector.onChange(loadSetMaps);
 
 editorMapSelector.formUlList({
     deleteCallback : function (map) {
@@ -641,14 +696,8 @@ editorMapSelector.formUlList({
 });
 
 editorMapSelector.formOptions();
+function  loadSetMaps(maps) {
+    setMap = new Maps(maps);
+    setMap.getActiveMap().redrawMap();
 
-function loadSavedMap(maps) {
-    if (maps.name) {
-        currentMap.name = maps.name;
-    }
-    if (maps.description) {
-        currentMap.description = maps.description;
-    }
-    currentMap.unzipMap(maps.original);
-    currentMap.redrawMap();
 }

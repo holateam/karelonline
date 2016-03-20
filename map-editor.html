@@ -5,10 +5,6 @@
     <title>Karel Map Editor</title>
 
     <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
-<!--
-    <link rel="stylesheet" type="text/css" href="vendor/css/flat-ui.css">
--->
-
     <link rel="stylesheet" href="css/map-editor.css">
     <link rel="stylesheet" href="css/controls.css">
     <link rel="stylesheet" href="css/tabs.css">
@@ -27,33 +23,31 @@
 </header>
 <div class="field-block">
     <div class="left">
-            <div class="controls top">
+            <div class="controls top" id="button-panel">
                 <div class="row" id="exit-btn">
                     <div class="button"></div>
                 </div>
                 <div class="row" id="reset">
+                    <div class="button" id="reset-arrow"></div>
+                </div>
+                <div class="row" id="start-map">
                     <div class="button"></div>
                 </div>
-                <div class="row" id="save-start-map">
+                <div id="plus-final-map">
+                </div>
+                <div class="row final-maps" id="final-map">
                     <div class="button"></div>
-                </div>
-                <div>
-                    <ul id="original-map"></ul>
-                </div>
-                <div class="row" id="save-final-map">
-                    <div class="button"></div>
-                </div>
-                <div>
-                    <ul id="final-maps"></ul>
+                    <div>1</div>
+                    <div class="cross-sign" id="close-final"></div>
                 </div>
             </div>
-        <div class="pop-up slider" id="beepers-count">
-            <label for="num-beepers">Input number of beepers:</label>
-            <input type="text" id="num-beepers" />
+        <div id="beepers-count">
+
+            <input type="text" id="num-beepers" autofocus/>
         </div>
-        <form class="pop-up " id="complete">
+        <form class="pop-up dialog" id="complete">
             <div id="close-pop-up" class="close">&#215</div>
-            <span>To save edited maps input:</span>
+            <div class="flexible"><span>To save edited maps input:</span></div>
             <label for="name">name:</label>
             <input type="text" id="name" name="name" />
             <label for="description">short description:</label>
@@ -67,7 +61,7 @@
         </div>
 
         <div class="bottom-panel">
-            <div class="bottom-center">
+            <div class="flexible bottom-center">
                 <div class="arrow-lft" id="decrement-width"></div>
                 <div class="value" id="value-width">1</div>
                 <div class="arrow-rgt" id="increment-width"></div>
@@ -75,17 +69,17 @@
         </div>
 
         <div class="right-panel">
-            <div class="right-center">
-                <div class="arrow-top" id="decrement-height"></div>
+            <div class="flexible right-center">
+                <div class="arrow-top" id="increment-height"></div>
                 <div class="value" id="value-height">1</div>
-                <div class="arrow-bottom" id="increment-height"></div>
+                <div class="arrow-bottom" id="decrement-height"></div>
             </div>
         </div>
 
         <div id="map-editor">
-            <div class="pop-up" id="alert">
-                <div id="close-alert">&#215</div>
-                <span id="alert-msg"></span>
+            <div class="pop-up dialog" id="alert">
+                <div class="close" id="close-alert">&#215</div>
+                <div class="flexible"><span id="alert-msg"></span></div>
                 <input type="submit" value="OK" id="ok-alert"/>
             </div>
             <div id="map-field"></div>
@@ -119,7 +113,7 @@
             <div class="btn-cell" id="karel">
             </div>
             <div class="btn-cell" id="backpack">
-                <div id="inner">1000</div>
+                <div class="flexible" id="inner">1000</div>
             </div>
             <div id="zoom"></div>
             <div id="minus">&#150</div>
