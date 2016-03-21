@@ -605,9 +605,6 @@ Karel2dPlayer.prototype.allFinished=function(){
     console.log("all finished");
     this.arMoves=false;
     this.karelDancingBounce.pause();
-    this.game.lockRender = true;
-    this.game.paused = true;
-    this.game.stage.disableVisibilityChange = true;
     //this.music.stop();
 };
 

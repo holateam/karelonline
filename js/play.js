@@ -184,6 +184,10 @@ $(function () {
             editorFont('increese');
         } else if (e.which == 34 && e.ctrlKey) {
             editorFont('decreese');
+        } else if (e.which == 113) { // f2
+            karelPlayer.destroy();
+            $renderer.html('');
+            preparePlayer(map, '2D');
         }
     });
 
