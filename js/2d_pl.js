@@ -1,6 +1,7 @@
 var FPS = 30;
 
 function Karel2DWorld() {
+    this.animationMode = 0;
 }
 
 Karel2DWorld.prototype.initialize = function(jqueryObj){
@@ -115,15 +116,20 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
         var tact = 0;
 
         var animFuncID = setInterval(function(){
-            tact ++;
-            //console.log("tact", tact);
-            if (tact > numTacts) {
+            if (_this.animationMode == 0) {
+                tact ++;
+                //console.log("tact", tact);
+                if (tact > numTacts) {
+                    clearInterval(animFuncID);
+                    cb();
+                    return;
+                }
+                _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
+            } if (_this.animationMode == 2) { // reserved for stop
                 clearInterval(animFuncID);
                 cb();
                 return;
             }
-            _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
-
         }, refreshInterval);
     }
 
@@ -193,10 +199,10 @@ Karel2DWorld.prototype.setSpeed = function (speedCOeficient){
 };
 
 Karel2DWorld.prototype.stopWorld = function () {
-// ???
+    this.animationMode = 1;
 };
 Karel2DWorld.prototype.startWorld =function() {
-// ???
+    this.animationMode = 0;
 };
 
 var k2dw = new Karel2DWorld();
