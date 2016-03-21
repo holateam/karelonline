@@ -145,12 +145,20 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
 };
 
 Karel2DWorld.prototype.karelTurnRight = function (duration, cb, cbArgs){
+    this.karel.direction--;
+    if (this.karel.direction<0) {
+        this.karel.direction = 3;
+    }
     setTimeout(function(){
         cb();
     }, duration*1000);
 };
 
 Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
+    this.karel.direction++;
+    if (this.karel.direction>3) {
+        this.karel.direction = 0;
+    }
     setTimeout(function(){
         cb();
     }, duration*1000);
@@ -248,9 +256,10 @@ var map =  {
 k2dw.loadMap(map.original);
 k2dw.karelMove(2, function(){
     k2dw.karelPutBeeper(2, function(){
-        k2dw.karel.direction++;
-        k2dw.karelMove(1, function(){
-            k2dw.karel.direction++;
+        k2dw.karelTurnLeft(2, function(){
+            k2dw.karelMove(2, function(){
+                console.log("finished");
+            });
         });
-    })
+    });
 });
