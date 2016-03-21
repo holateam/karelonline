@@ -110,7 +110,7 @@ var active_selector = false;
 
 function toggleShowWorldList() {
     if (active_selector) {
-        $sidebar.css({"right": "-9.7em"});
+        $sidebar.css({"right": "-15.5em"});
         active_selector = false;
     } else {
         $sidebar.css({"right": "9.5em"});

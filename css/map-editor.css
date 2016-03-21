@@ -425,7 +425,7 @@ td {
 #sidebar {
     z-index: 3;
     position: absolute;
-    right: -9.7em;
+    right: -15.5em;
     height: 100%;
     transition: all 0.5s ease-in-out;
 }
@@ -453,6 +453,7 @@ td {
 .tab {
     position: relative;
     height: 100%;
+    width: 25em;
 }
 
 .tab-title {
