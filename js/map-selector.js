@@ -44,10 +44,13 @@ MapSelector.prototype.formUlList = function(flags) {
 
     flags = flags || {};
     var list = this.getMaps();
-    var self = this;
 
     if (!list) {
         return;
+    }  
+
+    function tap () {
+
     }
 
     var $ul = $('<ul></ul>');
@@ -64,24 +67,25 @@ MapSelector.prototype.formUlList = function(flags) {
             $li.append($glyph);
             $li.append($span);
 
-            if (self.callback) {
-                $li.click(function() {
-                    self.callback( map );
+            if (this.callback) {
+                $li.click({cb: this.callback, arg: map}, function(e) {
+                    alert(e.data.arg.name);
+                    e.data.cb( e.data.arg );
                 });
             }
 
             if (flags.editCallback) {
                 var $edit = $('<div class="edit sidebar-btn"></div>'); 
-                $edit.click(function() {
-                    flags.editCallback( map );
+                $edit.click({cb: flags.editCallback, arg: map}, function(e) {
+                    e.data.cb( e.data.arg );
                 });
                 $li.append($edit);
             }
 
             if (flags.deleteCallback) {
                 var $remove = $('<div class="delete sidebar-btn"></div>'); 
-                $remove.click(function() {
-                    flags.deleteCallback( map );
+                $remove.click({cb: flags.deleteCallback, arg: map}, function(e) {
+                    e.data.cb( e.data.arg );
                 });
                 $li.append($remove);
             }
