@@ -216,7 +216,7 @@ Maps.prototype.activateFinalMapsEditor = function(maps){
 Maps.prototype.addFinalMap = function (map) {
     var _this = this;
     var currentMap = map || JSON.parse(JSON.stringify(basicMap));
-    _this.final_map_editor.push(new MapEdited(map));
+    _this.final_map_editor.push(new MapEdited(currentMap));
 };
 
 Maps.prototype.removeFinalMap = function (idx) {
@@ -228,9 +228,35 @@ Maps.prototype.getActiveMap = function () {
     if (_this.active_map == "start") {
         return _this.start_map_editor;
     } else {
+        _this.final_map_editor[_this.active_map].map = referToStartMap(_this.start_map_editor.map, _this.final_map_editor[_this.active_map].map);
         return _this.final_map_editor[_this.active_map];
     }
 };
+
+function referToStartMap(startMap, finalMap) {
+    if (finalMap.length !== startMap.length || finalMap[0].length !== startMap[0].length) {
+        finalMap = [];
+        for (var wdh = 0; wdh < startMap.length; wdh++) {
+            finalMap.push([]);
+            for (var hgt = 0; hgt < startMap[wdh].length; hgt++) {
+                var currentCell = ((startMap[wdh][hgt]).blocked) ? new Cell(true) : new Cell();
+                finalMap[wdh].push(currentCell);
+            }
+        }
+    } else {
+        for (var wdh = 0; wdh < startMap.length; wdh++) {
+            for (var hgt = 0; hgt < startMap[wdh].length; hgt++) {
+                if ((startMap[wdh][hgt]).blocked) {
+                    finalMap[wdh][hgt] = new Cell(true);
+                } else if (finalMap[wdh][hgt].blocked) {
+                    finalMap[wdh][hgt] = new Cell();
+                }
+            }
+        }
+    }
+    return finalMap;
+}
+
 
 Maps.prototype.setActiveMap = function (map) {
     var _this = this;
@@ -260,7 +286,8 @@ Maps.prototype.saveAllMaps = function () {
     $name.val(_this.name);
     $description.val(_this.description);
     $complete.css(visualise);
-    $complete.submit(function () {
+    $complete.submit(function (e) {
+        e.preventDefault();
         _this.name = ($name.val()) ?  $name.val() : _this.name;
         _this.description = ($description.val()) ? $description.val() : _this.description;
         maps.name = _this.name;
@@ -424,7 +451,6 @@ MapEdited.prototype.editMap = function (id, decrement) {
     var y = id.slice(1, pos);
     var x = id.slice(pos + 1);
     var currentCell = this.map[y][x];
-    console.log('Y: ' + y + ' X: ' + x + ' ', this.map[y][x]);
     if (active_edit_button) {
         if (active_edit_button == "#wall") {
             mountWall(currentCell);
@@ -697,7 +723,7 @@ editorMapSelector.formUlList({
     }
 });
 
-editorMapSelector.formOptions();
+//  editorMapSelector.formOptions();
 function  loadSetMaps(maps) {
     setMap = new Maps(maps);
     setMap.getActiveMap().redrawMap();

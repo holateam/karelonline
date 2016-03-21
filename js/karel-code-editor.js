@@ -38,7 +38,7 @@ KarelCodeEditor.prototype.submit = function (e) {
 KarelCodeEditor.prototype.template = function () {
     return '' +
             '<div class="code-block">' +
-                '<textarea class="karel-code-editor-code-area">// Function Run is the progtamm entry point.\n// It would be executed as a programm start\n\nvoid Run() {\n\t// Your code here.\n}</textarea>' +
+                '<textarea class="karel-code-editor-code-area">// Function `run` is the progtamm entry point.\n// It would be executed as a programm start\n\nfunction run() {\n\tmove();\n\tputBeeper();\n\tturnLeft();\n\tturnLeft();\n\tmove();\n}\n</textarea>' +
             '</div>' +
         '';
 };
