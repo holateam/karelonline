@@ -286,7 +286,8 @@ Maps.prototype.saveAllMaps = function () {
     $name.val(_this.name);
     $description.val(_this.description);
     $complete.css(visualise);
-    $complete.submit(function () {
+    $complete.submit(function (e) {
+        e.preventDefault();
         _this.name = ($name.val()) ?  $name.val() : _this.name;
         _this.description = ($description.val()) ? $description.val() : _this.description;
         maps.name = _this.name;
@@ -722,7 +723,7 @@ editorMapSelector.formUlList({
     }
 });
 
-editorMapSelector.formOptions();
+//  editorMapSelector.formOptions();
 function  loadSetMaps(maps) {
     setMap = new Maps(maps);
     setMap.getActiveMap().redrawMap();
