@@ -406,7 +406,7 @@ MapEdited.prototype.incrementWidth = function() {
         }
         _this.redrawMap();
     } else {
-        alertMessage("Max field height is reached.");
+        alertMessage("Max field width is reached.");
     }
 };
 
