@@ -27,6 +27,7 @@ Karel2DWorld.prototype.loadMap = function(mapObj){
         _this.$myKarel = $("#mykarel");
         var xy = _this.defineRealPos(_this.karel.x, _this.karel.y);
         _this.$myKarel.offset({left: xy[0], top: xy[1]});
+        _this.showKarelDirection();
     }
 
     this.map = mapObj.map;
@@ -77,18 +78,6 @@ Karel2DWorld.prototype.analyzeCell = function (y, x, cell){
     return retStr;
 };
 
-Karel2DWorld.prototype.renderKarelDirection = function (direction) {
-    if (direction == 0) {
-        return "direction-south";
-    } else if (direction == 2) {
-        return "direction-north";
-    } else if (direction == 3) {
-        return "direction-west"
-    } else {
-        return "direction-east";
-    }
-};
-
 Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
     var _this=this;
     function defineNextKarelCell() {
@@ -121,12 +110,14 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
                 //console.log("tact", tact);
                 if (tact > numTacts) {
                     clearInterval(animFuncID);
+                    _this.showKarelDirection();
                     cb();
                     return;
                 }
                 _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
             } if (_this.animationMode == 2) { // reserved for stop
                 clearInterval(animFuncID);
+                _this.showKarelDirection();
                 cb();
                 return;
             }
@@ -141,27 +132,60 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
     this.karel.x = nextKarelCell[0];
     this.karel.y = nextKarelCell[1];
 
+    this.hideKarelDirection();
     animateKarelMove (curKarelPos, nextKarelPos);
 };
 
+Karel2DWorld.prototype.showKarelDirection = function () {
+    var dirClassName = "mydirection-";
+    if (this.karel.direction == 0) {
+        dirClassName += "south";
+    } else if (this.karel.direction == 1) {
+        dirClassName += "east";
+    } else if (this.karel.direction == 2) {
+        dirClassName += "north";
+    } else {
+        dirClassName += "west";
+    }
+    $("body").append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
+    this.$mykarelDirection = $("#mykarelDirection");
+    var xy = this.defineRealPos(this.karel.x, this.karel.y);
+    this.$mykarelDirection.offset({left: xy[0], top: xy[1]});
+};
+
+Karel2DWorld.prototype.hideKarelDirection = function () {
+    this.$mykarelDirection.detach();
+};
+
+
 Karel2DWorld.prototype.karelTurnRight = function (duration, cb, cbArgs){
+    this.hideKarelDirection();
     this.karel.direction--;
     if (this.karel.direction<0) {
         this.karel.direction = 3;
     }
+    var _this=this;
     setTimeout(function(){
-        cb();
-    }, duration*1000);
+        _this.showKarelDirection();
+        setTimeout(function(){
+            cb();
+        }, duration/2*1000);
+    }, duration/2*1000);
 };
 
 Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
+    this.hideKarelDirection();
     this.karel.direction++;
     if (this.karel.direction>3) {
         this.karel.direction = 0;
     }
+    var _this=this;
     setTimeout(function(){
-        cb();
-    }, duration*1000);
+        _this.showKarelDirection();
+        setTimeout(function(){
+            cb();
+        }, duration/2*1000);
+    }, duration/2*1000);
 };
 
 Karel2DWorld.prototype.redrawMap = function () {
