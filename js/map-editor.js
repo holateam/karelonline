@@ -303,7 +303,7 @@ Maps.prototype.completeEdit = function () {
     var _this = this;
     _this.saveStartMap();
     if (!_this.originalMap.karel.position){
-        alertMessage('You should determine Karel position for start map!');
+        alertMessage('You should set Karel on start map!');
     } else {
         _this.saveFinalMap();
         _this.saveAllMaps();
@@ -406,7 +406,7 @@ MapEdited.prototype.incrementWidth = function() {
         }
         _this.redrawMap();
     } else {
-        alertMessage("Max field's height is reached.");
+        alertMessage("Max field height is reached.");
     }
 };
 
@@ -434,7 +434,7 @@ MapEdited.prototype.incrementHeight = function() {
         }
         _this.redrawMap();
     } else {
-        alertMessage("Max field's height is reached.");
+        alertMessage("Max field height is reached.");
     }
 };
 

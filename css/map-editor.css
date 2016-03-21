@@ -318,19 +318,19 @@ __________________________________________________________right panel editor____
 }
 
 #wall::after {
-    content: "Click on the field to mount the wall. Click on the mounted wall to remove it.";
+    content: "Click on a cell to mount the wall. Click on the mounted wall to remove it.";
 }
 
 #empty::after {
-    content: "Click on the field to clear the cell.";
+    content: "Click on the cell to reset it.";
 }
 
 #karel::after {
-    content: "Click on the field to determinate Karel position. Click on Karel to change his direction. Click right mouse button to remove Karel";
+    content: "Click on a cell to set Karel position. Click left mouse button on Karel to change his direction. Click right mouse button to remove Karel";
 }
 
 #beeper::after {
-    content: "Click on the field to put beeper. Every click adds one beeper. Right mouse click remove one beeper";
+    content: "Click on a cell to put beeper. Left mouse click adds one beeper. Right mouse click remove one beeper";
 }
 
 #backpack::after {
