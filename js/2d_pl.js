@@ -6,6 +6,12 @@ function Karel2DWorld() {
 
 Karel2DWorld.prototype.initialize = function(jqueryObj){
     this.renderer = jqueryObj;
+    this.speedCoeficient = 1;
+    this.scale = 1;
+    var _this = this;
+    this.renderer.mousedown(function() {
+        _this.renderer.draggable();
+    });
 };
 
 Karel2DWorld.prototype.clear = function(){
@@ -27,6 +33,7 @@ Karel2DWorld.prototype.loadMap = function(mapObj){
         _this.$myKarel = $("#mykarel");
         var xy = _this.defineRealPos(_this.karel.x, _this.karel.y);
         _this.$myKarel.offset({left: xy[0], top: xy[1]});
+        _this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
         _this.showKarelDirection();
     }
 
@@ -96,7 +103,7 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
     }
 
     function animateKarelMove(curKarelPos, nextKarelPos) {
-        var numTacts = duration * FPS;
+        _this.numTacts = duration/_this.speedCoeficient * FPS;
         var refreshInterval = 1000 / FPS;
 
         var dx = nextKarelPos[0] - curKarelPos[0];
@@ -104,24 +111,42 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
 
         var tact = 0;
 
-        var animFuncID = setInterval(function(){
+        var anymFunc = function() {
             if (_this.animationMode == 0) {
-                tact ++;
+                tact++;
                 //console.log("tact", tact);
-                if (tact > numTacts) {
-                    clearInterval(animFuncID);
+                if (tact > _this.numTacts) {
                     _this.showKarelDirection();
                     cb();
                     return;
                 }
-                _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
-            } if (_this.animationMode == 2) { // reserved for stop
-                clearInterval(animFuncID);
-                _this.showKarelDirection();
-                cb();
-                return;
+                _this.$myKarel.offset({
+                    left: curKarelPos[0] + dx * tact / _this.numTacts,
+                    top: curKarelPos[1] + dy * tact / _this.numTacts
+                });
             }
-        }, refreshInterval);
+            setTimeout (anymFunc, refreshInterval);
+        };
+        setTimeout (anymFunc, refreshInterval);
+
+        //var animFuncID = setInterval(function(){
+        //    if (_this.animationMode == 0) {
+        //        tact ++;
+        //        //console.log("tact", tact);
+        //        if (tact > numTacts) {
+        //            clearInterval(animFuncID);
+        //            _this.showKarelDirection();
+        //            cb();
+        //            return;
+        //        }
+        //        _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
+        //    } if (_this.animationMode == 2) { // reserved for stop
+        //        clearInterval(animFuncID);
+        //        _this.showKarelDirection();
+        //        cb();
+        //        return;
+        //    }
+        //}, refreshInterval);
     }
 
     var curKarelPos = this.defineRealPos (this.karel.x, this.karel.y);
@@ -151,6 +176,8 @@ Karel2DWorld.prototype.showKarelDirection = function () {
     this.$mykarelDirection = $("#mykarelDirection");
     var xy = this.defineRealPos(this.karel.x, this.karel.y);
     this.$mykarelDirection.offset({left: xy[0], top: xy[1]});
+    var _this=this;
+    this.$mykarelDirection.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
 Karel2DWorld.prototype.hideKarelDirection = function () {
@@ -169,8 +196,8 @@ Karel2DWorld.prototype.karelTurnRight = function (duration, cb, cbArgs){
         _this.showKarelDirection();
         setTimeout(function(){
             cb();
-        }, duration/2*1000);
-    }, duration/2*1000);
+        }, duration/_this.speedCoeficient/2*1000);
+    }, duration/_this.speedCoeficient/2*1000);
 };
 
 Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
@@ -184,14 +211,14 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
         _this.showKarelDirection();
         setTimeout(function(){
             cb();
-        }, duration/2*1000);
-    }, duration/2*1000);
+        }, duration/_this.speedCoeficient/2*1000);
+    }, duration/_this.speedCoeficient/2*1000);
 };
 
 Karel2DWorld.prototype.redrawMap = function () {
     $map_field.html(this.createDomMap());
-    //var _this = this;
-    //$map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    var _this = this;
+    $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
 Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
@@ -206,8 +233,8 @@ Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
         _this.redrawMap();
         setTimeout(function(){
             cb();
-        }, duration/2*1000);
-    }, duration/2*1000);
+        }, duration/_this.speedCoeficient/2*1000);
+    }, duration/_this.speedCoeficient/2*1000);
 };
 
 Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
@@ -222,19 +249,36 @@ Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
         _this.redrawMap();
         setTimeout(function(){
             cb();
-        }, duration/2*1000);
-    }, duration/2*1000);
+        }, duration/_this.speedCoeficient/2*1000);
+    }, duration/_this.speedCoeficient/2*1000);
 };
 
-Karel2DWorld.prototype.setSpeed = function (speedCOeficient){
-// ???
+Karel2DWorld.prototype.setSpeed = function (speedCoeficient){
+    this.speedCoeficient = speedCoeficient;
 };
 
 Karel2DWorld.prototype.stopWorld = function () {
     this.animationMode = 1;
 };
+
 Karel2DWorld.prototype.startWorld =function() {
     this.animationMode = 0;
+};
+
+Karel2DWorld.prototype.scaleUp =function() {
+    this.scale += 0.1;
+    this.redrawMap();
+    var _this=this;
+    this.$mykarelDirection.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
+};
+
+Karel2DWorld.prototype.scaleDown =function() {
+    this.scale -= 0.1;
+    this.redrawMap();
+    var _this=this;
+    this.$mykarelDirection.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
 };
 
 var k2dw = new Karel2DWorld();
@@ -287,3 +331,17 @@ k2dw.karelMove(2, function(){
         });
     });
 });
+
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+    e = e || window.event;
+    if (e.keyCode == '38') { // up arrow
+        console.log("+");
+        k2dw.scaleUp();
+    }
+    else if (e.keyCode == '40') { // down arrow
+        console.log("-");
+        k2dw.scaleDown();
+    }
+}
