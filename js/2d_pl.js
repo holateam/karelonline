@@ -1,12 +1,3 @@
-/*
-// karel actions triggers
-// animation pause
-stopWorld();
-// animation resume
-startWorld();
-// animation speed control [0.5 .. 5] step: 0.5
-setSpeed(speedCOeficient);
-*/
 var FPS = 30;
 
 function Karel2DWorld() {
@@ -159,6 +150,12 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
     }, duration*1000);
 };
 
+Karel2DWorld.prototype.redrawMap = function () {
+    $map_field.html(this.createDomMap());
+    //var _this = this;
+    //$map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+};
+
 Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
@@ -191,10 +188,15 @@ Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
     }, duration/2*1000);
 };
 
-Karel2DWorld.prototype.redrawMap = function () {
-    $map_field.html(this.createDomMap());
-    //var _this = this;
-    //$map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+Karel2DWorld.prototype.setSpeed = function (speedCOeficient){
+// ???
+};
+
+Karel2DWorld.prototype.stopWorld = function () {
+// ???
+};
+Karel2DWorld.prototype.startWorld =function() {
+// ???
 };
 
 var k2dw = new Karel2DWorld();
