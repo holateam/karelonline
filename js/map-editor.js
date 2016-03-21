@@ -83,7 +83,7 @@ var active_backpack = false;
 function changeNumBeepersInBackpack() {
     active_backpack = true;
     $beepers_count.css(visualise);
-    $num_beepers.val($count_beepers.text());
+    $num_beepers.val($count_beepers.text()).select();
     $num_beepers.keypress( function(e) {
         var keycode = (e.keyCode ? e.keyCode : e.which);
         if (keycode == 13) {
@@ -110,7 +110,7 @@ var active_selector = false;
 
 function toggleShowWorldList() {
     if (active_selector) {
-        $sidebar.css({"right": "-7.6em"});
+        $sidebar.css({"right": "-9.7em"});
         active_selector = false;
     } else {
         $sidebar.css({"right": "9.5em"});
@@ -366,10 +366,12 @@ function renderKarelDirection(direction) {
     }
 }
 
+
 //_________________________________________________redraw map__________________________________________________________
 MapEdited.prototype.redrawMap = function () {
     var _this = this;
     $map_field.html(_this.createDomMap());
+
     $('.cell').mousedown(function(e) {
         var id = $(this).attr('id');
         if (e.which == 3) {
@@ -381,7 +383,6 @@ MapEdited.prototype.redrawMap = function () {
     });
     $val_height.text(_this.map.length);
     $val_width.text(_this.map[0].length);
-    $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
 // Edit map
@@ -389,12 +390,19 @@ MapEdited.prototype.redrawMap = function () {
 
 // ___________________________________________resize map _______________________________________________________________
 
+
+var visibleFieldHeight = $(window).height() - 2 * $decrement_width.height();
+var visibleFieldWidth = $(window).width() - 2 * $button_panel.width();
+
 MapEdited.prototype.incrementWidth = function() {
     var _this = this;
     if (_this.map[0].length < maxCellsInLine) {
         for (var h = 0; h < _this.map.length; h++) {
             var emptyCell = new  Cell();
             _this.map[h].push(emptyCell);
+        }
+        if( $('#map').width() * _this.scale > visibleFieldWidth ) {
+            _this.scaleMap("decrement");
         }
         _this.redrawMap();
     } else {
@@ -419,6 +427,10 @@ MapEdited.prototype.incrementHeight = function() {
         for (var w = 0; w < _this.map[0].length; w++) {
             var emptyCell = new Cell();
             _this.map[_this.map.length - 1].push(emptyCell);
+        }
+        console.log('HEIGHT: ',  $('#map').height());
+        if( $('#map').height() * _this.scale > visibleFieldHeight ) {
+            _this.scaleMap("decrement");
         }
         _this.redrawMap();
     } else {
@@ -613,7 +625,7 @@ function addIconFinalMap(item) {
 }
 
 function createDomElementIcon (item) {
-    return '<div class="row final-maps" id="final-map' + item + '"><div class="button"></div><div>' + item + '</div><div class="cross-sign" id="close-final' + item + '"></div></div>';
+    return '<div class="row final-maps" id="final-map' + item + '"><div class="button"></div><div class="num">' + item + '</div><div class="cross-sign" id="close-final' + item + '"></div></div>';
 }
 
 function smartRemoveFinalMap(idx) {
@@ -708,6 +720,8 @@ var editorMapSelector = new MapSelector($map_list);
 
 var emptyCell = new Cell();
 var basicMap =[[emptyCell]];
+
+
 var setMap = new Maps({original: {map: [['']], karel: {}}, final: [{map: [['']], karel: {}}]});
 setMap.getActiveMap().redrawMap();
 
@@ -723,9 +737,7 @@ editorMapSelector.formUlList({
     }
 });
 
-//  editorMapSelector.formOptions();
 function  loadSetMaps(maps) {
     setMap = new Maps(maps);
     setMap.getActiveMap().redrawMap();
-
 }
