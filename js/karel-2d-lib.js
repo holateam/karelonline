@@ -222,9 +222,9 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
 };
 
 Karel2DWorld.prototype.redrawMap = function () {
-    $map_field.html(this.createDomMap());
+    this.renderer.html(this.createDomMap());
     var _this = this;
-    $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    this.renderer.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
 };
 
 Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
