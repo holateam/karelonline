@@ -201,7 +201,7 @@ function Maps(maps) {
     this.finalMap = [];
 }
 
-//======================================================Methods descriptions============================================
+//======================================================Method descriptions============================================
 
 Maps.prototype.activateFinalMapsEditor = function(maps){
     var _this = this;
@@ -228,7 +228,6 @@ Maps.prototype.getActiveMap = function () {
     if (_this.active_map == "start") {
         return _this.start_map_editor;
     } else {
-        _this.final_map_editor[_this.active_map].map = referToStartMap(_this.start_map_editor.map, _this.final_map_editor[_this.active_map].map);
         return _this.final_map_editor[_this.active_map];
     }
 };
@@ -261,6 +260,9 @@ function referToStartMap(startMap, finalMap) {
 Maps.prototype.setActiveMap = function (map) {
     var _this = this;
     _this.active_map = map;
+    if (_this.active_map !== "start") {
+        _this.final_map_editor[_this.active_map].map = referToStartMap(_this.start_map_editor.map, _this.final_map_editor[_this.active_map].map);
+    }
     _this.getActiveMap().redrawMap();
 };
 
@@ -276,7 +278,6 @@ Maps.prototype.saveFinalMap = function () {
     _this.final_map_editor.forEach( function (map) {
         finalMaps.push(zipMap(map.map));
     });
-    console.log('FINAL MAPS: ', finalMaps);
     _this.finalMap = finalMaps;
 };
 
@@ -428,7 +429,6 @@ MapEdited.prototype.incrementHeight = function() {
             var emptyCell = new Cell();
             _this.map[_this.map.length - 1].push(emptyCell);
         }
-        console.log('HEIGHT: ',  $('#map').height());
         if( $('#map').height() * _this.scale > visibleFieldHeight ) {
             _this.scaleMap("decrement");
         }
@@ -514,12 +514,10 @@ function determinateKarelPosition(ctx, x, y, cell, decrement) {
     }  else if (cell.isKarel) {
         cell.karelDirection = cell.karelDirection % 4 + 1;
     } else if (!decrement) {
-        console.log(active_edit_button);
         cell.isKarel = true;
         cell.blocked = false;
         if (ctx.karel) {
             ctx.map[ctx.karelPosition[1]][ctx.karelPosition[0]].isKarel = false;
-            console.log(ctx.map[ctx.karelPosition[1]][ctx.karelPosition[0]].isKarel);
         }
         ctx.karel = true;
         ctx.karelPosition = [x, y];
@@ -591,10 +589,7 @@ $reset_btn.click(function(){
 
 
 $start_map.click(function() {
-    //console.log("click on start map: ");
     setMap.setActiveMap("start");
-    //console.log('Current active map: ', setMap.active_map);
-
 });
 
 //___________________________________________________add remove and show final map_____________________________________________
@@ -625,7 +620,7 @@ function addIconFinalMap(item) {
 }
 
 function createDomElementIcon (item) {
-    return '<div class="row final-maps" id="final-map' + item + '"><div class="button"></div><div class="num">' + item + '</div><div class="cross-sign" id="close-final' + item + '"></div></div>';
+    return '<div class="row final-maps optional" id="final-map' + item + '"><div class="button"></div><div class="num">' + item + '</div><div class="cross-sign" id="close-final' + item + '"></div></div>';
 }
 
 function smartRemoveFinalMap(idx) {
@@ -726,18 +721,17 @@ var setMap = new Maps({original: {map: [['']], karel: {}}, final: [{map: [['']],
 setMap.getActiveMap().redrawMap();
 
 
-
-
-
 editorMapSelector.onChange(loadSetMaps);
 
 editorMapSelector.formUlList({
     deleteCallback : function (map) {
-        alert('edit button pressed');
+        Storage.clear(map.name);
     }
 });
 
+
 function  loadSetMaps(maps) {
+    $(".optional").remove();
     setMap = new Maps(maps);
     setMap.getActiveMap().redrawMap();
 }
