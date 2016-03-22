@@ -7,9 +7,9 @@ $(function () {
     var $speedSlider = $('#speed-slider');
 
     var renderer = '3D';
-    var language = 'cpp';
+    var language = 'js';
 
-    var map =  {
+    var map = {
         name: 'some map name',
         original: {
             map:[
@@ -45,8 +45,6 @@ $(function () {
         description: 'problem solving'
     };
 
-    Storage.addMap('Demonstrative Karel Map', map);
-
     var greetingsMove = [
         { command: 'rotate', data: {angle: -1} },
         { command: 'rotate', data: {angle: 1} }
@@ -72,15 +70,13 @@ $(function () {
     });
 
     function preparePlayer(newMap, forceRenderer) {
-
         if(map!=newMap){ // detect map changing
             map=newMap; // for compliler
             karelPlayer.setMap(newMap.original);
         } else {
             karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
-            karelPlayer.play(greetingsMove, null);
         }
-        
+        karelPlayer.play(greetingsMove, null);
     }
 
     function onCodeSubmit() {

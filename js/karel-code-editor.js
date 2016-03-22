@@ -20,7 +20,7 @@ KarelCodeEditor.prototype.init = function () {
         lineNumbers : true,
         lineWrapping: true,
         theme       : "material-dark",
-        mode        : "text/x-c++src",
+        mode        : "text/javascript",
         keyMap      : "sublime",
         indentUnit  : 4
     });

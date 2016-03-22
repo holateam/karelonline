@@ -26,6 +26,21 @@ var Storage = (function () {
 
     }
 
+    storage.removeMap = function (mapName) {
+
+        var mapList = storage.get('karelMapsIndex');
+        if (!mapList) {
+            mapList = [];
+        } else {
+            var mapIdx = mapList.indexOf(mapName);
+            if (mapList.indexOf(mapName) >= 0) {
+                mapList.splice(mapIdx, 1);
+            }
+        }
+        storage.set('karelMapsIndex', mapList);
+        storage.clear(mapName);
+    }
+
     storage.clear = function (key) {
         instance.removeItem(key);
     };
