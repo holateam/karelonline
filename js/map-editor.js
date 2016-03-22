@@ -136,7 +136,7 @@ function zipMap(map) {
             if (map[row][cell].isKarel) {
                 currKarel.position = [cell, row];
                 currKarel.direction = map[row][cell].karelDirection % 4;
-                currKarel.beeperInBag = $count_beepers.text();
+                currKarel.beepers = $count_beepers.text();
             }
             zippedMap[row].push(symbol);
         }
@@ -165,7 +165,7 @@ function unzipMap(map){
     if (map.karel.position) {
         cell = resultMap[map.karel.position[1]][map.karel.position[0]];
         resultMap[map.karel.position[1]][map.karel.position[0]] = new Cell(cell.blocked, cell.beepers, true, map.karel.direction);
-        $count_beepers.text(map.karel.beeperInBag);
+        $count_beepers.text(map.karel.beepers);
     }
     return resultMap;
 }

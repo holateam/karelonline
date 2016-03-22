@@ -310,7 +310,7 @@ var KarelCodeCompiler = (function (){
 
         if (language !== 'js') {
             code = adaptCode(code);
-        } else if (code.search(/run\(\)[\s*](?!{)/) == -1) {
+        } else if (code.search(/(run\s*\(\s*\)(?!\s*{))/) == -1) {
             code = code + "\nrun();";
         }
         try {
