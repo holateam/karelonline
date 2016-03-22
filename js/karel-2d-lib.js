@@ -29,7 +29,7 @@ Karel2DWorld.prototype.loadMap = function(mapObj){
 
     var _this = this;
     function drawKarel () {
-        $("body").append("<div id='mykarel' class='mykarel'></div>");
+        _this.renderer.append("<div id='mykarel' class='mykarel'></div>");
         _this.$myKarel = $("#mykarel");
         var xy = _this.defineRealPos(_this.karel.x, _this.karel.y);
         _this.$myKarel.offset({left: xy[0], top: xy[1]});
@@ -174,7 +174,7 @@ Karel2DWorld.prototype.showKarelDirection = function () {
     } else {
         dirClassName += "west";
     }
-    $("body").append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
+    this.renderer.append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
     this.$mykarelDirection = $("#mykarelDirection");
     var xy = this.defineRealPos(this.karel.x, this.karel.y);
     this.$mykarelDirection.offset({left: xy[0], top: xy[1]});
@@ -228,6 +228,7 @@ Karel2DWorld.prototype.redrawMap = function () {
 };
 
 Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
+    console.log("cb", cb);
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
         beepersInCell = 0;
