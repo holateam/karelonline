@@ -1,0 +1,68 @@
+
+.flexible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cell {
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+    height: 90px;
+    width: 90px;
+    position: relative;
+    background-clip: padding-box;
+    background: radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+table {
+    border: solid 3px #596a72;
+    position: relative;
+}
+td {
+    border: solid 2px #CED1CF;
+}
+
+.beeper {
+    display: inline-block;
+    background-size: 100% 100%;
+    background-image: url('../img/controls/beeper.svg');
+    background-repeat: no-repeat;
+    background-position: top -0.2em left -0.1em;
+    color: #6BBA70;
+    padding-left: 33px;
+    box-sizing: border-box;
+    font-size: 1.9em;
+    width: 40px;
+    height: 40px;
+}
+
+.direction-east {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowE.png') no-repeat top 84% right 10%,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-west {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowW.png') no-repeat top 84% left 10%,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-south {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowS.png') no-repeat bottom 0 center,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.direction-north {
+    background: url('../img/textures/karel_map.png') no-repeat center,
+    url('../img/textures/karel-arrowN.png') no-repeat top 35% center,
+    radial-gradient(#f4f7fa 10%,#dbe0e3 90%);
+}
+
+.wall {
+    background-image: url('../img/textures/wall2.png');
+}
+
