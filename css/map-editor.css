@@ -576,9 +576,9 @@ input[type="submit"]:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }
 #beepers-count{
-    position: absolute;
-    top: 70%;
-    right: 1em;
+    position: relative;
+    top: 18%;
+    left: 62%;
     z-index: 6;
     visibility: hidden;
 }
