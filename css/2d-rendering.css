@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Bender';
+    src: local('Bender'), local('Bender-Regular'), url('../vendor/fonts/bender/bender.woff2') format('woff2'), url('../vendor/fonts/bender/bender.woff') format('woff'), url('../vendor/fonts/bender/bender.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 .flexible {
     display: flex;
@@ -25,17 +32,19 @@ td {
 }
 
 .beeper {
-    display: inline-block;
-    background-size: 100% 100%;
+    font-family: "Bender", sans-serif;
+    background-size: 40px 100%;
     background-image: url('../img/controls/beeper.svg');
     background-repeat: no-repeat;
     background-position: top -0.2em left -0.1em;
     color: #6BBA70;
-    padding-left: 33px;
     box-sizing: border-box;
-    font-size: 1.9em;
-    width: 40px;
+    font-size: 1.5em;
+    width: 55px;
     height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .direction-east {
@@ -98,5 +107,3 @@ td {
     position: absolute;
     background: url('../img/textures/karel-arrowN.png') no-repeat top 35% center;
 }
-
-
