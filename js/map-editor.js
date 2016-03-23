@@ -410,8 +410,8 @@ MapEdited.prototype.redrawMap = function () {
 // ___________________________________________resize map _______________________________________________________________
 
 
-var visibleFieldHeight = $(window).height() - 2 * $decrement_width.height();
-var visibleFieldWidth = $(window).width() - 2 * $button_panel.width();
+var visibleFieldHeight = $(window).height() - (2 * $('.bottom-panel').height());
+var visibleFieldWidth = $(window).width() - 2 * $('#control-editor').width();
 
 MapEdited.prototype.incrementWidth = function() {
     var _this = this;
