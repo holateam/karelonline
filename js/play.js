@@ -3,7 +3,8 @@ $(function () {
     var $renderer = $("#renderer");
     var $codeEditor = $("#karel-code-editor");
     var $mapSelectionList = $("#world-list-tab");
-    var $languageList = $("#language-list"); 
+    var $languageList = $("#language-list");
+    var $code = $('.karel-code-editor-code-area');
     var $speedSlider = $('#speed-slider');
 
     var renderer = '3D';
@@ -121,6 +122,10 @@ $(function () {
         value   : 1,
         step    : 0.5,
         change: changeSpeed
+    });
+
+    $languageList.click(function() {
+        karelCodeEditor.save();
     });
 
     $languageList.change(function() {
