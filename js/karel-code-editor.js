@@ -40,8 +40,8 @@ KarelCodeEditor.prototype.template = function () {
             '<div class="code-block">' +
                 '<textarea class="karel-code-editor-code-area">// Press Esc to exit from Fullscreen mode.\n' +
         '// Press Star at bottom right to execute.\n' +
-        '// Function `run` is the progtamm entry point.\n' +
-        '// It would be executed as a programm start\n\n' +
+        '// Function `run` is the program entry point.\n' +
+        '// It would be executed as a program start\n\n' +
         'function run() {\n\tmove();\n\tputBeeper();\n\tturnLeft();\n\tturnLeft();\n\tmove();\n}\n</textarea>' +
             '</div>' +
         '';

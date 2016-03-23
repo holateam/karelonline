@@ -79,25 +79,25 @@ td {
     height: 90px;
     width: 90px;
     position: absolute;
-    background: url('../img/textures/karel.png') no-repeat center;
+    background: url('../img/textures/karel-south.png') no-repeat center;
 }
 .mykarel-east {
     height: 90px;
     width: 90px;
     position: absolute;
-    background: url('../img/textures/karel.png') no-repeat center;
+    background: url('../img/textures/karel-east.png') no-repeat center;
 }
 .mykarel-west {
     height: 90px;
     width: 90px;
     position: absolute;
-    background: url('../img/textures/karel.png') no-repeat center;
+    background: url('../img/textures/karel-west.png') no-repeat center;
 }
 .mykarel-north {
     height: 90px;
     width: 90px;
     position: absolute;
-    background: url('../img/textures/karel.png') no-repeat center;
+    background: url('../img/textures/karel-north.png') no-repeat center;
 }
 .mydirection-east {
     height: 90px;
