@@ -12,7 +12,7 @@ function KarelCodeEditor(elem) {
 }
 
 KarelCodeEditor.prototype.save = function () {
-    Storage.saveCode(this.active_mode, this.editor.getValue());
+    Storage.saveCode(this.active_mode, this.getCode());
 };
 
 
@@ -75,12 +75,12 @@ function matchCode(language) {
         return code + mainFunc + ' {\n\tmove();\n\tputBeeper();\n\tturnLeft();\n\tturnLeft();\n\tmove();\n}\n' + '';
     }
 }
-/*
+
 KarelCodeEditor.prototype.getCode = function () {
     // console.log(this.$codeArea.val());
     // return this.$codeArea.val().replace(/(\r\n|\n|\r|[ ])/gm,"");
     return this.editor.getValue();
-};*/
+};
 
 KarelCodeEditor.prototype.onCodeSubmit = function (callback) {
     this.onCodeSubmitCallback = callback;
