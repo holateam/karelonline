@@ -26,7 +26,8 @@ Karel2DWorld.prototype.resetKarelData = function () {
 };
 
 Karel2DWorld.prototype.drawKarel = function () {
-    this.renderer.append("<div id='mykarel' class='mykarel'></div>");
+    var karelClassName = "mykarel-" + this.findDirectionName();
+    this.renderer.append("<div id='mykarel' class='"+karelClassName+"'></div>");
     this.$myKarel = $("#mykarel");
     var xy = this.defineRealPos(this.karel.x, this.karel.y);
     this.$myKarel.offset({left: xy[0], top: xy[1]});
@@ -142,17 +143,20 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
     animateKarelMove (curKarelPos, nextKarelPos);
 };
 
-Karel2DWorld.prototype.showKarelDirection = function () {
-    var dirClassName = "mydirection-";
+Karel2DWorld.prototype.findDirectionName = function () {
     if (this.karel.direction == 0) {
-        dirClassName += "south";
+        return "south";
     } else if (this.karel.direction == 1) {
-        dirClassName += "east";
+        return "east";
     } else if (this.karel.direction == 2) {
-        dirClassName += "north";
+        return "north";
     } else {
-        dirClassName += "west";
+        return "west";
     }
+};
+
+Karel2DWorld.prototype.showKarelDirection = function () {
+    var dirClassName = "mydirection-" + this.findDirectionName();
     this.renderer.append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
     this.$mykarelDirection = $("#mykarelDirection");
     var xy = this.defineRealPos(this.karel.x, this.karel.y);

@@ -75,13 +75,29 @@ td {
     background-image: url('../img/textures/wall2.png');
 }
 
-.mykarel {
+.mykarel-south {
     height: 90px;
     width: 90px;
     position: absolute;
     background: url('../img/textures/karel.png') no-repeat center;
-    /*transition-duration: 2s;*/
-    /*transition-timing-function: linear;*/
+}
+.mykarel-east {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel.png') no-repeat center;
+}
+.mykarel-west {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel.png') no-repeat center;
+}
+.mykarel-north {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel.png') no-repeat center;
 }
 .mydirection-east {
     height: 90px;
