@@ -133,6 +133,7 @@ $(function () {
     });
 
     $('#compile-btn').click(function(){
+        karelCodeEditor.save();
         onCodeSubmit();
     });
 
