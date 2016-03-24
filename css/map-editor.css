@@ -1,7 +1,15 @@
+@font-face {
+    font-family: 'Bender';
+    src: local('Bender'), local('Bender-Regular'), url('../vendor/fonts/bender/bender.woff2') format('woff2'), url('../vendor/fonts/bender/bender.woff') format('woff'), url('../vendor/fonts/bender/bender.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
 
-body {
+body{
+    font-family: 'Lato', sans-serif;
     overflow: hidden;
 }
+
 
 .field-block {
     position: absolute;
@@ -157,10 +165,12 @@ body {
     color: black;
     font-size: 1em;
     line-height: 1em;
-    left: -2.1em;
+    left: -2.05em;
     top: 0.3em;
 }
-
+.num {
+    left: -2.15em !important;
+}
 .cross-sign {
     opacity: 1;
     position: relative;
@@ -195,6 +205,11 @@ body {
     top: 0;
     right: 0.2em;
     font-size: 2em;
+}
+
+.button + div, .value {
+    font-family: "Bender", sans-serif;
+    font-weight: 900;
 }
 
 /*
@@ -303,19 +318,19 @@ __________________________________________________________right panel editor____
 }
 
 #wall::after {
-    content: "Click on the field to mount the wall. Click on the mounted wall to remove it.";
+    content: "Click on a cell to mount the wall. Click on the mounted wall to remove it.";
 }
 
 #empty::after {
-    content: "Click on the field to clear the cell.";
+    content: "Click on the cell to reset it.";
 }
 
 #karel::after {
-    content: "Click on the field to determinate Karel position. Click on Karel to change his direction. Click right mouse button to remove Karel";
+    content: "Click on a cell to set Karel position. Click left mouse button on Karel to change his direction. Click right mouse button to remove Karel";
 }
 
 #beeper::after {
-    content: "Click on the field to put beeper. Every click adds one beeper. Right mouse click remove one beeper";
+    content: "Click on a cell to put beeper. Left mouse click adds one beeper. Right mouse click remove one beeper";
 }
 
 #backpack::after {
@@ -347,9 +362,9 @@ __________________________________________________________right panel editor____
 table {
     border: solid 3px #596a72;
     position: relative;
-    top: 25.5em;
+ /*   top: 25.5em;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 
 }
 td {
@@ -410,7 +425,7 @@ td {
 #sidebar {
     z-index: 3;
     position: absolute;
-    right: -7.6em;
+    right: -15.5em;
     height: 100%;
     transition: all 0.5s ease-in-out;
 }
@@ -438,6 +453,7 @@ td {
 .tab {
     position: relative;
     height: 100%;
+    width: 25em;
 }
 
 .tab-title {
