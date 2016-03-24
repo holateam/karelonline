@@ -194,7 +194,7 @@ $(function () {
     });
 
     $('#taskDescr').click(function() {
-        $.featherlight($('<div>'+map.description+'</div>'), {});
+        $.featherlight($('<div>Current task:<br></br>'+map.description+'</div>'), {});
     });
 
 });
