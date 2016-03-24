@@ -193,5 +193,8 @@ $(function () {
         preparePlayer(map, renderer);
     });
 
+    $('#taskDescr').click(function() {
+        $.featherlight($('<div>'+map.description+'</div>'), {});
+    });
 
 });
