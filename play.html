@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/theme/material-dark.css">
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/addon/display/fullscreen.css">
     <link rel="stylesheet" type="text/css" href="css/karel-code-editor.css">
+    <link rel="stylesheet" type="text/css" href="css/2d-rendering.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/play.css">
     <link rel="stylesheet" type="text/css" href="css/controls.css">
@@ -32,9 +33,9 @@
     <script src="js/karel-code-compiler.js"></script>
     <script src="js/karel-code-editor.js"></script>
     <script src="js/karel-map-editor.js"></script>
+    <script src="js/karel-2d-lib.js"></script>
     <script src="js/karel-3d-lib.js"></script>
-    <script src="js/karel-3d-player.js"></script>
-    <script src="js/karel-2d-player.js"></script>
+    <script src="js/karel-player.js"></script>
     <script src="js/map-selector.js"></script>
     <script src="js/sidebar-slider.js"></script>
     <script src="js/play.js"></script>
@@ -119,11 +120,15 @@
             </li>
             <li>
                 <div id="editor-glyph" class="glyph"></div>
-                <a href="#">World editor</a>
+                <a href="map-editor.html">World editor</a>
             </li>
             <li>
                 <div id="manual-glyph" class="glyph"></div>
-                <a href="#">Manual page</a>
+                <a href="karel-manpage.html">Manual page</a>
+            </li>
+            <li>
+                <div id="team-glyph" class="glyph"></div>
+                <a id="renderer-switch" href="#">Use 2D renderer</a>
             </li>
             <li>
                 <div id="team-glyph" class="glyph"></div>

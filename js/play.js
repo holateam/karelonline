@@ -77,18 +77,10 @@ $(function () {
             map=newMap; // for compliler
             karelPlayer.setMap(newMap.original);
         } else {
-            if (forceRenderer=='2D'||forceRenderer=='3D') {
-                karelPlayer = (forceRenderer == '2D' || !window.WebGLRenderingContext) ?
-                    new Karel2dPlayer($renderer, newMap.original):
-                    new Karel3dPlayer($renderer, newMap.original);
-            }
-            if (!karelPlayer) {
-                karelPlayer = (!window.WebGLRenderingContext) ?
-                    new Karel2dPlayer($renderer, newMap.original):
-                    new Karel3dPlayer($renderer, newMap.original);
-            }
+            karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
+            karelPlayer.play(greetingsMove, null);
         }
-        karelPlayer.play(greetingsMove, null);
+        
     }
 
     function onCodeSubmit() {
@@ -195,10 +187,10 @@ $(function () {
         karelPlayer.destroy();
         $renderer.html('');
         if (renderer == '2D') {
-            $('#renderer-switch').text('Use 2D renderer');
+            $('#renderer-switch').html('Use 2D renderer');
             renderer = '3D';
         } else {
-            $('#renderer-switch').text('Use 3D renderer');
+            $('#renderer-switch').html('Use 3D renderer');
             renderer = '2D';
         }
         preparePlayer(map, renderer);

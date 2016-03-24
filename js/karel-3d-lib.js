@@ -117,6 +117,16 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
 }
 
 /**
+ * [initialize description]
+ * Scene initialization entry point
+ * Standart intarface for KarelPlayer usage
+ */
+Karel3DWorld.prototype.initialize = function (container) {
+    this.initializeRenderer(container);
+    this.initializeCamera(container);
+}
+
+/**
  * [initializeRenderer description]
  * System client renderer initialization function
  */

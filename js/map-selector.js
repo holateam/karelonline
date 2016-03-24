@@ -49,10 +49,6 @@ MapSelector.prototype.formUlList = function(flags) {
         return;
     }  
 
-    function tap () {
-
-    }
-
     var $ul = $('<ul></ul>');
     this.element.append($ul);
     for (var property in list) {

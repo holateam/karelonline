@@ -111,14 +111,18 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
                 if (tact > numTacts) {
                     clearInterval(animFuncID);
                     _this.showKarelDirection();
-                    cb();
+                    if (cb) {
+                        cb.apply(_this, cbArgs);
+                    }
                     return;
                 }
                 _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
             } if (_this.animationMode == 2) { // reserved for stop
                 clearInterval(animFuncID);
                 _this.showKarelDirection();
-                cb();
+                if (cb) {
+                    cb.apply(_this, cbArgs);
+                }
                 return;
             }
         }, refreshInterval);
@@ -167,9 +171,11 @@ Karel2DWorld.prototype.karelTurnRight = function (duration, cb, cbArgs){
     var _this=this;
     setTimeout(function(){
         _this.showKarelDirection();
-        setTimeout(function(){
-            cb();
-        }, duration/2*1000);
+        if (cb) {
+            setTimeout(function(){
+                cb.apply(_this, cbArgs);
+            }, duration/2*1000);           
+        }
     }, duration/2*1000);
 };
 
@@ -182,9 +188,11 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
     var _this=this;
     setTimeout(function(){
         _this.showKarelDirection();
-        setTimeout(function(){
-            cb();
-        }, duration/2*1000);
+        if (cb) {
+            setTimeout(function(){
+                cb.apply(_this, cbArgs);
+            }, duration/2*1000);           
+        }
     }, duration/2*1000);
 };
 
@@ -204,9 +212,11 @@ Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
     var _this = this;
     setTimeout(function(){
         _this.redrawMap();
-        setTimeout(function(){
-            cb();
-        }, duration/2*1000);
+        if (cb) {
+            setTimeout(function(){
+                cb.apply(_this, cbArgs);
+            }, duration/2*1000);           
+        }
     }, duration/2*1000);
 };
 
@@ -220,9 +230,11 @@ Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
     var _this = this;
     setTimeout(function(){
         _this.redrawMap();
-        setTimeout(function(){
-            cb();
-        }, duration/2*1000);
+        if (cb) {
+            setTimeout(function(){
+                cb.apply(_this, cbArgs);
+            }, duration/2*1000);           
+        }
     }, duration/2*1000);
 };
 
@@ -236,54 +248,3 @@ Karel2DWorld.prototype.stopWorld = function () {
 Karel2DWorld.prototype.startWorld =function() {
     this.animationMode = 0;
 };
-
-var k2dw = new Karel2DWorld();
-var $map_field = $('#map-field');
-k2dw.initialize($map_field);
-
-var map =  {
-    name: 'some map name',
-    original: {
-        map:[
-            ['x', '', '', 3, '', 2, 3],
-            ['x', '', 4, 3, 'x', 1, ''],
-            ['', '', 'x', 1, 'x', '', ''],
-            ['', 'x', 3, 'x', 2, '', 5],
-            ['', 'x', '', 1, 'x', 'x', ''],
-            [2,  '',   1, 3, 'x', 'x', ''],
-            ['x', '', 'x', 3, '', 1, '']
-        ],
-        karel: {
-            position: [0, 5],
-            direction: 1,
-            beepers: 1000
-        }
-    },
-    final:  [{
-        map:[
-            ['x', '', '', 3, '', 2, 3],
-            ['x', '', 4, 3, 'x', 1, ''],
-            ['', '', 'x', 1, 'x', '', ''],
-            ['', 'x', 1, 'x', 2, '', 5],
-            ['', 'x', 1, 1, 'x', 'x', ''],
-            [1, 1, 1, 1, 'x', 'x', ''],
-            ['x', '', 'x', 3, '', 1, '']
-        ],
-        karel: {
-            position: [0, 5],
-            direction: 1
-        }
-    }],
-    description: 'problem solving'
-};
-
-k2dw.loadMap(map.original);
-k2dw.karelMove(2, function(){
-    k2dw.karelPutBeeper(2, function(){
-        k2dw.karelTurnLeft(2, function(){
-            k2dw.karelMove(2, function(){
-                console.log("finished");
-            });
-        });
-    });
-});
