@@ -89,13 +89,13 @@ $(function () {
 
     function onPlayerFinish() {
         if (compileResults === null) {
-            alert('No any compile results.');
+            $.featherlight($('<div>The are no any results</div>'), {});
         } else {
             console.log('compileResults', compileResults);
             if (compileResults === true) {
-                alert('Task SOLVED!');
+                $.featherlight($('<div>Task SOLVED!</div>'), {});
             } else {
-                alert('Task not solved.');
+                $.featherlight($('<div>Task not solved</div>'), {});
             }
         }
     }

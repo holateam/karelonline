@@ -29,7 +29,7 @@ SequenceEventExecutor.prototype.execute = function(callback) {
 }
 
 SequenceEventExecutor.prototype.callbackAlert = function(message, callback, cbArgs) {
-	alert(message);
+	$.featherlight($('<div>'+message+'</div>'), {});
 	if (callback && cbArgs)
 		callback.call(cbArgs);
 }
