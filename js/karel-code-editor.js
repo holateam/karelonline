@@ -63,7 +63,7 @@ function matchCode(language) {
     var mainFunc = (language == "cpp") ? "main" : "run";
     var code = '' +
         '// Press Esc to exit from Fullscreen mode.\n' +
-        '// Press Star at bottom right to execute.\n' +
+        '// Press Play at bottom right to execute.\n' +
         '// Function `'+ mainFunc +'` is the program entry point.\n' +
         '// It would be executed as a program start\n\n';
 

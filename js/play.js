@@ -163,11 +163,17 @@ $(function () {
 
     $('#fullscreen-editor-btn').click(function(){
         karelCodeEditor.editor.setOption("fullScreen", true);
+        $("body").append("<div id='exitFullScreen-btn'>Exit\nfullscreen</div>");
+        $("#exitFullScreen-btn").click(function(){
+            karelCodeEditor.editor.setOption("fullScreen", false);
+            $("#exitFullScreen-btn").detach();
+        })
     });
 
     $('body').keydown(function(e){
         if(e.which == 27 && karelCodeEditor.editor.getOption('fullScreen')){
             karelCodeEditor.editor.setOption("fullScreen", false);
+            $("#exitFullScreen-btn").detach();
         } else if (e.which == 13 && e.ctrlKey) {
             onCodeSubmit();
         } else if (e.which == 33 && e.ctrlKey) {
@@ -194,7 +200,7 @@ $(function () {
     });
 
     $('#taskDescr').click(function() {
-        $.featherlight($('<div>Current task:<br></br>'+map.description+'</div>'), {});
+        $.featherlight($('<div>Current task:<br><br>'+map.description+'</div>'), {});
     });
 
 });
