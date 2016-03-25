@@ -60,7 +60,7 @@ KarelPlayer.prototype.playScenario = function(scenario, callback) {
 				}
 			}
 			else if (command == 'pick') {
-				see.addEvent(this.world.karelTakeBeeper);
+				see.addEvent(this.world.karelTakeBeeper, 0.25);
 			}
 			else if (command == 'put') {
 				see.addEvent(this.world.karelPutBeeper);
