@@ -163,10 +163,12 @@ $(function () {
 
     $('#fullscreen-editor-btn').click(function(){
         karelCodeEditor.editor.setOption("fullScreen", true);
+        $('#compile-btn').hide();
         $("body").append("<div id='exitFullScreen-btn'>Exit\nfullscreen</div>");
         $("#exitFullScreen-btn").click(function(){
             karelCodeEditor.editor.setOption("fullScreen", false);
             $("#exitFullScreen-btn").detach();
+            $('#compile-btn').show();
         })
     });
 
@@ -174,6 +176,7 @@ $(function () {
         if(e.which == 27 && karelCodeEditor.editor.getOption('fullScreen')){
             karelCodeEditor.editor.setOption("fullScreen", false);
             $("#exitFullScreen-btn").detach();
+            $('#compile-btn').show();
         } else if (e.which == 13 && e.ctrlKey) {
             onCodeSubmit();
         } else if (e.which == 33 && e.ctrlKey) {
