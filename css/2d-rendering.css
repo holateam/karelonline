@@ -33,15 +33,15 @@ td {
 
 .beeper {
     font-family: "Bender", sans-serif;
-    background-size: 40px 100%;
+    width: 55px;
+    height: 40px;
+    background-size: 70% 100%;
     background-image: url('../img/controls/beeper.svg');
     background-repeat: no-repeat;
     background-position: top -0.2em left -0.1em;
     color: #6BBA70;
     box-sizing: border-box;
     font-size: 1.5em;
-    width: 55px;
-    height: 40px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
