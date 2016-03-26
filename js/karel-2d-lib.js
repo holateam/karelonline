@@ -266,7 +266,7 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
     }, duration/_this.speedCoeficient/2*1000);
 };
 
-Karel2DWorld.prototype.karelPutBeeper = function (cb, duration, cbArgs){
+Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
         beepersInCell = 0;
@@ -286,7 +286,7 @@ Karel2DWorld.prototype.karelPutBeeper = function (cb, duration, cbArgs){
 
 };
 
-Karel2DWorld.prototype.karelTakeBeeper = function (cb, duration, cbArgs){
+Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
         beepersInCell = 0;
