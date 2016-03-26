@@ -16,18 +16,20 @@ Karel2DWorld.prototype.initialize = function(jqueryObj){
         _this.renderer.draggable();
     });
 
- function checkKey(e) {
-     e = e || window.event;
-     if (e.keyCode == '38') { // up arrow
-         console.log("+");
-         _this.scaleUp();
-     }
-     else if (e.keyCode == '40') { // down arrow
-         console.log("-");
-         _this.scaleDown();
-     }
- }
- document.onkeydown = checkKey;
+    // needs until testing
+    function checkKey(e) {
+         e = e || window.event;
+         if (e.keyCode == '38') { // up arrow
+             console.log("+");
+             _this.scaleUp();
+         }
+         else if (e.keyCode == '40') { // down arrow
+             console.log("-");
+             _this.scaleDown();
+         }
+    }
+    document.onkeydown = checkKey;
+    //
 
 };
 
