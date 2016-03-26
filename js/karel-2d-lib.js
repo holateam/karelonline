@@ -16,6 +16,19 @@ Karel2DWorld.prototype.initialize = function(jqueryObj){
         _this.renderer.draggable();
     });
 
+ function checkKey(e) {
+     e = e || window.event;
+     if (e.keyCode == '38') { // up arrow
+         console.log("+");
+         _this.scaleUp();
+     }
+     else if (e.keyCode == '40') { // down arrow
+         console.log("-");
+         _this.scaleDown();
+     }
+ }
+ document.onkeydown = checkKey;
+
 };
 
 Karel2DWorld.prototype.clear = function(){
@@ -308,17 +321,11 @@ Karel2DWorld.prototype.startWorld =function() {
 Karel2DWorld.prototype.scaleUp =function() {
     this.scale += 0.1;
     this.redrawMap();
-    var _this=this;
-    this.$mykarelDirection.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
-    this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
 };
 
 Karel2DWorld.prototype.scaleDown =function() {
     this.scale -= 0.1;
     this.redrawMap();
-    var _this=this;
-    this.$mykarelDirection.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
-    this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
 };
 
 // var k2dw = new Karel2DWorld();
