@@ -118,8 +118,8 @@ KarelPlayer.prototype.play = function(scenario, callback) {
 }
 
 KarelPlayer.prototype.destroy = function() {
+	this.pause();
 	this.world.clear();
-	this.stop();
 }
 
 KarelPlayer.prototype.setSpeed = function(speed) {
