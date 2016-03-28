@@ -110,10 +110,10 @@ var active_selector = false;
 
 function toggleShowWorldList() {
     if (active_selector) {
-        $sidebar.css({"right": "-15.5em"});
+        $sidebar.css({"right": "-17em"});
         active_selector = false;
     } else {
-        $sidebar.css({"right": "9.5em"});
+        $sidebar.css({"right": "8em"});
         active_selector = true;
     }
 }
@@ -297,6 +297,7 @@ Maps.prototype.saveAllMaps = function () {
         maps.description = _this.description;
         Storage.addMap(_this.name, maps);
         $complete.css(hide);
+        refreshWorldList();
     });
 };
 
@@ -720,18 +721,23 @@ var basicMap =[[emptyCell]];
 var setMap = new Maps({original: {map: [['']], karel: {}}, final: [{map: [['']], karel: {}}]});
 setMap.getActiveMap().redrawMap();
 
-
-editorMapSelector.onChange(loadSetMaps);
-
-editorMapSelector.formUlList({
-    deleteCallback : function (map) {
-        Storage.clear(map.name);
-    }
-});
-
-
 function  loadSetMaps(maps) {
     $(".optional").remove();
     setMap = new Maps(maps);
     setMap.getActiveMap().redrawMap();
 }
+
+function mapSelectorDeleteCallback(map) {
+    Storage.removeMap(map.name);
+    refreshWorldList();
+}
+
+function refreshWorldList() {
+    $map_list.html('<div class="tab-title"><span>World  List</span></div>');
+    editorMapSelector.formUlList({
+        deleteCallback : mapSelectorDeleteCallback
+    });
+}
+
+editorMapSelector.onChange(loadSetMaps);
+refreshWorldList();

@@ -65,7 +65,6 @@ MapSelector.prototype.formUlList = function(flags) {
 
             if (this.callback) {
                 $li.click({cb: this.callback, arg: map}, function(e) {
-                    alert(e.data.arg.name);
                     e.data.cb( e.data.arg );
                 });
             }
