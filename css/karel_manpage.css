@@ -205,3 +205,23 @@ footer a:hover {
         width: 60%;
     }
 }
+
+
+.title.about {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0;
+    height: auto;
+    font-size: 70%;
+}
+
+.text > span {
+    white-space: pre;
+    margin: 0 auto;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
