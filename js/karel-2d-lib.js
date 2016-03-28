@@ -25,17 +25,18 @@ Karel2DWorld.prototype.resetKarelData = function () {
     this.karel.direction = this.karelStart.direction;
 };
 
+Karel2DWorld.prototype.drawKarel = function () {
+    this.renderer.append("<div id='mykarel' class='mykarel'></div>");
+    this.$myKarel = $("#mykarel");
+    var xy = this.defineRealPos(this.karel.x, this.karel.y);
+    this.$myKarel.offset({left: xy[0], top: xy[1]});
+    this.$myKarel.css( 'transform', 'scale(' + this.scale + ', ' + this.scale + ')');
+    this.showKarelDirection();
+};
+
 Karel2DWorld.prototype.loadMap = function(mapObj){
 
     var _this = this;
-    function drawKarel () {
-        $("body").append("<div id='mykarel' class='mykarel'></div>");
-        _this.$myKarel = $("#mykarel");
-        var xy = _this.defineRealPos(_this.karel.x, _this.karel.y);
-        _this.$myKarel.offset({left: xy[0], top: xy[1]});
-        _this.$myKarel.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')');
-        _this.showKarelDirection();
-    }
 
     this.map = mapObj.map;
     this.karelStart = mapObj.karel;
@@ -45,7 +46,7 @@ Karel2DWorld.prototype.loadMap = function(mapObj){
     var field = this.createDomMap();
     this.renderer.html(field);
 
-    drawKarel();
+    this.drawKarel();
 };
 
 Karel2DWorld.prototype.defineRealPos = function (x, y) {
@@ -130,25 +131,6 @@ Karel2DWorld.prototype.karelMove = function (duration, cb, cbArgs) {
             setTimeout (anymFunc, refreshInterval);
         };
         setTimeout (anymFunc, refreshInterval);
-
-        //var animFuncID = setInterval(function(){
-        //    if (_this.animationMode == 0) {
-        //        tact ++;
-        //        //console.log("tact", tact);
-        //        if (tact > numTacts) {
-        //            clearInterval(animFuncID);
-        //            _this.showKarelDirection();
-        //            cb();
-        //            return;
-        //        }
-        //        _this.$myKarel.offset ({left: curKarelPos[0] + dx * tact/numTacts, top: curKarelPos[1] + dy * tact/numTacts});
-        //    } if (_this.animationMode == 2) { // reserved for stop
-        //        clearInterval(animFuncID);
-        //        _this.showKarelDirection();
-        //        cb();
-        //        return;
-        //    }
-        //}, refreshInterval);
     }
 
     var curKarelPos = this.defineRealPos (this.karel.x, this.karel.y);
@@ -174,7 +156,7 @@ Karel2DWorld.prototype.showKarelDirection = function () {
     } else {
         dirClassName += "west";
     }
-    $("body").append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
+    this.renderer.append("<div id='mykarelDirection' class='"+dirClassName+"'></div>");
     this.$mykarelDirection = $("#mykarelDirection");
     var xy = this.defineRealPos(this.karel.x, this.karel.y);
     this.$mykarelDirection.offset({left: xy[0], top: xy[1]});
@@ -222,18 +204,20 @@ Karel2DWorld.prototype.karelTurnLeft = function (duration, cb, cbArgs) {
 };
 
 Karel2DWorld.prototype.redrawMap = function () {
-    $map_field.html(this.createDomMap());
+    this.renderer.html(this.createDomMap());
     var _this = this;
-    $map_field.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    this.renderer.css( 'transform', 'scale(' + _this.scale + ', ' + _this.scale + ')' );
+    this.drawKarel();
 };
 
-Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
+Karel2DWorld.prototype.karelPutBeeper = function (cb, cbArgs){
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
         beepersInCell = 0;
     }
     beepersInCell++;
     this.map[this.karel.y][this.karel.x] = beepersInCell;
+    var duration = 0;
     var _this = this;
     setTimeout(function(){
         _this.redrawMap();
@@ -245,13 +229,14 @@ Karel2DWorld.prototype.karelPutBeeper = function (duration, cb, cbArgs){
     }, duration/_this.speedCoeficient/2*1000);
 };
 
-Karel2DWorld.prototype.karelTakeBeeper = function (duration, cb, cbArgs){
+Karel2DWorld.prototype.karelTakeBeeper = function (cb, cbArgs){
     var beepersInCell = parseInt(this.map[this.karel.y][this.karel.x]);
     if (!beepersInCell){
         beepersInCell = 0;
     }
     beepersInCell--;
     this.map[this.karel.y][this.karel.x] = beepersInCell;
+    var duration = 0;
     var _this = this;
     setTimeout(function(){
         _this.redrawMap();

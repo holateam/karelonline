@@ -66,3 +66,37 @@ td {
     background-image: url('../img/textures/wall2.png');
 }
 
+.mykarel {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel.png') no-repeat center;
+    /*transition-duration: 2s;*/
+    /*transition-timing-function: linear;*/
+}
+.mydirection-east {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel-arrowE.png') no-repeat top 84% right 10%;
+}
+.mydirection-west {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel-arrowW.png') no-repeat top 84% left 10%;
+}
+.mydirection-south {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel-arrowS.png') no-repeat bottom 0 center;
+}
+.mydirection-north {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    background: url('../img/textures/karel-arrowN.png') no-repeat top 35% center;
+}
+
+
