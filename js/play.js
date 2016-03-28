@@ -181,7 +181,6 @@ $(function () {
 
     $('#renderer-switch').click(function(){
         karelPlayer.destroy();
-        $renderer.html('');
         if (renderer == '2D') {
             $('#renderer-switch').html('Use 2D renderer');
             renderer = '3D';

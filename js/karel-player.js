@@ -13,7 +13,7 @@ function webglAvailable() {
 function KarelPlayer(elem, map, forseRenderer) {
 
 	forceRenderer = forseRenderer || '3D';
-	
+	// console.log(forceRenderer, webglAvailable(), (webglAvailable() && forceRenderer == '3D'));
     this.elem = elem;
     this.map = map;
 	this.execFlag = false;
@@ -120,7 +120,6 @@ KarelPlayer.prototype.play = function(scenario, callback) {
 KarelPlayer.prototype.destroy = function() {
 	this.world.clear();
 	this.stop();
-	return 0;
 }
 
 KarelPlayer.prototype.setSpeed = function(speed) {
