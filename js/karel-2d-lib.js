@@ -35,10 +35,7 @@ Karel2DWorld.prototype.drawKarel = function () {
 };
 
 Karel2DWorld.prototype.loadMap = function(mapObj){
-
-    var _this = this;
-
-    this.map = mapObj.map;
+    this.map = JSON.parse(JSON.stringify(mapObj.map));
     this.karelStart = mapObj.karel;
 
     this.resetKarelData();
@@ -217,6 +214,7 @@ Karel2DWorld.prototype.karelPutBeeper = function (cb, cbArgs){
     }
     beepersInCell++;
     this.map[this.karel.y][this.karel.x] = beepersInCell;
+/*
     var duration = 0;
     var _this = this;
     setTimeout(function(){
@@ -227,6 +225,9 @@ Karel2DWorld.prototype.karelPutBeeper = function (cb, cbArgs){
             }, duration/_this.speedCoeficient/2*1000);           
         }
     }, duration/_this.speedCoeficient/2*1000);
+*/
+    this.redrawMap();
+    cb.apply(this, cbArgs);
 };
 
 Karel2DWorld.prototype.karelTakeBeeper = function (cb, cbArgs){
@@ -236,6 +237,7 @@ Karel2DWorld.prototype.karelTakeBeeper = function (cb, cbArgs){
     }
     beepersInCell--;
     this.map[this.karel.y][this.karel.x] = beepersInCell;
+/*
     var duration = 0;
     var _this = this;
     setTimeout(function(){
@@ -246,10 +248,14 @@ Karel2DWorld.prototype.karelTakeBeeper = function (cb, cbArgs){
             }, duration/_this.speedCoeficient/2*1000);           
         }
     }, duration/_this.speedCoeficient/2*1000);
+*/
+    this.redrawMap();
+    cb.apply(this, cbArgs);
 };
 
 Karel2DWorld.prototype.setSpeed = function (speedCoeficient){
     this.speedCoeficient = speedCoeficient;
+    console.log("speedCoeficient", speedCoeficient);
 };
 
 Karel2DWorld.prototype.stopWorld = function () {
