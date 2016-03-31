@@ -438,8 +438,9 @@ Karel3DWorld.prototype.karelTurnRight = function(duration, callback, args) {
  * @param  {Function} callback -- callback function
  * @param  {array}    args     -- arguments of the callback function
  */
-Karel3DWorld.prototype.karelTakeBeeper = function(callback, args) {
+Karel3DWorld.prototype.karelTakeBeeper = function(duration, callback, args) {
 
+    var fps = 60;
     var X = this.karel.x;
     var Y = this.karel.y;
 
@@ -451,7 +452,7 @@ Karel3DWorld.prototype.karelTakeBeeper = function(callback, args) {
     this.animation.px = 0;
     this.animation.py = 0;
     this.animation.rz = 0;
-    this.animation.frames = 1;
+    this.animation.frames = fps * duration;
     this.animation.callback = callback;
     this.animation.cbargs = args;
 }
@@ -462,8 +463,9 @@ Karel3DWorld.prototype.karelTakeBeeper = function(callback, args) {
  * @param  {Function} callback -- callback function
  * @param  {array}    args     -- arguments of the callback function
  */
-Karel3DWorld.prototype.karelPutBeeper = function(callback, args) {
+Karel3DWorld.prototype.karelPutBeeper = function(duration, callback, args) {
     
+    var fps = 60;
     var X = this.karel.x;
     var Y = this.karel.y;
 
@@ -474,7 +476,7 @@ Karel3DWorld.prototype.karelPutBeeper = function(callback, args) {
     this.animation.px = 0;
     this.animation.py = 0;
     this.animation.rz = 0;
-    this.animation.frames = 1;
+    this.animation.frames = fps * duration;
     this.animation.callback = callback;
     this.animation.cbargs = args;
 }

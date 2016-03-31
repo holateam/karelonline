@@ -63,7 +63,7 @@ KarelPlayer.prototype.playScenario = function(scenario, callback) {
 				see.addEvent(this.world.karelTakeBeeper, 0.25);
 			}
 			else if (command == 'put') {
-				see.addEvent(this.world.karelPutBeeper);
+				see.addEvent(this.world.karelPutBeeper, 0.25);
 			}
 			else if (command == 'error') {
 				see.addEvent(see.callbackAlert, scenario[i].data.message);
