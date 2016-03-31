@@ -48,6 +48,10 @@ nav li a:hover {
     color: #1abc9c;
 }
 
+.green {
+    background-color: #1abc9c;
+}
+
 .code {
     background-color: #2E4054;
     text-align: left;

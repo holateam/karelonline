@@ -513,7 +513,7 @@ Karel3DWorld.prototype.render = function() {
                                 fn.apply(self, args);
                             }
                         })(this, args)
-                        ,200
+                        ,0
                     );
             }
             this.renderer.render( this.scene, this.camera );

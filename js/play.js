@@ -82,7 +82,8 @@ $(function () {
         playState = true;
         $('#play-pause-btn > .button').css('background-image', 'url("img/controls/pause.svg")');
         var code = karelCodeEditor.getCode();
-        var data = KarelCodeCompiler.compile(code, map);
+        console.log(code);
+        var data = KarelCodeCompiler.compile(code, map, language);
         compileResults = data.result;
         karelPlayer.play(data.commands, onPlayerFinish);
     }
@@ -114,8 +115,8 @@ $(function () {
 
     $speedSlider.slider({
         min     : 0.5,
-        max     : 5,
-        value   : 1,
+        max     : 10,
+        value   : 2,
         step    : 0.5,
         change: changeSpeed
     });
