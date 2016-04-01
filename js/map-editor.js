@@ -199,9 +199,25 @@ function Maps(maps) {
     this.activateFinalMapsEditor(maps.final);
     this.originalMap = {};
     this.finalMap = [];
+    this.markActiveMap();
+}
+
+function isStartActiveMap(activeMap) {
+    return activeMap == "start";
 }
 
 //======================================================Method descriptions============================================
+
+Maps.prototype.markActiveMap = function() {
+    $(".row").removeClass("highlight");
+    var id;
+   if (isStartActiveMap(this.active_map)) {
+       id = "#start-map";
+   } else {
+       id = "#final-map" + ((this.active_map) ? this.active_map + 1 : '');
+   }
+    $(id).addClass("highlight");
+};
 
 Maps.prototype.activateFinalMapsEditor = function(maps){
     var _this = this;
@@ -225,7 +241,7 @@ Maps.prototype.removeFinalMap = function (idx) {
 };
 Maps.prototype.getActiveMap = function () {
     var _this = this;
-    if (_this.active_map == "start") {
+    if (isStartActiveMap(this.active_map)) {
         return _this.start_map_editor;
     } else {
         return _this.final_map_editor[_this.active_map];
@@ -260,9 +276,10 @@ function referToStartMap(startMap, finalMap) {
 Maps.prototype.setActiveMap = function (map) {
     var _this = this;
     _this.active_map = map;
-    if (_this.active_map !== "start") {
+    if (!isStartActiveMap(this.active_map)) {
         _this.final_map_editor[_this.active_map].map = referToStartMap(_this.start_map_editor.map, _this.final_map_editor[_this.active_map].map);
     }
+    _this.markActiveMap();
     _this.getActiveMap().redrawMap();
 };
 
@@ -393,8 +410,8 @@ MapEdited.prototype.redrawMap = function () {
 // ___________________________________________resize map _______________________________________________________________
 
 
-var visibleFieldHeight = $(window).height() - 2 * $decrement_width.height();
-var visibleFieldWidth = $(window).width() - 2 * $button_panel.width();
+var visibleFieldHeight = $(window).height() - (2 * $('.bottom-panel').height());
+var visibleFieldWidth = $(window).width() - 2 * $('#control-editor').width();
 
 MapEdited.prototype.incrementWidth = function() {
     var _this = this;

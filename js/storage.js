@@ -24,7 +24,16 @@ var Storage = (function () {
         }
         storage.set(title, map);
 
-    }
+    };
+
+    storage.getCode = function (language) {
+        var data = instance.getItem(language);
+        return (data) ? data : null;
+    };
+
+    storage.saveCode = function (language, code) {
+        instance.setItem(language, code);
+    };
 
     storage.removeMap = function (mapName) {
 
@@ -39,7 +48,7 @@ var Storage = (function () {
         }
         storage.set('karelMapsIndex', mapList);
         storage.clear(mapName);
-    }
+    };
 
     storage.clear = function (key) {
         instance.removeItem(key);

@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Karel Map Editor</title>
-
     <link rel="stylesheet" type="text/css" href="vendor/css/reset.css">
+    <link rel="stylesheet" href="css/2d-rendering.css">
     <link rel="stylesheet" href="css/map-editor.css">
     <link rel="stylesheet" href="css/controls.css">
     <link rel="stylesheet" href="css/tabs.css">
-    <link rel="stylesheet" href="css/2d-rendering.css">
 
 
     <script src="vendor/js/jquery-2.2.0.min.js"></script>
@@ -31,7 +30,7 @@
                 <div class="row" id="reset">
                     <div class="button" id="reset-arrow"></div>
                 </div>
-                <div class="row" id="start-map">
+                <div class="row highlight" id="start-map">
                     <div class="button"></div>
                 </div>
                 <div id="plus-final-map">
@@ -42,9 +41,7 @@
                     <div class="cross-sign" id="close-final"></div>
                 </div>
             </div>
-        <div id="beepers-count">
-            <input type="text" id="num-beepers" autofocus/>
-        </div>
+
         <form class="pop-up dialog" id="complete">
             <div id="close-pop-up" class="close">&#215</div>
             <div class="flexible"><span>To save edited maps input:</span></div>
@@ -107,6 +104,9 @@
             </div>
             <div class="btn-cell" id="backpack">
                 <div class="flexible" id="inner">1000</div>
+                <div id="beepers-count">
+                    <input type="text" id="num-beepers" autofocus/>
+                </div>
             </div>
             <div id="zoom"></div>
             <div id="minus">&#150</div>

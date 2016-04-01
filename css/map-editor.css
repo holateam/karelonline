@@ -145,6 +145,9 @@ body{
     font-size: 1.3em;
     margin-bottom: 1.3em;
 }
+
+
+
 #plus-final-map {
     opacity: 0.5;
     position: absolute;
@@ -208,7 +211,12 @@ body{
     right: 0.2em;
     font-size: 2em;
 }
-
+.highlight {
+    opacity: 0.8 !important;
+}
+.highlight:hover {
+    opacity: 1 !important;
+}
 .button + div, .value {
     font-family: "Bender", sans-serif;
     font-weight: 900;
@@ -576,9 +584,9 @@ input[type="submit"]:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }
 #beepers-count{
-    position: absolute;
-    top: 70%;
-    right: 1em;
+    position: relative;
+    top: 18%;
+    left: 62%;
     z-index: 6;
     visibility: hidden;
 }
