@@ -64,19 +64,15 @@ $(function () {
 
     karelCodeEditor.onCodeSubmit(onCodeSubmit);
     karelMapSelector.onChange(preparePlayer);
-    karelMapSelector.formUlList({
-        editCallback : function (map) {
-            alert('edit button pressed');
-        }
-    });
+    karelMapSelector.formUlList();
 
     function preparePlayer(newMap, forceRenderer) {
+        $renderer.html('');
+        forceRenderer = forceRenderer || renderer;
         if(map!=newMap){ // detect map changing
             map=newMap; // for compliler
-            karelPlayer.setMap(newMap.original);
-        } else {
-            karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
         }
+        karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
         karelPlayer.play(greetingsMove, null);
     }
 

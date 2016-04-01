@@ -37,6 +37,7 @@ KarelPlayer.prototype.resetWorld = function() {
 
 KarelPlayer.prototype.setMap = function(map) {
 	this.map = map;
+	this.destroy();
 	this.world.loadMap(this.map);
 }
 
@@ -118,8 +119,8 @@ KarelPlayer.prototype.play = function(scenario, callback) {
 }
 
 KarelPlayer.prototype.destroy = function() {
-	this.pause();
 	this.world.clear();
+	this.pause();
 }
 
 KarelPlayer.prototype.setSpeed = function(speed) {
