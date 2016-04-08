@@ -118,7 +118,7 @@ body{
     border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-[class*=arrow-]:hover {
+.on-edit:hover {
     cursor: pointer;
     opacity: 1;
 }
@@ -150,8 +150,8 @@ body{
 .row {
     font-size: 1.3em;
     margin-bottom: 1.3em;
+    background-color: transparent!important;
 }
-
 
 
 #plus-final-map {

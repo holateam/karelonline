@@ -569,19 +569,27 @@ MapEdited.prototype.resetMap = function () {
 // ___________________________________________resize map _______________________________________________________________
 
 $increment_width.click(function(){
-    setMap.getActiveMap().incrementWidth();
+    if (isStartActiveMap(setMap.active_map)) {
+        setMap.getActiveMap().incrementWidth();
+    }
 });
 
 $decrement_width.click(function() {
-    setMap.getActiveMap().decrementWidth();
+    if (isStartActiveMap(setMap.active_map)) {
+        setMap.getActiveMap().decrementWidth();
+    }
 });
 
 $increment_height.click(function(){
-    setMap.getActiveMap().incrementHeight();
+    if (isStartActiveMap(setMap.active_map)) {
+        setMap.getActiveMap().incrementHeight();
+    }
 });
 
 $decrement_height.click(function(){
-    setMap.getActiveMap().decrementHeight();
+    if (isStartActiveMap(setMap.active_map)) {
+        setMap.getActiveMap().decrementHeight();
+    }
 });
 
 //_______________________________________________________exit__________________________________________________________
@@ -605,15 +613,26 @@ $reset_btn.click(function(){
 
 //___________________________________________________show start map_____________________________________________________
 
+function changeHighlightSizeEditArrows(turnOn) {
+    if (turnOn) {
+        $('[class*=arrow]').addClass("on-edit");
+    } else {
+        $('[class*=arrow]').removeClass("on-edit");
+    }
+}
+
+
 
 $start_map.click(function() {
     setMap.setActiveMap("start");
+    changeHighlightSizeEditArrows("turnOn");
 });
 
 //___________________________________________________add remove and show final map_____________________________________________
 
 $final_map.click(function() {
     setMap.setActiveMap(0);
+    changeHighlightSizeEditArrows();
 });
 
 $add_final_map.click(function() {
@@ -631,6 +650,7 @@ function addIconFinalMap(item) {
     var idx =  item - 1;
     $('#final-map' + item).click(function() {
         setMap.setActiveMap(idx);
+        changeHighlightSizeEditArrows();
     });
     $('#close-final' + item).click(function() {
          smartRemoveFinalMap(idx);
