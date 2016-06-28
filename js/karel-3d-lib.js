@@ -504,6 +504,8 @@ Karel3DWorld.prototype.render = function() {
                 this.karel.mesh.position.x += this.animation.px * this.animSpeed;
                 this.karel.mesh.position.y += this.animation.py * this.animSpeed;
                 this.karel.mesh.rotation.z += this.animation.rz * this.animSpeed;
+                this.camera.position.x += this.animation.px * this.animSpeed;
+                this.camera.position.y += this.animation.py * this.animSpeed;
             } else {
                 fn = this.animation.callback;
                 args = this.animation.cbargs;
@@ -513,9 +515,8 @@ Karel3DWorld.prototype.render = function() {
                         (function(self, args) {
                             return function() {
                                 fn.apply(self, args);
-                            }
-                        })(this, args)
-                        ,0
+                            };
+                        })(this, args) ,0
                     );
             }
             this.renderer.render( this.scene, this.camera );
