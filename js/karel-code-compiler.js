@@ -30,8 +30,8 @@ var KarelCodeCompiler = (function (){
         }
         //adapt functions and logging
 //======================================================================================================================
-        var listReturnBoolFunc = ["beepersPresent", "noBeepersPresent", "frontIsBlocked", "rightIsClear", "rightIsBlocked", "leftIsClear", "leftIsBlocked",
-            "facingNorth", "notFacingNorth", "facingSouth", "notFacingSouth", "facingEast", "notFacingEast", "facingWest", "notFacingWest", "frontIsClear"];
+        var listReturnBoolFunc = ["beepersPresent", "noBeepersPresent", "beepersInBag", "noBeepersInBag", "frontIsBlocked", "rightIsClear", "rightIsBlocked", "leftIsClear",
+            "leftIsBlocked", "facingNorth", "notFacingNorth", "facingSouth", "notFacingSouth", "facingEast", "notFacingEast", "facingWest", "notFacingWest", "frontIsClear"];
 
         listReturnBoolFunc = listReturnBoolFunc.map(function(name) {
             return "var " + name + " = function(){pushActions('" + name + "', '" + name + "'); return myKarel['" + name + "']();}\n";
