@@ -74,6 +74,8 @@ $(function () {
         }
         karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
         karelPlayer.play(greetingsMove, null);
+        $("#code-btn").trigger('click');
+        $.featherlight($('<div>Current task:<br><br>'+map.description+'</div>'), {});
     }
 
     function onCodeSubmit() {
