@@ -30,10 +30,10 @@ var KarelCodeCompiler = (function (){
         }
         //adapt functions and logging
 //======================================================================================================================
-        var listReturnBoolFunc = ["beepersPresent", "noBeepersPresent", "beepersInBag", "noBeepersInBag", "frontIsBlocked", "rightIsClear", "rightIsBlocked", "leftIsClear",
+        var listReturnBoolFuncNames = ["beepersPresent", "noBeepersPresent", "beepersInBag", "noBeepersInBag", "frontIsBlocked", "rightIsClear", "rightIsBlocked", "leftIsClear",
             "leftIsBlocked", "facingNorth", "notFacingNorth", "facingSouth", "notFacingSouth", "facingEast", "notFacingEast", "facingWest", "notFacingWest", "frontIsClear"];
 
-        listReturnBoolFunc = listReturnBoolFunc.map(function(name) {
+        var listReturnBoolFunc = listReturnBoolFuncNames.map(function(name) {
             return "var " + name + " = function(){pushActions('" + name + "', '" + name + "'); return myKarel['" + name + "']();}\n";
         });
 
@@ -65,6 +65,15 @@ var KarelCodeCompiler = (function (){
         }
         function putBeeper() {
             funcKarel("put");
+        }
+
+
+//======================================================================================================================
+        // check absence of parentheses in conditions
+        function isCompilerError() {
+            var boolFuncs = listReturnBoolFuncNames.join('|');
+            var regExp = new RegExp("(if|while) *\\(.*(" + boolFuncs + ")\\s+[^(]");
+            return ~code.search(regExp);
         }
 //======================================================================================================================
 
@@ -309,6 +318,10 @@ var KarelCodeCompiler = (function (){
 //======================================================================================================================
 
         if (language !== 'js') {
+            if (isCompilerError()) {
+                resultActions.push({command: 'error', data: {message : 'compiler error'}});
+                return {commands: resultActions, result: result};
+            }
             code = adaptCode(code);
         } else if (code.search(/(run\s*\(\s*\)(?!\s*{))/) == -1) {
             code = code + "\nrun();";
