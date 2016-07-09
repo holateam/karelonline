@@ -72,7 +72,7 @@ var KarelCodeCompiler = (function (){
         // check absence of parentheses in conditions
         function isCompilerError() {
             var boolFuncs = listReturnBoolFuncNames.join('|');
-            var regExp = new RegExp("(if|while) *\\(.*(" + boolFuncs + ")\\s+[^(]");
+            var regExp = new RegExp("(if|while) *\\(.*(" + boolFuncs + ")\\s*[^(]");
             return ~code.search(regExp);
         }
 //======================================================================================================================
