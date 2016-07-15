@@ -21,7 +21,7 @@ var COLOR = {
     karelCloch: '#FFC400',
     karelSkin: '#E5E3E3',
     karelExtras: '#F1F1F1'
-}
+};
 
 function degToRad(deg) {
     return deg * Math.PI / 180;
@@ -34,7 +34,7 @@ function radToDeg(rad) {
 function bind(func, context) {
     return function() {
         return func.apply(context, arguments);
-    }
+    };
 }
 
 function nextDirection(dir) {
@@ -45,6 +45,17 @@ function prevDirection(dir) {
     return (dir <= 0) ? 3 : dir-1;
 }
 
+/**
+ * HTML5 Web storage initialization
+ */
+
+var localstorageGate = (typeof(Storage) !== "undefined") ?
+    localStorage :
+    { 
+        setItem : function () {},
+        getItem : function () {}
+    };
+console.info('localStorage suppord detection: ', (typeof(Storage) !== "undefined"));
 
 /**
  * [Karel3DWorld description]
@@ -61,7 +72,105 @@ function Karel3DWorld() {
     this.map        = null;
     this.animation  = {};
     this.animSpeed  = 1;
+    this.wallGeometryCache = {};
 }
+
+/**
+ * [setWallGeometryCacheCell description]
+ * @param {metrics object} geometryMetrics -- data, returned with calculateDefaultGeometryMetrics method 
+ *                         to be saved to localstorage
+ * @param {int} X -- x coordinate of chosen cell 
+ * @param {int} Y -- y coordinate of chosen cell 
+ */
+Karel3DWorld.prototype.setWallGeometryCacheCell = function(geometryMetrics, X, Y) {
+    if (!this.wallGeometryCache) {
+        this.wallGeometryCache = {};
+    }
+    if (!this.wallGeometryCache.geometries) {
+        this.wallGeometryCache.geometries = [];
+    }
+    if (!this.wallGeometryCache.geometries[X]) {
+        this.wallGeometryCache.geometries[X] = [];
+    }
+    this.wallGeometryCache.geometries[X][Y] = geometryMetrics;
+};
+
+/**
+ * [getWallGeometryCacheCell description]
+ * @param  {int} X -- x coordinate of chosen cell 
+ * @param  {int} Y -- y coordinate of chosen cell
+ * @return {metrics object}   object that contains cached wall height and scale
+ */
+Karel3DWorld.prototype.getWallGeometryCacheCell = function(X, Y) {
+    if (!this.wallGeometryCache) {
+        // console.warn('!this.wallGeometryCache');
+        return null;
+    }
+    if (!this.wallGeometryCache.geometries) {
+        // console.warn('!this.wallGeometryCache.geometries');
+        return null;
+    }
+    if (!this.wallGeometryCache.geometries[X]){
+        // console.warn('!this.wallGeometryCache.geometries[X]');
+        return null;   
+    }
+    if (!this.wallGeometryCache.geometries[X][Y]) {
+        // console.warn('!this.wallGeometryCache.geometries[X][Y]');
+        return null;
+    }
+    return this.wallGeometryCache.geometries[X][Y];
+};
+
+/**
+ * [calculateDefaultGeometryMetrics description]
+ * @param  {double} side -- wall pyramid side
+ * @return {metrics object}      object that contains calculated random wall height and scale
+ */
+Karel3DWorld.prototype.calculateDefaultGeometryMetrics = function(side) {
+    return {
+        'height' : Math.round(Math.random() * (side*1.5 - side*1) + side*1),
+        'scale' : Math.random() * (1 - 0.8) + 0.8
+    };
+};
+
+/**
+ * [loadWallGeometryCache description]
+ * Loads from localstorage cached data if current map id suites the cached one
+ */
+Karel3DWorld.prototype.loadWallGeometryCache = function() {
+    var cachedData =  JSON.parse(localstorageGate.getItem('cachedWallsGeometry'));
+    // console.info('loaded geometry cache: ', cachedData);
+    this.wallGeometryCache = (cachedData && this.getCachedMapId() == cachedData.id) ? cachedData : {};
+};
+
+/**
+ * [updateWallGeometryCache description]
+ * Updates localstorage with modifyed walls geometry cache
+ */
+Karel3DWorld.prototype.updateWallGeometryCache = function() {
+    this.wallGeometryCache.id = this.getCachedMapId();
+    localstorageGate.setItem('cachedWallsGeometry', JSON.stringify(this.wallGeometryCache));
+};
+
+/**
+ * [getCachedMapId description]
+ * Reads from localstorage identifier of currently used generated map-geometry
+ * @return {string} cached identifier or null if there is no any cached data
+ */
+Karel3DWorld.prototype.getCachedMapId = function() {
+    return localstorageGate.getItem('cachedMapId') || null;
+};
+
+/**
+ * [setCachedMapId description]
+ * Saves to localstorage identifier of currently used generated map-geometry
+ * @param {string} mapId -- identifying string to be saved
+ */
+Karel3DWorld.prototype.setCachedMapId = function(mapId) {
+    mapId = mapId || Date.now().toString();
+    // console.info('caching new map identifyer:', mapId);
+    localstorageGate.setItem('cachedMapId', mapId);
+};
 
 /**
  * [loadMap description]
@@ -72,6 +181,8 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
     this.map = [];
     var map = mapObj.map;
     var karelObj = mapObj.karel;
+
+    this.loadWallGeometryCache();
 
     for (var y = 0; y < map.length; y++) {
         var row = [];
@@ -92,6 +203,8 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
         }
         this.map.push(row);
     }
+
+    this.updateWallGeometryCache();
 
     this.createKarel(
         karelObj.position[0],
@@ -114,8 +227,7 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
         (-1 * this.map.length + diff) * DEF_CELL_WIDTH, 
         300
     );
-
-}
+};
 
 /**
  * [initialize description]
@@ -125,7 +237,7 @@ Karel3DWorld.prototype.loadMap = function(mapObj) {
 Karel3DWorld.prototype.initialize = function (container) {
     this.initializeRenderer(container);
     this.initializeCamera(container);
-}
+};
 
 /**
  * [initializeRenderer description]
@@ -137,7 +249,7 @@ Karel3DWorld.prototype.initializeRenderer = function(container) {
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( container.width(), container.height() );
     container.append( this.renderer.domElement );
-}
+};
 
 /**
  * [initializeCamera description]
@@ -182,7 +294,7 @@ Karel3DWorld.prototype.initializeCamera = function(container) {
             self.camera.position.y = container.cameraY + ( dX * 0.25 + dY * 1.25 );
         }
     });
-}
+};
 
 /**
  * [createCellBase description]
@@ -206,7 +318,7 @@ Karel3DWorld.prototype.createCellBase = function(X, Y) {
 
     this.scene.add(cell);
     this.scene.add(core);
-}
+};
 
 /**
  * [createWall description]
@@ -215,7 +327,7 @@ Karel3DWorld.prototype.createCellBase = function(X, Y) {
  * @param  {integer} Y -- y-coordinate of cell in the field
  */
 Karel3DWorld.prototype.createWall = function(X, Y) {
-    
+
     var material = new THREE.MeshPhongMaterial( { color: COLOR.wall, shading: THREE.FlatShading, shininess: 500 } );
     var side = DEF_CELL_WIDTH/2 - 7;
     var range = {
@@ -223,10 +335,21 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
         max: 1.5
     };
 
+    var cachedWallsGeometry = this.getWallGeometryCacheCell(X, Y);
+    // console.info('Found cached wall geometry for cell', X, Y, cachedWallsGeometry);
+    var fullGeometryMetrics = [];
+
     for (var i = 0; i < 2; i++)
         for (var j = 0; j < 2; j++) {
+
+            var geometryMetrics = (cachedWallsGeometry && cachedWallsGeometry[i*2+j]) ? 
+                cachedWallsGeometry[i*2+j] :
+                this.calculateDefaultGeometryMetrics(side);
+                
+            fullGeometryMetrics[i*2+j] = geometryMetrics;
+
             var geometry = new THREE.Geometry();
-            var height = Math.round(Math.random() * (side*1.5 - side*1) + side*1);
+            var height = geometryMetrics.height;
             
             geometry.vertices = [
                 new THREE.Vector3( -side/2, -side/2, 0 ),
@@ -255,11 +378,13 @@ Karel3DWorld.prototype.createWall = function(X, Y) {
                 DEF_CELL_HEIGHT/2
             );
 
-            var scale = Math.random() * (1 - 0.8) + 0.8;
+            var scale = geometryMetrics.scale;
             mesh.scale.set(scale, scale, scale);
             this.scene.add(mesh);
         }
-}
+
+    this.setWallGeometryCacheCell(fullGeometryMetrics, X, Y);
+};
 
 /**
  * [createBeepers description]
@@ -296,7 +421,7 @@ Karel3DWorld.prototype.createBeepers = function(X, Y, amount) {
     }
 
     return retVal;
-}
+};
 
 /**
  * [createKarel description]
@@ -357,7 +482,7 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
 
         mesh.rotation.set(xRot, yRot, zRot);
     });    
-}
+};
 
 /**
  * [karelMove description]
@@ -382,7 +507,7 @@ Karel3DWorld.prototype.karelMove = function(duration, callback, args) {
     this.animation.frames = frames;
     this.animation.callback = callback;
     this.animation.cbargs = args;
-}
+};
 
 /**
  * [karelTurnLeft description]
@@ -406,7 +531,7 @@ Karel3DWorld.prototype.karelTurnLeft = function(duration, callback, args) {
     this.animation.frames = frames;
     this.animation.callback = callback;
     this.animation.cbargs = args;
-}
+};
 
 /**
  * [karelTurnRight description]
@@ -430,7 +555,7 @@ Karel3DWorld.prototype.karelTurnRight = function(duration, callback, args) {
     this.animation.frames = frames;
     this.animation.callback = callback;
     this.animation.cbargs = args;
-}
+};
 
 /**
  * [karelTakeBeeper description]
@@ -455,7 +580,7 @@ Karel3DWorld.prototype.karelTakeBeeper = function(duration, callback, args) {
     this.animation.frames = fps * duration;
     this.animation.callback = callback;
     this.animation.cbargs = args;
-}
+};
 
 /**
  * [karelPutBeeper description]
@@ -479,7 +604,7 @@ Karel3DWorld.prototype.karelPutBeeper = function(duration, callback, args) {
     this.animation.frames = fps * duration;
     this.animation.callback = callback;
     this.animation.cbargs = args;
-}
+};
 
 /**
  * [clearBeepers description]
@@ -490,7 +615,7 @@ Karel3DWorld.prototype.clearBeepers = function(beeperList) {
     if (beeperList)
         for (var i = 0; i < beeperList.length; i++)
             this.scene.remove(beeperList[i]);
-}
+};
 
 /**
  * [render description]
@@ -523,7 +648,7 @@ Karel3DWorld.prototype.render = function() {
         }
         this.animationFrame = requestAnimationFrame( bind(this.render, this) );
     }
-}
+};
 
 Karel3DWorld.prototype.clear = function() {
     this.stopWorld();
@@ -532,23 +657,23 @@ Karel3DWorld.prototype.clear = function() {
     this.animation  = null;
     for( var i = this.scene.children.length - 1; i >= 0; i--)
         this.scene.remove(this.scene.children[i]);
-}
+};
 
 Karel3DWorld.prototype.stopWorld = function() {
     this.stop = true;
     cancelAnimationFrame(this.animationFrame);
     this.animationFrame = null;
-}
+};
 
 Karel3DWorld.prototype.startWorld = function() {
     this.stop = false;
     this.animationFrame = requestAnimationFrame( bind(this.render, this) );
-}
+};
 
 Karel3DWorld.prototype.setSpeed = function(speed) {
     var fixed = Math.min(Math.max(parseInt(speed), ANIMATION_SPEED_RANGE[0]), ANIMATION_SPEED_RANGE[1]);
     this.animSpeed = fixed;
-}
+};
 
 var world = new Karel3DWorld();
 world.initialize($('#renderer'));

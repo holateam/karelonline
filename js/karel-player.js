@@ -15,7 +15,8 @@ function KarelPlayer(elem, map, forseRenderer) {
 	forceRenderer = forseRenderer || '3D';
 	// console.log(forceRenderer, webglAvailable(), (webglAvailable() && forceRenderer == '3D'));
     this.elem = elem;
-    this.map = map;
+    this.fullMap = map;
+    this.map = map.original;
 	this.execFlag = false;
 	this.stopFlag = true;
 	this.world = (webglAvailable() && forceRenderer == '3D') ? new Karel3DWorld() : new Karel2DWorld();
@@ -30,16 +31,18 @@ KarelPlayer.prototype.resetWorld = function() {
 	this.stopFlag = false;
 	this.pause();
 	this.world.clear();
-	this.setMap(this.map);
+	this.setMap(this.fullMap);
 	var self = this;
 	setTimeout(function() { self.resume(); }, 700);
-}
+};
 
 KarelPlayer.prototype.setMap = function(map) {
-	this.map = map;
+	// console.log('setmap fiered for map', map.name);
+	this.map = map.original;
+	this.world.setCachedMapId(map.name);
 	this.destroy();
 	this.world.loadMap(this.map);
-}
+};
 
 KarelPlayer.prototype.playScenario = function(scenario, callback) {
 	if (!this.execFlag) {
@@ -71,58 +74,55 @@ KarelPlayer.prototype.playScenario = function(scenario, callback) {
 		}
 		see.execute(callback);
 	}
-}
+};
 
 KarelPlayer.prototype.pause = function() {
 	if (!this.stopFlag) {
 		this.stopFlag = true;
 		this.world.stopWorld();
 	}
-}
+};
 
 KarelPlayer.prototype.resume = function() {
 	if (this.stopFlag) {
 		this.stopFlag = false;
 		this.world.startWorld();
 	}
-}
+};
 
 KarelPlayer.prototype.stop = function() {
 	this.pause();
-	setTimeout(
-        (function(self) {
-            return function() {
-                self.resetWorld();
-            }
-        })(this)
-        ,200
-    );
-}
+	setTimeout((function(self) {
+        return function() {
+            self.resetWorld();
+        };
+    })(this), 200);
+};
 
 KarelPlayer.prototype.play = function(scenario, callback) {
 	this.stop();
-	var fn = (arguments.length == 0) ? 
+	var fn = (arguments.length === 0) ? 
 	setTimeout(
         (function(self) {
 			return function() {
 	            self.playScenario(self.scenario, self.callback);
-	        }
+	        };
 		})(this), 300
 	) :
 	setTimeout(
 		(function(self) {
 			return function() {
 	            self.playScenario(scenario, callback);
-	        }
+	        };
 		})(this), 300
 	);
-}
+};
 
 KarelPlayer.prototype.destroy = function() {
 	this.world.clear();
 	this.pause();
-}
+};
 
 KarelPlayer.prototype.setSpeed = function(speed) {
 	this.world.setSpeed(speed);
-}
+};

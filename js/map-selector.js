@@ -8,7 +8,7 @@ var MapSelector = function(element) {
 };
 
 MapSelector.prototype.onChange = function(callback) {
-    this.callback = callback
+    this.callback = callback;
 };
 
 MapSelector.prototype.getMaps = function() {
@@ -86,7 +86,7 @@ MapSelector.prototype.formUlList = function(flags) {
             }
         }
     }
-}
+};
 
 // ---------------------------------------------------------------
 // ---------------------------------------------------------------

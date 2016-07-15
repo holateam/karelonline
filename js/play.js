@@ -72,7 +72,7 @@ $(function () {
         if(map!=newMap){ // detect map changing
             map=newMap; // for compliler
         }
-        karelPlayer = new KarelPlayer($renderer, newMap.original, forceRenderer);
+        karelPlayer = new KarelPlayer($renderer, newMap, forceRenderer);
         karelPlayer.play(greetingsMove, null);
         $("#code-btn").trigger('click');
         $.featherlight($('<div>Current task:<br><br>'+map.description+'</div>'), {});
@@ -84,7 +84,7 @@ $(function () {
         playState = true;
         $('#play-pause-btn > .button').css('background-image', 'url("img/controls/pause.svg")');
         var code = karelCodeEditor.getCode();
-        console.log(code);
+        // console.log(code);
         var data = KarelCodeCompiler.compile(code, map, language);
         compileResults = data.result;
         karelPlayer.play(data.commands, onPlayerFinish);
