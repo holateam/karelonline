@@ -17,6 +17,12 @@ Karel2DWorld.prototype.initialize = function(jqueryObj){
     });
 };
 
+Karel2DWorld.prototype.setCachedMapId = function(mapId) {
+    mapId = mapId || Date.now().toString();
+    // console.info('caching new map identifyer:', mapId);
+    localstorageGate.setItem('cachedMapId', mapId);
+};
+
 Karel2DWorld.prototype.clear = function(){
     this.renderer.html("");
 };
