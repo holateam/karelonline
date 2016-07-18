@@ -435,7 +435,7 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
     this.karel = {};
     this.karel.x = X;
     this.karel.y = Y;
-    this.karel.direction = direction || 0;
+    this.karel.direction = parseInt(direction) || 0;
     this.karel.mesh = null;
 
     var loader = new THREE.JSONLoader();
@@ -447,7 +447,7 @@ Karel3DWorld.prototype.createKarel = function(X, Y, direction) {
     var zPos = 0;
     // (-this.karel.direction + 1) * 90
     var xRot = degToRad(90);
-    var yRot = degToRad(0);
+    var yRot = degToRad((this.karel.direction - 1) * 90);
     var zRot = degToRad(0);
 
     var scale = 12;

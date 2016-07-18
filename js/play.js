@@ -172,7 +172,7 @@ $(function () {
             karelCodeEditor.editor.setOption("fullScreen", false);
             $("#exitFullScreen-btn").detach();
             $('#compile-btn').show();
-        })
+        });
     });
 
     $('body').keydown(function(e){
