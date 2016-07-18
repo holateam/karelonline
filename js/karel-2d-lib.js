@@ -2,6 +2,10 @@ var FPS = 30;
 
 function Karel2DWorld() {
     this.animationMode = 0;
+    _this = this;
+    window.onresize = function(event) {
+        _this.redrawMap();
+    };
 }
 
 Karel2DWorld.prototype.initialize = function(jqueryObj){
@@ -49,7 +53,6 @@ Karel2DWorld.prototype.drawKarel = function () {
     this.$myKarel.height(height * this.scale);
     this.$myKarel.width(height * this.scale);
 
-    //this.showKarelDirection();
 };
 
 Karel2DWorld.prototype.redrawMap = function () {
