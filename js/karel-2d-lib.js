@@ -2,7 +2,7 @@ var FPS = 30;
 
 function Karel2DWorld() {
     this.animationMode = 0;
-    _this = this;
+    var _this = this;
     window.onresize = function(event) {
         _this.redrawMap();
     };
