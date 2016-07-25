@@ -11,41 +11,37 @@ $(function () {
     var language = 'js';
 
     var map = {
-        name: 'some map name',
+        name: 'start map',
         original: {
             map:[
-                ['x', '', '', 3, '', 2, 3],
-                ['x', '', 4, 3, 'x', 1, ''],
-                ['', '', 'x', 1, 'x', '', ''],
-                ['', 'x', 3, 'x', 2, '', 5],
-                ['', 'x', '', 1, 'x', 'x', ''],
-                [2,  '',   1, 3, 'x', 'x', ''],
-                ['x', '', 'x', 3, '', 1, '']
+                ["","","","","","","","",""],
+                ["","x","","","","x","","",""],
+                ["","x","","x","","x","","x",""],
+                ["","x","","x","","x","","x",""],
+                [1,"x",1,"x",1,"x",1,"x",1]
             ],
             karel: {
-                position: [0, 5],
-                direction: 1,
-                beepers: 1000
+                "position":[0,4],
+                "direction":1,
+                "beepers":"1000"
             }
         },
         final:  [{
             map:[
-                ['x', '', '', 3, '', 2, 3],
-                ['x', '', 4, 3, 'x', 1, ''],
-                ['', '', 'x', 1, 'x', '', ''],
-                ['', 'x', 1, 'x', 2, '', 5],
-                ['', 'x', 1, 1, 'x', 'x', ''],
-                [1, 1, 1, 1, 'x', 'x', ''],
-                ['x', '', 'x', 3, '', 1, '']
+                ["","","","","","","","",""],
+                ["","x","","","","x","","",""],
+                ["","x","","x","","x","","x",""],
+                ["","x","","x","","x","","x",""],
+                ["","x","","x","","x","","x",""]
             ],
             karel: {
-                position: [0, 5],
-                direction: 1
-            }
+                "position":[8,4],
+                "direction":1,
+                "beepers":"1000"}
         }],
-        description: 'problem solving'
+        description: "Pick up all beepers"
     };
-
+    
     var greetingsMove = [
         { command: 'rotate', data: {angle: -1} },
         { command: 'rotate', data: {angle: 1} }
