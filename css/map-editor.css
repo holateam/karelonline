@@ -66,15 +66,15 @@ body{
 
 .bottom-center {
     position: relative;
-    width: 200px;
-    left: 45%;
-    transform: translate(-50%, 0);
+    width: 8em;
+    left: 50%;
+    transform: translate(-8em, 0);
 }
 
 
 .right-center {
     position: relative;
-    height: 170px;
+    height: 8em;
     top: 50%;
     transform: translate(0, -50%);
     flex-direction: column;
@@ -493,8 +493,9 @@ ____________________________________________________sidebar World List__________
 }
 
 
-
-
+.tab li:hover {
+    cursor: pointer;
+}
 /*______________________________________________________pop-up window_____________________________________________________
 */
 

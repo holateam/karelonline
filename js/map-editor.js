@@ -8,6 +8,7 @@ var final_map = [];
 var maxCellsInLine = 15;
 var minCellsInLine = 1;
 var maxFinalMaps = 3;
+var minRateMapSize = 0.9;
 
 //Storage.clear('maps');
 
@@ -45,9 +46,6 @@ var $alert_msg = $('#alert-msg');
 var $alert = $('#alert');
 var $beepers_count = $('#beepers-count');
 var $num_beepers = $('#num-beepers');
-/*
-var $submit = $('#submit');
-*/
 var $button_panel = $('#button-panel');
 var $map_selector_btn = $('#map-selector-btn');
 var $sidebar = $('#sidebar');
@@ -141,7 +139,8 @@ function zipMap(map) {
             zippedMap[row].push(symbol);
         }
     }
-    return {map: zippedMap, karel: currKarel};
+    var res_map = {map: zippedMap, karel: currKarel};
+    return res_map;
 }
 
 //__________________________________________________unzip map___________________________________________________________
@@ -420,7 +419,7 @@ MapEdited.prototype.incrementWidth = function() {
             var emptyCell = new  Cell();
             _this.map[h].push(emptyCell);
         }
-        if( $('#map').width() * _this.scale > visibleFieldWidth ) {
+        if( $('#map').width() * _this.scale > visibleFieldWidth || $('#map').height() * _this.scale > visibleFieldHeight) {
             _this.scaleMap("decrement");
         }
         _this.redrawMap();
@@ -435,6 +434,9 @@ MapEdited.prototype.decrementWidth = function() {
         for (var h = 0; h < _this.map.length; h++) {
             _this.map[h].pop();
         }
+        if( $('#map').width() * _this.scale < minRateMapSize * visibleFieldWidth && $('#map').height() * _this.scale < minRateMapSize * visibleFieldHeight) {
+            _this.scaleMap("increment");
+        }
         _this.redrawMap();
     }
 };
@@ -447,7 +449,7 @@ MapEdited.prototype.incrementHeight = function() {
             var emptyCell = new Cell();
             _this.map[_this.map.length - 1].push(emptyCell);
         }
-        if( $('#map').height() * _this.scale > visibleFieldHeight ) {
+        if( $('#map').height() * _this.scale > visibleFieldHeight || $('#map').width() * _this.scale > visibleFieldWidth) {
             _this.scaleMap("decrement");
         }
         _this.redrawMap();
@@ -460,6 +462,9 @@ MapEdited.prototype.decrementHeight = function() {
     var _this = this;
     if (_this.map.length > minCellsInLine){
         _this.map.pop();
+        if( $('#map').width() * _this.scale < minRateMapSize * visibleFieldWidth && $('#map').height() * _this.scale < minRateMapSize * visibleFieldHeight ) {
+            _this.scaleMap("increment");
+        }
         _this.redrawMap();
     }
 };
