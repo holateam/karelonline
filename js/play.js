@@ -72,6 +72,7 @@ $(function () {
         karelPlayer.play(greetingsMove, null);
         $("#code-btn").trigger('click');
         $.featherlight($('<div>Current task:<br><br>'+map.description+'</div>'), {});
+        $('#play-pause-btn').hide();
     }
 
     function onCodeSubmit() {
@@ -97,6 +98,7 @@ $(function () {
                 $.featherlight($('<div>Task not solved</div>'), {});
             }
         }
+        $('#play-pause-btn').hide();
     }
 
     function editorFont(param) {
@@ -132,6 +134,7 @@ $(function () {
     });
 
     $('#compile-btn').click(function(){
+        $('#play-pause-btn').show();
         karelCodeEditor.save();
         onCodeSubmit();
     });
