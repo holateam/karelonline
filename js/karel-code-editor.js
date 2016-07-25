@@ -69,10 +69,10 @@ function matchCode(language) {
 
     if (language == "java") {
         return code +
-            'public class MyKarel extends KarelTheRobot {\n\n\tpublic void run() throws Exception {\n\t\tmove();\n\t\tputBeeper();\n\t\tturnLeft();\n\t\tturnLeft();\n\t\tmove();\n\t}\n\n}\n' + '';
+            'public class MyKarel extends KarelTheRobot {\n\n\tpublic void run() throws Exception {\n\t\twhile (beepersPresent()) {\n\t\t\tpickBeeper();\n\t\t\tmoveAroundTheWall();\n\t\t}\n\t}\n\n\tpublic void moveAroundTheWall() {\n\t\tmoveToTheWallTop();\n\t\tif (frontIsClear()) {\n\t\t\tmove();\n\t\t\tmove();\n\t\t}\n\t\tturnRight();\n\t\tmoveToTheWallBase();\n\t}\n\n\tpublic void moveToTheWallTop() {\n\t\twhile (frontIsBlocked()) {\n\t\t\tturnLeft();\n\t\t\tif (frontIsClear()) {\n\t\t\t\tmove();\n\t\t\t\tturnRight();\n\t\t\t} else {\n\t\t\t\tturnRight();\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\n\tpublic void moveToTheWallBase() {\n\t\twhile(frontIsClear()) {\n\t\t\tmove();\n\t\t}\n\t\tturnLeft();\n\t}\n}' + '';
     } else {
         mainFunc = (language == "cpp") ? "void main()" : "function run()";
-        return code + mainFunc + ' {\n\tmove();\n\tputBeeper();\n\tturnLeft();\n\tturnLeft();\n\tmove();\n}\n' + '';
+        return code + 'function moveAroundTheWall() {\n\tmoveToTheWallTop();\n\tif (frontIsClear()) {\n\t\tmove();\n\t\tmove();\n\t}\n\tturnRight();\n\tmoveToTheWallBase();\n}\n\nfunction moveToTheWallTop() {\n\twhile (frontIsBlocked()) {\n\t\tturnLeft();\n\t\tif (frontIsClear()) {\n\t\t\tmove();\n\t\t\tturnRight();\n\t\t} else {\n\t\t\tturnRight();\n\t\t\tbreak;\n\t\t}\n\t}\n}\n\nfunction moveToTheWallBase() {\n\twhile(frontIsClear()) {\n\t\tmove();\n\t}\n\tturnLeft();\n}\n\n' + mainFunc + ' {\n\twhile (beepersPresent()) {\n\t\tpickBeeper();\n\t\tmoveAroundTheWall();\n\t}\n}\n' + '';
     }
 }
 
