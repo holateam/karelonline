@@ -53,6 +53,10 @@ body {
     transition-duration: 0.5s;
 }
 
+.tab li:hover {
+    cursor: pointer;
+}
+
 .tab-title {
     font-size: 2em;
     padding: 0.4em 0;
